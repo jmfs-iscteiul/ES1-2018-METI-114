@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,6 +35,14 @@ public class Interface {
 		
 		panel1.add(scrollPane1);
 		panel1.add(scrollPane2);
+		
+		JButton faceButton = new JButton("Post");
+		JButton tweetButton = new JButton("Tweet");
+		JButton sendEmail = new JButton("Send Email");
+		
+		panel2.add(faceButton);
+		panel2.add(tweetButton);
+		panel2.add(sendEmail);
 		
 		timeline.setEditable(false);
 		viewPost.setEditable(false);
