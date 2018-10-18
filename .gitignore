@@ -1,1 +1,3 @@
 /ProjectBDA/bin
+/ProjectBDA/src/facebook/tokens.txt
+*.DS_Store
