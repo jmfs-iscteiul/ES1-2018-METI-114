@@ -36,7 +36,7 @@ public class Timeline {
 			for (List<Post> page : result) {
 				for (Post aPost : page) {
 					// Filters only posts that contain the word "Inform"
-					if (aPost.getMessage() != null && aPost.getMessage().contains("ETI")) {
+					if (aPost.getMessage() != null && aPost.getMessage().contains("Jorge")) {
 						System.out.println("\nPosts:");
 						System.out.println("---- Post "+ counter + " ----");
 						System.out.println("Id: "+"fb.com/"+aPost.getId());
