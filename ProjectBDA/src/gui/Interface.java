@@ -10,6 +10,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
+/**
+ * A classe interface tem como objetivo criar a base gráfica do projeto.
+ * Esta JFrame é constituida por dois JScrollPane com JTextArea incluidas que posteriormente serão alteradas para 
+ * JLists de modo a termos a timeline. O outro JScrollPane irá ser utilizado para abrir os respetivos posts, tweets
+ * e mails.
+ * Para além do dito anteriormente existe também três botões que quando premidos vão criar cada um uma janela para
+ * escrever posts, tweets e mails para serem enviados.
+ * @author jose_santos
+ *
+ */
+
 public class Interface {
 	
 	private JFrame frame;
@@ -21,7 +32,6 @@ public class Interface {
 		
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
-		
 		
 		panel1.setLayout(new GridLayout());
 		frame.add(panel1, BorderLayout.CENTER);
@@ -38,7 +48,7 @@ public class Interface {
 		
 		JButton faceButton = new JButton("Post");
 		JButton tweetButton = new JButton("Tweet");
-		JButton sendEmail = new JButton("Send Email");
+		JButton sendEmail = new JButton("Email");
 		
 		panel2.add(faceButton);
 		panel2.add(tweetButton);
