@@ -18,6 +18,13 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 
+/**
+ * Classe encarregue da funcionalidade de email. Contém um construtor que recebe as informações de email do utilizador e prepara a sessão de email.
+ * Existem também 2 funções, uma para o envio de emails e outra para a receção destes. 
+ * 
+ * @author darsa-iscteiul
+ *
+ */
 public class Email {
 
 	private String hostEnvio;
@@ -27,6 +34,14 @@ public class Email {
 
 	private Session mailSession;
 
+	/**
+	 * Construtor da classe email. Recebe as informações e prepara a sessão para o envio e a receção de emails.
+	 * 
+	 * @param hostEnvio Endereço do servidor de envio SMTP
+	 * @param hostRececao Endereço do servidor de receção IMAP
+	 * @param user Email do utilizador
+	 * @param password Password do utilizador
+	 */
 	public Email(String hostEnvio, String hostRececao, String user, String password) {
 		this.hostEnvio = hostEnvio;
 		this.hostRececao = hostRececao;
@@ -55,17 +70,23 @@ public class Email {
 		});
 	}
 
+	/**
+	 * Função que efetua o envio de um email.
+	 * 
+	 * @param assunto Assunto do email
+	 * @param texto Corpo de texto do email
+	 * @param enderecos Endereços de destino do email
+	 */
+	public void enviarEmail(String assunto, String texto, InternetAddress[] enderecos) {
 
-	public void enviarEmail(String assunto, String texto, InternetAddress[] endereços) {
-
-		Message msg = new MimeMessage(mailSession);
+		Message msg = new MimeMessage(mailSession);						//Mensagem a enviar
 
 		try {
-			msg.setFrom(new InternetAddress(user));
-			msg.setRecipients(Message.RecipientType.TO, endereços);
-			msg.setSubject(assunto);
-			msg.setSentDate(new Date());
-			msg.setText(texto);
+			msg.setFrom(new InternetAddress(user));						//Remetente
+			msg.setRecipients(Message.RecipientType.TO, enderecos);		//Destinos do email
+			msg.setSubject(assunto);									//Assunto do email
+			msg.setSentDate(new Date());								//Data de envio
+			msg.setText(texto);											//Texto a enviar
 
 			Transport transport = mailSession.getTransport();
 			transport.connect(hostEnvio, user, password);
@@ -81,18 +102,21 @@ public class Email {
 	}
 
 
+	/**
+	 * Função que recebe email da caixa de correio do email do utilizador e filtra os mais recentes.
+	 */
 	public void receberEmail() {
 		try (Store store = mailSession.getStore("imaps")){
 			store.connect(hostRececao, user, password);
 
-			Folder inbox = store.getFolder("INBOX");
+			Folder inbox = store.getFolder("INBOX");													//Pasta do email em que os emails recebidos se encontram
 			inbox.open(Folder.READ_ONLY);
 
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.HOUR_OF_DAY, -24);
+			cal.add(Calendar.HOUR_OF_DAY, -24);		//Alterar para puder variar a data de filtro
 			Date oneDayAgo = cal.getTime();
 
-			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GT, oneDayAgo));
+			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GT, oneDayAgo));		//Vai buscar emails consoante o filtro de tempo
 			System.out.println(messages.length);
 
 			for(Message message : messages) { //Temporário
@@ -100,7 +124,7 @@ public class Email {
 				System.out.println("Subject: " + message.getSubject());
 				System.out.println("From: " + message.getFrom()[0]);
 				System.out.println("Date: " + message.getReceivedDate());
-				System.out.println("Text: " + message.getContent().toString());
+				System.out.println("Text: " + message.getContent());
 			}
 			
 		} catch (NoSuchProviderException e) {
@@ -111,5 +135,4 @@ public class Email {
 			e.printStackTrace();
 		}
 	}
-
 }
