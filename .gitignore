@@ -2,3 +2,4 @@
 /ProjectBDA/tokens.txt
 /ProjectBDA/src/facebook/tokens.txt
 *.DS_Store
+/ProjectBDA/src/mail/MainTesteEmail.java
