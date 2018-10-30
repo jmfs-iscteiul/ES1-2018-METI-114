@@ -1,13 +1,15 @@
 package facebook;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.types.Group;
 import com.restfb.types.Post;
+
+import commun.standardInfoStruct;
 
 public class Timeline {
 
@@ -21,7 +23,8 @@ public class Timeline {
 		fbClient = new DefaultFacebookClient(accessToken);
 	}
 
-	private void getTimeline () {
+	private ArrayList <standardInfoStruct> getTimeline () {
+		ArrayList<standardInfoStruct> lista = new ArrayList<standardInfoStruct> ();
 		result1 = fbClient.fetchConnection("me/groups",Group.class); //Lista de Grupos
 		int counter = 0;
 		int counterTotal = 0;
@@ -40,6 +43,8 @@ public class Timeline {
 					System.out.println("Message: "+aPost.getMessage());
 					System.out.println("Created: "+aPost.getCreatedTime());
 					counter++;
+					standardInfoStruct sis = new standardInfoStruct(aPost.getCreatedTime().toString(), aPost.getName(), aPost.getMessage());
+					lista.add(sis);
 				}
 				counterTotal++;
 			}
@@ -49,7 +54,7 @@ public class Timeline {
 
 		}
 		//	}
-
+		return lista;
 		//		System.out.println("-------------\nN� of Results: " + counter+"/"+counterTotal);		
 	}
 
