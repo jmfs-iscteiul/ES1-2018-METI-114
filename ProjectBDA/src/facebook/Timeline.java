@@ -9,7 +9,7 @@ import com.restfb.FacebookClient;
 import com.restfb.types.Group;
 import com.restfb.types.Post;
 
-import commun.standardInfoStruct;
+import common.standardInfoStruct;
 
 public class Timeline {
 
