@@ -1,19 +1,26 @@
 package mail;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
+import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.NoSuchProviderException;
+import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
@@ -33,6 +40,7 @@ public class Email {
 	private String password;
 
 	private Session mailSession;
+	private static String diretoria;		//diretoria onde gravar anexos de email
 
 	/**
 	 * Construtor da classe email. Recebe as informações e prepara a sessão para o envio e a receção de emails.
@@ -105,7 +113,9 @@ public class Email {
 	/**
 	 * Função que recebe email da caixa de correio do email do utilizador e filtra os mais recentes.
 	 */
-	public void receberEmail() {
+	public List<MailInfoStruct> receberEmail() {
+		List<MailInfoStruct> emails = new ArrayList<>();
+		
 		try (Store store = mailSession.getStore("imaps")){
 			store.connect(hostRececao, user, password);
 
@@ -113,26 +123,84 @@ public class Email {
 			inbox.open(Folder.READ_ONLY);
 
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.HOUR_OF_DAY, -24);		//Alterar para puder variar a data de filtro
+			cal.add(Calendar.HOUR_OF_DAY, -48);															//Alterar para puder variar a data de filtro
 			Date oneDayAgo = cal.getTime();
 
 			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GT, oneDayAgo));		//Vai buscar emails consoante o filtro de tempo
 			System.out.println(messages.length);
-
+			
 			for(Message message : messages) { //Temporário
 				System.out.println("---------------------------------");
 				System.out.println("Subject: " + message.getSubject());
 				System.out.println("From: " + message.getFrom()[0]);
 				System.out.println("Date: " + message.getReceivedDate());
 				System.out.println("Text: " + message.getContent());
+
+				String contentType = message.getContentType();
+
+				if(contentType.equals("multipart")) {
+
+				} else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
+					Object content = message.getContent();
+					if(content != null)
+						emails.add(new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
+								message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC))));
+				}
 			}
-			
-		} catch (NoSuchProviderException e) {
-			e.printStackTrace();
-		} catch (MessagingException e1) {
+		}  catch (MessagingException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return emails;
 	}
+
+	private MailInfoStruct getMultipartMessage(Message message) throws MessagingException, IOException{
+		// content may contain attachments
+		Multipart multiPart = (Multipart) message.getContent();
+		int numberOfParts = multiPart.getCount();
+		
+		List<File> attachments = null;
+		String texto = "";
+		
+		for (int partCount = 0; partCount < numberOfParts; partCount++) {
+			MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);
+			if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
+				// this part is attachment
+				String fileName = part.getFileName();
+//				attachFiles += fileName + ", ";
+				part.saveFile(diretoria + File.separator + fileName);
+				if(attachments == null)
+					attachments = new ArrayList<>();;
+				attachments.add(new File(diretoria + File.separator + fileName));
+			} else {
+				// this part may be the message content
+//				messageContent = part.getContent().toString();
+				texto += part.getContentID().toString();
+			}
+		}
+
+		/*if (attachFiles.length() > 1) {
+			attachFiles = attachFiles.substring(0, attachFiles.length() - 2);
+		}*/
+		
+		if(attachments == null)
+			return new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
+					message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)));
+		else
+			return new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
+					message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)), attachments);
+	}
+	
+	private String juntarEmails(Address[] emails) {
+		if(emails.length == 0)
+			return "";
+		String f = emails[0].toString();
+		for(int i = 1; i <  emails.length - 1; i++) {
+			f += ", " + emails[i];
+		}
+		return f;
+	}
+
 }
