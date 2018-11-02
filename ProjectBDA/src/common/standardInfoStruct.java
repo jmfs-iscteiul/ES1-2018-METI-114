@@ -1,15 +1,15 @@
-package commun;
+package common;
 
 public class standardInfoStruct {
 	
 	private String date;
 	private String author;
-	private String title;
+	private String text;
 	
 	public standardInfoStruct(String d, String a, String t) {
 		this.date = d;
 		this.author = a;
-		this.title = t;
+		this.text = t;
 	}
 
 	public void setDate(String date) {
@@ -21,9 +21,9 @@ public class standardInfoStruct {
 	}
 
 	public void setContent(String title) {
-		this.title = title;
+		this.text = title;
 	}
-
+	
 	public String getDate() {
 		return date;
 	}
@@ -33,6 +33,6 @@ public class standardInfoStruct {
 	}
 
 	public String getTitle() {
-		return title;
+		return text;
 	}
 }
