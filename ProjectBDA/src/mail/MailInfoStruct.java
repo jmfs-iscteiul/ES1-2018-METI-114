@@ -3,7 +3,7 @@ package mail;
 import java.io.File;
 import java.util.List;
 
-import commun.standardInfoStruct;
+import common.standardInfoStruct;
 
 
 /**
@@ -13,22 +13,28 @@ import commun.standardInfoStruct;
  */
 public class MailInfoStruct extends standardInfoStruct {
 	
+	private String subject;
 	private String to;
 	private String cc;
 	
-	private List<File> attachments;
+	private List<File> attachments = null;
 	
-	public MailInfoStruct(String date, String author, String title, String to, String cc) {
-		super(date, author, title);
+	public MailInfoStruct(String date, String author, String text, String subject, String to, String cc) {
+		super(date, author, text);
+		this.subject = subject;
 		this.to = to;
 		this.cc = cc;
 	}
 
-	public MailInfoStruct(String date, String author, String title, String to, String cc, List<File> attachments) {
-		super(date, author, title);
+	public MailInfoStruct(String date, String author, String text, String subject, String to, String cc, List<File> attachments) {
+		super(date, author, text);
 		this.to = to;
 		this.cc = cc;
 		this.attachments = attachments;
+	}
+	
+	public String getSubject() {
+		return subject;
 	}
 	
 	public String getTo() {
