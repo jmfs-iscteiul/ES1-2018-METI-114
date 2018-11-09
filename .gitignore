@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 /ProjectBDA/bin
 /ProjectBDA/tokens.txt
 /ProjectBDA/src/facebook/tokens.txt
+<<<<<<< HEAD
+/ProjectBDA/src/mail/MainTesteEmail.java
 *.DS_Store
+=======
+*.DS_Store
+=======
+/ProjectBDA/bin
+>>>>>>> refs/heads/Twitter
+>>>>>>> branch 'masterTemp' of https://github.com/jmfs-iscteiul/ES1-2018-METI-114.git
