@@ -198,10 +198,6 @@ public class Email {
 				texto += part.getContent().toString();
 			}
 		}
-
-		/*if (attachFiles.length() > 1) {
-			attachFiles = attachFiles.substring(0, attachFiles.length() - 2);
-		}*/
 		
 		if(attachments == null)
 			return new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
