@@ -1,4 +1,4 @@
-package commun;
+package common;
 
 public class standardInfoStruct {
 	
@@ -34,5 +34,10 @@ public class standardInfoStruct {
 
 	public String getTitle() {
 		return title;
+	}
+	
+	@Override
+	public String toString() {
+		return date + " - " + title;
 	}
 }
