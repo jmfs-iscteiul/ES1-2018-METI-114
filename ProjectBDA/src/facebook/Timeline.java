@@ -23,7 +23,7 @@ public class Timeline {
 		fbClient = new DefaultFacebookClient(accessToken);
 	}
 
-	private ArrayList <standardInfoStruct> getTimeline () {
+	public ArrayList <standardInfoStruct> getTimeline () {
 		ArrayList<standardInfoStruct> lista = new ArrayList<standardInfoStruct> ();
 		result1 = fbClient.fetchConnection("me/groups",Group.class); //Lista de Grupos
 		int counter = 0;

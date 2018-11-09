@@ -35,4 +35,9 @@ public class standardInfoStruct {
 	public String getTitle() {
 		return text;
 	}
+	
+	@Override
+	public String toString() {
+		return date + " - " + text;
+	}
 }

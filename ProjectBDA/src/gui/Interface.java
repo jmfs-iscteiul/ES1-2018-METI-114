@@ -2,13 +2,21 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import common.standardInfoStruct;
+import facebook.Timeline;
 
 /**
  * A classe interface tem como objetivo criar a base gráfica do projeto.
@@ -24,6 +32,9 @@ import javax.swing.WindowConstants;
 public class Interface {
 	
 	private JFrame frame;
+	private Timeline timelineList;
+	private JList<standardInfoStruct> face;
+	private JTextArea viewPost;
 	
 	public Interface() {
 		
@@ -37,10 +48,16 @@ public class Interface {
 		frame.add(panel1, BorderLayout.CENTER);
 		frame.add(panel2, BorderLayout.SOUTH);
 		
-		JTextArea timeline = new JTextArea();
-		JTextArea viewPost = new JTextArea();
+		timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
+		face = new JList<>(getFaceList());
 		
-		JScrollPane scrollPane1 = new JScrollPane(timeline);
+		viewPost = new JTextArea();
+		viewPost.setLineWrap(true);
+		viewPost.setWrapStyleWord(true);
+		
+		readFacePosts();
+		
+		JScrollPane scrollPane1 = new JScrollPane(face);
 		JScrollPane scrollPane2 = new JScrollPane(viewPost);
 		
 		panel1.add(scrollPane1);
@@ -54,12 +71,38 @@ public class Interface {
 		panel2.add(tweetButton);
 		panel2.add(sendEmail);
 		
-		timeline.setEditable(false);
 		viewPost.setEditable(false);
 		
 		frame.setSize(800, 400);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	
+	}
+	
+	private DefaultListModel<standardInfoStruct> getFaceList() {
+		
+		ArrayList<standardInfoStruct> faceList = timelineList.getTimeline();
+		DefaultListModel<standardInfoStruct> model = new DefaultListModel<>();
+		
+		for(standardInfoStruct info : faceList) 
+			model.addElement(info);
+		
+		return model;
+		
+	}
+	
+	private void readFacePosts() {
+		face.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()) {
+					standardInfoStruct selectedValue = face.getSelectedValue();
+					if(selectedValue != null) {
+						viewPost.setText(selectedValue.getDate() + "\n" + "\n");
+						viewPost.append(selectedValue.getTitle());
+					}
+				}
+			}
+
+		});
 	}
 	
 	private void open() {
