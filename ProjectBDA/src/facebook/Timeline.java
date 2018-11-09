@@ -17,13 +17,22 @@ public class Timeline {
 	private FacebookClient fbClient;
 	private Connection<Group> result1;
 	private Connection<Post> result;
+	private String filter= "ISCTE";
 
 	public Timeline (String accessToken) {
 		this.accessToken = accessToken;
 		fbClient = new DefaultFacebookClient(accessToken);
 	}
+	
+	
 
-	private ArrayList <standardInfoStruct> getTimeline () {
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+
+
+	public ArrayList <standardInfoStruct> getTimeline () {
 		ArrayList<standardInfoStruct> lista = new ArrayList<standardInfoStruct> ();
 		result1 = fbClient.fetchConnection("me/groups",Group.class); //Lista de Grupos
 		int counter = 0;
@@ -36,7 +45,7 @@ public class Timeline {
 		for (List<Post> page : result) {
 			for (Post aPost : page) {
 				// Filters only posts that contain the word "Inform"
-				if (aPost.getMessage() != null && aPost.getMessage().contains(" ")) {
+				if (aPost.getMessage() != null && aPost.getMessage().contains(filter)) {
 					System.out.println("\nPosts:");
 					System.out.println("---- Post "+ counter + " ----");
 					System.out.println("Id: "+"fb.com/"+aPost.getId());
@@ -64,7 +73,8 @@ public class Timeline {
 public static void main(String[] args) {
 	
 	
-	Timeline timeline = new Timeline ("");
+	Timeline timeline = new Timeline ("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
+	timeline.setFilter(" ");
 	timeline.getTimeline();
 
 //	@SuppressWarnings("deprecation")
