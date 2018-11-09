@@ -5,30 +5,54 @@ import java.util.List;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
+import twitter4j.Status;
 
 public class TwitterApp {
 
-	private List<Status> timelineStatuses;
+	private List<twitter4j.Status> timelineStatuses;
 	private Twitter twitter;
 	
 	public static void main(String[] args) {
 		TwitterApp t = new TwitterApp();
-		t.authenticate();
+		
+		t.authenticateMyAccount();
 		//t.fetchTimeline();
-        //t.searchHashtag("iscte");
+		//t.postTweet("Teste 123 foi a Ana que disse");
+		//Status primeiro = t.getFirstTweet();
+		//t.retweetPost(primeiro.getId());
+		//t.searchHashtag("#iscte");
+		
+		
 		t.searchPerson("ana");
+		//t.authenticateIscteAccount();
+		
      }
 	
-	public void authenticate(){
+	public void authenticateMyAccount(){
 		
 		try {
-			
+        	ConfigurationBuilder cb = new ConfigurationBuilder();
+        	cb.setDebugEnabled(true)
+        	  .setOAuthConsumerKey("QRFyiUq64mbtFLxZUGAMoFb7T")
+        	  .setOAuthConsumerSecret("SJCB1ZmR0xxZtV95zUEfxNSkZWXU76pf1jIhG7WXEzDiHIrd0I")
+        	  .setOAuthAccessToken("1052294113620611073-wO7U7iqqQ4v7jFqb3Pb3pqnJa7HCdM")
+        	  .setOAuthAccessTokenSecret("O94jOOxoSRsAfQAvu4GHrykJUrZ0nzoubUpKdGEd6TXGF");
+        	TwitterFactory tf = new TwitterFactory(cb.build());
+        	twitter = tf.getInstance();
+        	
+		}catch (Exception e) { 
+			System.out.println(e.getMessage()); 
+		}
+	}
+	
+	public void authenticateIscteAccount(){
+		
+		try {
         	ConfigurationBuilder cb = new ConfigurationBuilder();
         	cb.setDebugEnabled(true)
         	  .setOAuthConsumerKey("W1f0VvgWPfT8OBqVxvy4Mw")
@@ -47,24 +71,46 @@ public class TwitterApp {
 		        		
 		try{
 			timelineStatuses = twitter.getHomeTimeline();
-            System.out.println("|||||||||||||||||||||||| MOSTRAR TIMELINE ||||||||||||||||||||||||");
-    		int counter=0;
-    		int counterTotal = 0;
+            System.out.println("                              MOSTRAR TIMELINE ");
+            int counter = 1;
             for (Status status : timelineStatuses) {
-				// Filters only tweets from user "catarina"
 				if (status.getUser().getName() != null) {
-					System.out.println(status.getUser().getName() + ":" + status.getText());
-					System.out.println("____________________________________________________________");
-					counter++;
+					System.out.println(counter + " -> "  + status.getCreatedAt() + " - " + "@" + status.getUser().getName() + ":" + status.getText());
+					System.out.println(" ");
 				}
-				counterTotal++;
-            }
-    		System.out.println("-------------\nNº of Results: " + counter+"/"+counterTotal);
+				counter++;
+            } 
         } catch (Exception e) { 
-        	System.out.println(e.getMessage()); }
+        	System.out.println(e.getMessage() + " - deu erro"); }
 	}
 	
+	public void postTweet(String tweet){
+		
+		try{
+			
+			Status status = twitter.updateStatus(tweet);
+			System.out.println(status.getText());			
+			
+		}catch(TwitterException e){
+			System.out.println("Catch de publicar Tweet: Falhou");
+			System.out.println(e.getMessage());
+		}
+	}
 	
+	public void retweetPost(long statusID){
+		
+		try {
+			twitter.retweetStatus(statusID);
+		} catch (TwitterException e) {
+			System.out.println("Falhou no Retweet");
+			e.getMessage();
+		}
+	}
+	
+	public Status getFirstTweet(){
+		Status primeiroTweet = timelineStatuses.get(7);
+		return primeiroTweet;
+	}
 	
 	public void searchHashtag(String hashtag){ // Procura uma hashtag mas so mostra uns poucos resultados
 		
@@ -74,7 +120,7 @@ public class TwitterApp {
 			int counter = 0;
 			for(Status status : result.getTweets()){
 				counter++;
-				System.out.println(counter + "-> " + " @" + status.getUser().getScreenName() + ": " + status.getText() + " : " + status.getGeoLocation());
+				System.out.println(counter + "-> "+ "@" + status.getUser() + ": " + status.getText() + " : " + status.getGeoLocation());
 				System.out.println("-----------------------------------------------------------------------");
 			}
 		}catch(Exception e) {
