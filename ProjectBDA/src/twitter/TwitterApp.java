@@ -22,13 +22,13 @@ public class TwitterApp {
 		
 		t.authenticateMyAccount();
 		//t.fetchTimeline();
-		//t.postTweet("Teste 123 foi a Ana que disse");
-		//Status primeiro = t.getFirstTweet();
-		//t.retweetPost(primeiro.getId());
-		//t.searchHashtag("#iscte");
+		//t.postTweet("As coisas hoje não me estão a correr bem. HELP!");
+		//Status retweet = t.getChooseRetweet();
+		//t.retweetPost(retweet.getId());
+		t.searchHashtag("#university");
 		
 		
-		t.searchPerson("ana");
+		//t.searchPerson("ana");
 		//t.authenticateIscteAccount();
 		
      }
@@ -67,7 +67,7 @@ public class TwitterApp {
 		}
 	}
 	
-	public void fetchTimeline(){
+	public void fetchTimeline(){  //METER NA ESTRUTURA DA MENSAGEM
 		        		
 		try{
 			timelineStatuses = twitter.getHomeTimeline();
@@ -107,8 +107,8 @@ public class TwitterApp {
 		}
 	}
 	
-	public Status getFirstTweet(){
-		Status primeiroTweet = timelineStatuses.get(7);
+	public Status getChooseRetweet(){
+		Status primeiroTweet = timelineStatuses.get(13);
 		return primeiroTweet;
 	}
 	
@@ -120,7 +120,7 @@ public class TwitterApp {
 			int counter = 0;
 			for(Status status : result.getTweets()){
 				counter++;
-				System.out.println(counter + "-> "+ "@" + status.getUser() + ": " + status.getText() + " : " + status.getGeoLocation());
+				System.out.println(counter + "-> "+ "@" + status.getUser().getScreenName() + ": " + status.getText() + " : " + status.getGeoLocation());
 				System.out.println("-----------------------------------------------------------------------");
 			}
 		}catch(Exception e) {
