@@ -1,31 +1,35 @@
 package twitter;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import common.standardInfoStruct;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
-import twitter4j.Status;
 
 public class TwitterApp {
 
 	private List<twitter4j.Status> timelineStatuses;
 	private Twitter twitter;
+	private ArrayList<standardInfoStruct> listaTweets;
+	private standardInfoStruct mensagem;
 	
 	public static void main(String[] args) {
 		TwitterApp t = new TwitterApp();
 		
 		t.authenticateMyAccount();
-		//t.fetchTimeline();
-		//t.postTweet("As coisas hoje não me estão a correr bem. HELP!");
+		t.fetchTimeline();
+		//t.postTweet("As coisas hoje nï¿½o me estï¿½o a correr bem. HELP!");
 		//Status retweet = t.getChooseRetweet();
 		//t.retweetPost(retweet.getId());
-		t.searchHashtag("#university");
+		//t.searchHashtag("#university");
 		
 		
 		//t.searchPerson("ana");
@@ -71,17 +75,21 @@ public class TwitterApp {
 		        		
 		try{
 			timelineStatuses = twitter.getHomeTimeline();
+			listaTweets = new ArrayList<standardInfoStruct>();
             System.out.println("                              MOSTRAR TIMELINE ");
             int counter = 1;
             for (Status status : timelineStatuses) {
 				if (status.getUser().getName() != null) {
-					System.out.println(counter + " -> "  + status.getCreatedAt() + " - " + "@" + status.getUser().getName() + ":" + status.getText());
-					System.out.println(" ");
+					//System.out.println(counter + " -> "  + status.getCreatedAt() + " - " + "@" + status.getUser().getName() + ":" + status.getText());
+					mensagem = new standardInfoStruct(status.getCreatedAt().toString(), status.getUser().getScreenName(), status.getText());
+					listaTweets.add(mensagem);
 				}
 				counter++;
             } 
         } catch (Exception e) { 
-        	System.out.println(e.getMessage() + " - deu erro"); }
+        	System.out.println(); 
+        	}
+		//System.out.println(listaTweets );
 	}
 	
 	public void postTweet(String tweet){
