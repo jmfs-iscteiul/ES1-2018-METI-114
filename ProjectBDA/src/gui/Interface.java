@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,6 +18,9 @@ import javax.swing.event.ListSelectionListener;
 
 import common.standardInfoStruct;
 import facebook.Timeline;
+import mail.Email;
+import mail.MailInfoStruct;
+import twitter.TwitterApp;
 
 /**
  * A classe interface tem como objetivo criar a base gráfica do projeto.
@@ -32,14 +36,16 @@ import facebook.Timeline;
 public class Interface {
 	
 	private JFrame frame;
-	private Timeline timelineList;
-	private JList<standardInfoStruct> face;
+	private JList<standardInfoStruct> allLists;
 	private JTextArea viewPost;
+	private Email email;
 	
-	public Interface() {
+	public Interface(Email email) {
 		
 		frame = new JFrame("Bom Dia Academia");
 		frame.setLayout(new BorderLayout());
+		
+		this.email = email;
 		
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
@@ -48,8 +54,7 @@ public class Interface {
 		frame.add(panel1, BorderLayout.CENTER);
 		frame.add(panel2, BorderLayout.SOUTH);
 		
-		timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
-		face = new JList<>(getFaceList());
+		allLists = new JList<>(getLists());
 		
 		viewPost = new JTextArea();
 		viewPost.setLineWrap(true);
@@ -57,7 +62,7 @@ public class Interface {
 		
 		readFacePosts();
 		
-		JScrollPane scrollPane1 = new JScrollPane(face);
+		JScrollPane scrollPane1 = new JScrollPane(allLists);
 		JScrollPane scrollPane2 = new JScrollPane(viewPost);
 		
 		panel1.add(scrollPane1);
@@ -78,23 +83,41 @@ public class Interface {
 	
 	}
 	
-	private DefaultListModel<standardInfoStruct> getFaceList() {
+	
+	private DefaultListModel<standardInfoStruct> getLists() {
 		
+		Timeline timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
 		ArrayList<standardInfoStruct> faceList = timelineList.getTimeline();
+
+		TwitterApp twitter = new TwitterApp();
+		twitter.authenticateMyAccount();
+		
+		ArrayList<standardInfoStruct> tweetList = twitter.fetchTimeline();
+		
+		List<MailInfoStruct> emailList = email.receberEmail();
+		
 		DefaultListModel<standardInfoStruct> model = new DefaultListModel<>();
 		
-		for(standardInfoStruct info : faceList) 
-			model.addElement(info);
+		for(standardInfoStruct fInfo : faceList) 
+			model.addElement(fInfo);
+		
+		for(standardInfoStruct tInfo : tweetList)
+			model.addElement(tInfo);
+		
+		for(MailInfoStruct mInfo : emailList)
+			model.addElement(mInfo);
 		
 		return model;
+	
 		
 	}
 	
+	
 	private void readFacePosts() {
-		face.addListSelectionListener(new ListSelectionListener() {
+		allLists.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if(!e.getValueIsAdjusting()) {
-					standardInfoStruct selectedValue = face.getSelectedValue();
+					standardInfoStruct selectedValue = allLists.getSelectedValue();
 					if(selectedValue != null) {
 						viewPost.setText(selectedValue.getDate() + "\n" + "\n");
 						viewPost.append(selectedValue.getTitle());
@@ -105,14 +128,15 @@ public class Interface {
 		});
 	}
 	
-	private void open() {
+	public void open() {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-	}
+	}	
 	
 	public static void main(String[] args) {
-		Interface i = new Interface();
-		i.open();
+///		Email email = new Email("");
+//		Interface i = new Interface();
+//		i.open();
 	}
 
 }

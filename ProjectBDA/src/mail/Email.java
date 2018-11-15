@@ -27,6 +27,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 
+import gui.Login;
+
 /**
  * Classe encarregue da funcionalidade de email. Contém um construtor que recebe as informações de email do utilizador e prepara a sessão de email.
  * Existem também 2 funções, uma para o envio de emails e outra para a receção destes. 
@@ -52,11 +54,54 @@ public class Email {
 	 * @param user Email do utilizador
 	 * @param password Password do utilizador
 	 */
-	public Email(String hostEnvio, String hostRececao, String user, String password) {
-		this.hostEnvio = hostEnvio;
-		this.hostRececao = hostRececao;
-		this.user = user;
-		this.password = password;
+//	public Email(String hostEnvio, String hostRececao, String user, String password) {
+//		this.hostEnvio = hostEnvio;
+//		this.hostRececao = hostRececao;
+//		this.user = user;
+//		this.password = password;
+//		
+//		try {
+//			String temp = Email.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+//			temp = URLDecoder.decode(temp, "UTF-8");
+//			diretoria = temp.substring(1,temp.lastIndexOf("/") );
+//			diretoria += File.separator + "temp";
+//		} catch (URISyntaxException | UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		File directory = new File(diretoria);
+//		if(!directory.exists())
+//			directory.mkdir();
+//		System.out.println(directory.getAbsolutePath());
+//
+//		Properties props = new Properties(); //Propriedades para a sessão de Email
+//
+//		//Propriedades de envio
+//		props.put("mail.smtp.host", hostEnvio);
+//		props.put("mail.smtp.port", "587");
+//		props.put("mail.smtp.starttls.enable", "true");
+//		props.put("mail.smtp.port.auth", "true");
+//
+//		//Propriedades de Receção
+//		props.put("mail.store.protocol", "imaps");
+//		props.put("mail.imaps.host", hostRececao);
+//		props.put("mail.imaps.port", "993");
+//
+//		//Criar Sessão de Email
+//		mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+//			@Override
+//			protected PasswordAuthentication getPasswordAuthentication() {
+//				return new PasswordAuthentication(user, password);
+//			}
+//		});
+//	}
+	
+	public Email(String password) {
+		Login l = new Login();
+		this.hostEnvio = "smtp-mail.outlook.com";
+		this.hostRececao = "imap-mail.outlook.com";
+		this.user = l.getcboxText();
+		this.password = password; 
 		
 		try {
 			String temp = Email.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
@@ -139,7 +184,7 @@ public class Email {
 			inbox.open(Folder.READ_ONLY);
 
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.HOUR_OF_DAY, -24);															//Alterar para puder variar a data de filtro
+			cal.add(Calendar.HOUR_OF_DAY, -72);															//Alterar para puder variar a data de filtro
 			Date oneDayAgo = cal.getTime();
 
 			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));		//Vai buscar emails consoante o filtro de tempo

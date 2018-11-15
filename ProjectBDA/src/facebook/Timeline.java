@@ -17,7 +17,7 @@ public class Timeline {
 	private FacebookClient fbClient;
 	private Connection<Group> result1;
 	private Connection<Post> result;
-	private String filter= "ISCTE";
+	private String filter= "";
 
 	public Timeline (String accessToken) {
 		this.accessToken = accessToken;

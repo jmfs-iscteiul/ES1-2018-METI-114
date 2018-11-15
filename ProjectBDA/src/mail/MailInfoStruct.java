@@ -48,4 +48,9 @@ public class MailInfoStruct extends standardInfoStruct {
 	public List<File> getAttachments() {
 		return attachments;
 	}
+	
+	@Override
+		public String toString() {
+			return getDate() + '-' +  subject;
+		}
 }

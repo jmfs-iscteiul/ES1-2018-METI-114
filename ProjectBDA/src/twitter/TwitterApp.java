@@ -21,11 +21,11 @@ public class TwitterApp {
 	private ArrayList<standardInfoStruct> listaTweets;
 	private standardInfoStruct mensagem;
 	
-	public static void main(String[] args) {
-		TwitterApp t = new TwitterApp();
-		
-		t.authenticateMyAccount();
-		t.fetchTimeline();
+//	public static void main(String[] args) {
+//		TwitterApp t = new TwitterApp();
+//		
+//		t.authenticateMyAccount();
+//		t.fetchTimeline();
 		//t.postTweet("As coisas hoje n�o me est�o a correr bem. HELP!");
 		//Status retweet = t.getChooseRetweet();
 		//t.retweetPost(retweet.getId());
@@ -35,7 +35,7 @@ public class TwitterApp {
 		//t.searchPerson("ana");
 		//t.authenticateIscteAccount();
 		
-     }
+//     }
 	
 	public void authenticateMyAccount(){
 		
@@ -71,7 +71,7 @@ public class TwitterApp {
 		}
 	}
 	
-	public void fetchTimeline(){  //METER NA ESTRUTURA DA MENSAGEM
+	public ArrayList<standardInfoStruct> fetchTimeline(){  //METER NA ESTRUTURA DA MENSAGEM
 		        		
 		try{
 			timelineStatuses = twitter.getHomeTimeline();
@@ -90,6 +90,7 @@ public class TwitterApp {
         	System.out.println(); 
         	}
 		//System.out.println(listaTweets );
+		return listaTweets;
 	}
 	
 	public void postTweet(String tweet){

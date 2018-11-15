@@ -29,7 +29,7 @@ public class Extend {
 		return extendedAccessToken4.getAccessToken();
 	}
 	
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 //		String accessToken = "EAAEdPLJA8d0BAE7rgGTkhPdfjtEz7kimJHsSJKqj8RR4v7ErVSRft53OyLZBbed8odScy5fZBTZA9e1R4reX4gDa1pA4RtapKGIzUavVZBsFFYQn37ZASV1IKZC27VBfqo9TG9IDk7br9p8We52RnEInHovoCG16gZD";
 //		FacebookClient fbClient4 = new DefaultFacebookClient(accessToken);
 //		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("313621502554589","f2cc137fdfa12d9e959fec3e7be184e9");
@@ -44,6 +44,6 @@ public class Extend {
 //			e.printStackTrace();
 //		}
 //		
-	}
+//	}
 	
 }
