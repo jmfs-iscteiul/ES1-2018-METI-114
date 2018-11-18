@@ -60,7 +60,7 @@ public class Login {
 				
 				if(itsAnEmail() == true) {
 					System.out.println("Acesso concedido");
-					Interface i = new Interface(new Email(getPass()));
+					Interface i = new Interface(new Email(getcboxText(), getPass()));
 					i.open();
 				}
 			

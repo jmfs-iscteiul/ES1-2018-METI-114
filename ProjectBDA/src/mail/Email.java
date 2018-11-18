@@ -2,6 +2,7 @@ package mail;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
@@ -10,7 +11,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Scanner;
 
+import javax.activation.DataHandler;
 import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -26,8 +29,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
-
-import gui.Login;
 
 /**
  * Classe encarregue da funcionalidade de email. Contém um construtor que recebe as informações de email do utilizador e prepara a sessão de email.
@@ -96,11 +97,11 @@ public class Email {
 //		});
 //	}
 	
-	public Email(String password) {
-		Login l = new Login();
+	public Email(String user, String password) {
+//		Login l = new Login();
 		this.hostEnvio = "smtp-mail.outlook.com";
 		this.hostRececao = "imap-mail.outlook.com";
-		this.user = l.getcboxText();
+		this.user = user;
 		this.password = password; 
 		
 		try {
@@ -109,13 +110,13 @@ public class Email {
 			diretoria = temp.substring(1,temp.lastIndexOf("/") );
 			diretoria += File.separator + "temp";
 		} catch (URISyntaxException | UnsupportedEncodingException e) {
-			e.printStackTrace();
+			System.err.println("Não é possível obter a diretoria onde guardar os ficheiros");
 		}
 		
 		File directory = new File(diretoria);
 		if(!directory.exists())
 			directory.mkdir();
-		System.out.println(directory.getAbsolutePath());
+		System.out.println("Diretoria: " + directory.getAbsolutePath());
 
 		Properties props = new Properties(); //Propriedades para a sessão de Email
 
@@ -178,13 +179,15 @@ public class Email {
 		List<MailInfoStruct> emails = new ArrayList<>();
 		
 		try (Store store = mailSession.getStore("imaps")){
+			System.out.println(user);
 			store.connect(hostRececao, user, password);
+			System.out.println("Conectado");
 
 			Folder inbox = store.getFolder("inbox");													//Pasta do email em que os emails recebidos se encontram
 			inbox.open(Folder.READ_ONLY);
 
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.HOUR_OF_DAY, -72);															//Alterar para puder variar a data de filtro
+			cal.add(Calendar.HOUR_OF_DAY, -24);															//Alterar para puder variar a data de filtro
 			Date oneDayAgo = cal.getTime();
 
 			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));		//Vai buscar emails consoante o filtro de tempo
@@ -197,18 +200,22 @@ public class Email {
 				System.out.println("Date: " + message.getReceivedDate());
 				System.out.println("Text: " + message.getContent()); */
 
-				String contentType = message.getContentType();
+//				String contentType = message.getContentType();
+				System.out.println("--------" + message.getSubject() + "--------");
 
-				if(contentType.contains("multipart")) {
-					emails.add(getMultipartMessage(message));
-				} else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
+				if(message.isMimeType("multipart/*")) {
+					emails.add(obterMensagemMultipart(message));
+//				} else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
+				} else if (message.isMimeType("text/*")) {
 					Object content = message.getContent();
+					System.out.println("Mensagem simples");
 					if(content != null)
 						emails.add(new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
 								message.getContent().toString(), message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC))));
 				} else {
-					System.out.println("Não pertencem a um dos tipos de email compativeis: " + contentType);
+					System.out.println("Não pertencem a um dos tipos de email compativeis: " + message.getContentType());
 				}
+				System.out.println("--------" + message.getSubject() + "--------");
 			}
 		}  catch (MessagingException e1) {
 			e1.printStackTrace();
@@ -219,8 +226,9 @@ public class Email {
 		return emails;
 	}
 
-	private MailInfoStruct getMultipartMessage(Message message) throws MessagingException, IOException{
+	private MailInfoStruct obterMensagemMultipart(Message message) throws MessagingException, IOException{
 		// content may contain attachments
+		System.out.println("Contem anexos");
 		Multipart multiPart = (Multipart) message.getContent();
 		int numberOfParts = multiPart.getCount();
 		
@@ -235,11 +243,19 @@ public class Email {
 //				attachFiles += fileName + ", ";
 				part.saveFile(diretoria + File.separator + fileName);
 				if(attachments == null)
-					attachments = new ArrayList<>();;
+					attachments = new ArrayList<>();
 				attachments.add(new File(diretoria + File.separator + fileName));
+			} else if (part.getDisposition() == null) {
+				System.out.println("A disposição retornou null");
+				DataHandler data = part.getDataHandler();
+				InputStream stream = data.getInputStream();
+				texto += convertStreamToString(stream);
+//				obterMensagemMultipartTeste(data);
 			} else {
 				// this part may be the message content
 //				messageContent = part.getContent().toString();
+				System.out.println("Parte do texto");
+				System.out.println(part.getContent().toString());
 				texto += part.getContent().toString();
 			}
 		}
@@ -252,6 +268,22 @@ public class Email {
 					texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)), attachments);
 	}
 	
+	private String convertStreamToString(InputStream is) {
+		Scanner s = new Scanner(is, "UTF-8");
+		s.useDelimiter("\\A");
+		try {
+	    return s.hasNext() ? s.next() : "";
+	    } finally {
+	    	s.close();
+	    }
+	}
+	
+	/**
+	 * Função que serve para converter uma lista de emails na classe Address para uma string
+	 * 
+	 * @param emails Lista de emails
+	 * @return String com todos os emails na lista de emails
+	 */
 	private String juntarEmails(Address[] emails) {
 		if(emails == null) {
 			System.out.println("Lista de emails era null");
