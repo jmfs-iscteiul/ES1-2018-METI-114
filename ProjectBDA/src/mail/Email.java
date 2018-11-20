@@ -30,6 +30,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 
+import com.sun.mail.util.BASE64DecoderStream;
+
 /**
  * Classe encarregue da funcionalidade de email. Contém um construtor que recebe as informações de email do utilizador e prepara a sessão de email.
  * Existem também 2 funções, uma para o envio de emails e outra para a receção destes. 
@@ -55,55 +57,55 @@ public class Email {
 	 * @param user Email do utilizador
 	 * @param password Password do utilizador
 	 */
-//	public Email(String hostEnvio, String hostRececao, String user, String password) {
-//		this.hostEnvio = hostEnvio;
-//		this.hostRececao = hostRececao;
-//		this.user = user;
-//		this.password = password;
-//		
-//		try {
-//			String temp = Email.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-//			temp = URLDecoder.decode(temp, "UTF-8");
-//			diretoria = temp.substring(1,temp.lastIndexOf("/") );
-//			diretoria += File.separator + "temp";
-//		} catch (URISyntaxException | UnsupportedEncodingException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		File directory = new File(diretoria);
-//		if(!directory.exists())
-//			directory.mkdir();
-//		System.out.println(directory.getAbsolutePath());
-//
-//		Properties props = new Properties(); //Propriedades para a sessão de Email
-//
-//		//Propriedades de envio
-//		props.put("mail.smtp.host", hostEnvio);
-//		props.put("mail.smtp.port", "587");
-//		props.put("mail.smtp.starttls.enable", "true");
-//		props.put("mail.smtp.port.auth", "true");
-//
-//		//Propriedades de Receção
-//		props.put("mail.store.protocol", "imaps");
-//		props.put("mail.imaps.host", hostRececao);
-//		props.put("mail.imaps.port", "993");
-//
-//		//Criar Sessão de Email
-//		mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-//			@Override
-//			protected PasswordAuthentication getPasswordAuthentication() {
-//				return new PasswordAuthentication(user, password);
-//			}
-//		});
-//	}
-	
+	//	public Email(String hostEnvio, String hostRececao, String user, String password) {
+	//		this.hostEnvio = hostEnvio;
+	//		this.hostRececao = hostRececao;
+	//		this.user = user;
+	//		this.password = password;
+	//		
+	//		try {
+	//			String temp = Email.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+	//			temp = URLDecoder.decode(temp, "UTF-8");
+	//			diretoria = temp.substring(1,temp.lastIndexOf("/") );
+	//			diretoria += File.separator + "temp";
+	//		} catch (URISyntaxException | UnsupportedEncodingException e) {
+	//			e.printStackTrace();
+	//		}
+	//		
+	//		File directory = new File(diretoria);
+	//		if(!directory.exists())
+	//			directory.mkdir();
+	//		System.out.println(directory.getAbsolutePath());
+	//
+	//		Properties props = new Properties(); //Propriedades para a sessão de Email
+	//
+	//		//Propriedades de envio
+	//		props.put("mail.smtp.host", hostEnvio);
+	//		props.put("mail.smtp.port", "587");
+	//		props.put("mail.smtp.starttls.enable", "true");
+	//		props.put("mail.smtp.port.auth", "true");
+	//
+	//		//Propriedades de Receção
+	//		props.put("mail.store.protocol", "imaps");
+	//		props.put("mail.imaps.host", hostRececao);
+	//		props.put("mail.imaps.port", "993");
+	//
+	//		//Criar Sessão de Email
+	//		mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+	//			@Override
+	//			protected PasswordAuthentication getPasswordAuthentication() {
+	//				return new PasswordAuthentication(user, password);
+	//			}
+	//		});
+	//	}
+
 	public Email(String user, String password) {
-//		Login l = new Login();
+		//		Login l = new Login();
 		this.hostEnvio = "smtp-mail.outlook.com";
 		this.hostRececao = "imap-mail.outlook.com";
 		this.user = user;
 		this.password = password; 
-		
+
 		try {
 			String temp = Email.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 			temp = URLDecoder.decode(temp, "UTF-8");
@@ -112,7 +114,7 @@ public class Email {
 		} catch (URISyntaxException | UnsupportedEncodingException e) {
 			System.err.println("Não é possível obter a diretoria onde guardar os ficheiros");
 		}
-		
+
 		File directory = new File(diretoria);
 		if(!directory.exists())
 			directory.mkdir();
@@ -174,10 +176,12 @@ public class Email {
 
 	/**
 	 * Função que recebe email da caixa de correio do email do utilizador e filtra os mais recentes.
+	 * 
+	 * @return Lista de emails recebidos pelo Utilizador em formato MailInfoStruct
 	 */
 	public List<MailInfoStruct> receberEmail() {
 		List<MailInfoStruct> emails = new ArrayList<>();
-		
+
 		try (Store store = mailSession.getStore("imaps")){
 			System.out.println(user);
 			store.connect(hostRececao, user, password);
@@ -192,20 +196,14 @@ public class Email {
 
 			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));		//Vai buscar emails consoante o filtro de tempo
 			System.out.println(messages.length);
-			
-			for(Message message : messages) {
-				/*System.out.println("---------------------------------");
-				System.out.println("Subject: " + message.getSubject());
-				System.out.println("From: " + message.getFrom()[0]);
-				System.out.println("Date: " + message.getReceivedDate());
-				System.out.println("Text: " + message.getContent()); */
 
-//				String contentType = message.getContentType();
+			for(Message message : messages) {
+				//				String contentType = message.getContentType();
 				System.out.println("--------" + message.getSubject() + "--------");
 
 				if(message.isMimeType("multipart/*")) {
 					emails.add(obterMensagemMultipart(message));
-//				} else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
+					//				} else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
 				} else if (message.isMimeType("text/*")) {
 					Object content = message.getContent();
 					System.out.println("Mensagem simples");
@@ -222,25 +220,26 @@ public class Email {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return emails;
 	}
 
+	
 	private MailInfoStruct obterMensagemMultipart(Message message) throws MessagingException, IOException{
 		// content may contain attachments
 		System.out.println("Contem anexos");
 		Multipart multiPart = (Multipart) message.getContent();
 		int numberOfParts = multiPart.getCount();
-		
+
 		List<File> attachments = null;
 		String texto = "";
-		
+
 		for (int partCount = 0; partCount < numberOfParts; partCount++) {
 			MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);
 			if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
 				// this part is attachment
 				String fileName = part.getFileName();
-//				attachFiles += fileName + ", ";
+				//				attachFiles += fileName + ", ";
 				part.saveFile(diretoria + File.separator + fileName);
 				if(attachments == null)
 					attachments = new ArrayList<>();
@@ -250,16 +249,29 @@ public class Email {
 				DataHandler data = part.getDataHandler();
 				InputStream stream = data.getInputStream();
 				texto += convertStreamToString(stream);
-//				obterMensagemMultipartTeste(data);
+				System.out.println("Fim da disposição null");
 			} else {
-				// this part may be the message content
-//				messageContent = part.getContent().toString();
+				//alterar mais tarde nao funciona
 				System.out.println("Parte do texto");
-				System.out.println(part.getContent().toString());
-				texto += part.getContent().toString();
+				if(part.getContent() instanceof BASE64DecoderStream) { //Por resolver
+					BASE64DecoderStream stream = (BASE64DecoderStream)part.getContent();
+					int b = stream.read();
+					List<Integer> bytes = new ArrayList<>();
+					while(b != -1) {
+						bytes.add(b);
+						b = stream.read();
+					}
+					
+					
+					
+					texto += stream.toString();
+				} else {
+					System.out.println(part.getContent().toString());
+					texto += part.getContent().toString();
+				}
 			}
 		}
-		
+
 		if(attachments == null)
 			return new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
 					texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)));
@@ -267,17 +279,23 @@ public class Email {
 			return new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
 					texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)), attachments);
 	}
-	
-	private String convertStreamToString(InputStream is) {
-		Scanner s = new Scanner(is, "UTF-8");
+
+	/**
+	 * Função que serve para converter uma InputStream recebida por email para uma String com o texto recebido
+	 * 
+	 * @param stream InputStream a converter
+	 * @return String que resulta da conversão da InputStream
+	 */
+	private String convertStreamToString(InputStream stream) {
+		Scanner s = new Scanner(stream, "UTF-8");
 		s.useDelimiter("\\A");
 		try {
-	    return s.hasNext() ? s.next() : "";
-	    } finally {
-	    	s.close();
-	    }
+			return s.hasNext() ? s.next() : "";
+		} finally {
+			s.close();
+		}
 	}
-	
+
 	/**
 	 * Função que serve para converter uma lista de emails na classe Address para uma string
 	 * 
