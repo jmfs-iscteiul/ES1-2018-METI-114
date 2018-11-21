@@ -52,53 +52,9 @@ public class Email {
 	/**
 	 * Construtor da classe email. Recebe as informações e prepara a sessão para o envio e a receção de emails.
 	 * 
-	 * @param hostEnvio Endereço do servidor de envio SMTP
-	 * @param hostRececao Endereço do servidor de receção IMAP
 	 * @param user Email do utilizador
 	 * @param password Password do utilizador
 	 */
-	//	public Email(String hostEnvio, String hostRececao, String user, String password) {
-	//		this.hostEnvio = hostEnvio;
-	//		this.hostRececao = hostRececao;
-	//		this.user = user;
-	//		this.password = password;
-	//		
-	//		try {
-	//			String temp = Email.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-	//			temp = URLDecoder.decode(temp, "UTF-8");
-	//			diretoria = temp.substring(1,temp.lastIndexOf("/") );
-	//			diretoria += File.separator + "temp";
-	//		} catch (URISyntaxException | UnsupportedEncodingException e) {
-	//			e.printStackTrace();
-	//		}
-	//		
-	//		File directory = new File(diretoria);
-	//		if(!directory.exists())
-	//			directory.mkdir();
-	//		System.out.println(directory.getAbsolutePath());
-	//
-	//		Properties props = new Properties(); //Propriedades para a sessão de Email
-	//
-	//		//Propriedades de envio
-	//		props.put("mail.smtp.host", hostEnvio);
-	//		props.put("mail.smtp.port", "587");
-	//		props.put("mail.smtp.starttls.enable", "true");
-	//		props.put("mail.smtp.port.auth", "true");
-	//
-	//		//Propriedades de Receção
-	//		props.put("mail.store.protocol", "imaps");
-	//		props.put("mail.imaps.host", hostRececao);
-	//		props.put("mail.imaps.port", "993");
-	//
-	//		//Criar Sessão de Email
-	//		mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-	//			@Override
-	//			protected PasswordAuthentication getPasswordAuthentication() {
-	//				return new PasswordAuthentication(user, password);
-	//			}
-	//		});
-	//	}
-
 	public Email(String user, String password) {
 		//		Login l = new Login();
 		this.hostEnvio = "smtp-mail.outlook.com";
@@ -251,7 +207,6 @@ public class Email {
 				texto += convertStreamToString(stream);
 				System.out.println("Fim da disposição null");
 			} else {
-				//alterar mais tarde nao funciona
 				System.out.println("Parte do texto");
 				if(part.getContent() instanceof BASE64DecoderStream) { //Por resolver
 					BASE64DecoderStream stream = (BASE64DecoderStream)part.getContent();
