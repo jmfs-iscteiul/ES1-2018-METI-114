@@ -63,14 +63,15 @@ public class Interface {
 		frame.add(panel1, BorderLayout.CENTER);
 		frame.add(panel2, BorderLayout.SOUTH);
 
-		allLists = new JList<>(getLists());
+		allLists = new JList<>();
 		allLists.setCellRenderer(new IconListRenderer());
+		allLists.setModel(getLists());
 
 		viewPost = new JTextArea();
 		viewPost.setLineWrap(true);
 		viewPost.setWrapStyleWord(true);
 
-		readFacePosts();
+		readElements();
 
 		webPanel = new JFXPanel();
 		Platform.runLater(()-> {
@@ -81,6 +82,7 @@ public class Interface {
 			root.getChildren().add(webView);
 			webPanel.setScene(scene);
 		});
+		Platform.setImplicitExit(false);
 
 		JScrollPane scrollPane1 = new JScrollPane(allLists);
 		scrollPane2 = new JScrollPane(viewPost);
@@ -122,13 +124,11 @@ public class Interface {
 			model.addElement(fInfo);
 
 
-		SwingUtilities.invokeLater(() -> {
-			for(standardInfoStruct tInfo : tweetList)
-				model.addElement(tInfo);
+		for(standardInfoStruct tInfo : tweetList)
+			model.addElement(tInfo);
 
-			for(MailInfoStruct mInfo : emailList)
-				model.addElement(mInfo);
-		});
+		for(MailInfoStruct mInfo : emailList)
+			model.addElement(mInfo);
 
 
 		return model;
@@ -137,7 +137,7 @@ public class Interface {
 	}
 
 
-	private void readFacePosts() {
+	private void readElements() {
 		allLists.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if(!e.getValueIsAdjusting()) {
@@ -167,9 +167,9 @@ public class Interface {
 	}	
 
 //	public static void main(String[] args) {
-//				Email email = new Email("");
-//				Interface i = new Interface();
-//				i.open();
+//		Email email = new Email("");
+//		Interface i = new Interface();
+//		i.open();
 //	}
 
 }
