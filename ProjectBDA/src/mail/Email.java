@@ -196,7 +196,7 @@ public class Email {
 				// this part is attachment
 				String fileName = part.getFileName();
 				//				attachFiles += fileName + ", ";
-				part.saveFile(diretoria + File.separator + fileName);
+//				part.saveFile(diretoria + File.separator + fileName);
 				if(attachments == null)
 					attachments = new ArrayList<>();
 				attachments.add(new File(diretoria + File.separator + fileName));
