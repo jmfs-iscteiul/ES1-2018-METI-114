@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -48,6 +49,7 @@ public class Interface {
 	private JScrollPane scrollPane2;
 	private JFXPanel webPanel;
 	private WebView webView;
+	private JButton faceButton;
 
 	public Interface(Email email) {
 
@@ -90,13 +92,15 @@ public class Interface {
 		panel1.add(scrollPane1);
 		panel1.add(scrollPane2);
 
-		JButton faceButton = new JButton("Post");
+		faceButton = new JButton("Post");
 		JButton tweetButton = new JButton("Tweet");
 		JButton sendEmail = new JButton("Email");
 
 		panel2.add(faceButton);
 		panel2.add(tweetButton);
 		panel2.add(sendEmail);
+		
+		editPosts();
 
 		viewPost.setEditable(false);
 
@@ -158,6 +162,19 @@ public class Interface {
 				}
 			}
 
+		});
+	}
+	
+	private void editPosts() {
+		faceButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				faceEditor fe = new faceEditor();
+				fe.open();
+				
+			}
 		});
 	}
 

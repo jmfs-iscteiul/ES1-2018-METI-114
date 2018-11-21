@@ -69,11 +69,15 @@ public class postGroups {
 		}
 	}
 
-	public static void main(String[] args) {
-
-
-//		String accessToken = "";
-//		FacebookClient fbClient = new DefaultFacebookClient(accessToken);
+//	public static void main(String[] args) {
+//
+//
+//		String accessToken = "EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD";
+//		postGroups postgroups = new postGroups(accessToken);
+//		
+//		postgroups.postar();
+//		
+		//		FacebookClient fbClient = new DefaultFacebookClient(accessToken);
 //		Connection<Group> result = fbClient.fetchConnection("me/groups",Group.class);
 //		Scanner s = new Scanner (System.in);
 //		for (List <Group> GroupPage : result) {
@@ -115,6 +119,6 @@ public class postGroups {
 //			}
 //		}
 //
-	}
+//	}
 
 }
