@@ -171,7 +171,7 @@ public class Interface {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				faceEditor fe = new faceEditor();
+				FaceEditor fe = new FaceEditor();
 				fe.open();
 				
 			}
