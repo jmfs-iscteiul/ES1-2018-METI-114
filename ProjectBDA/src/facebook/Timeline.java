@@ -52,7 +52,7 @@ public class Timeline {
 					System.out.println("Message: "+aPost.getMessage());
 					System.out.println("Created: "+aPost.getCreatedTime());
 					counter++;
-					standardInfoStruct sis = new standardInfoStruct(aPost.getCreatedTime().toString(), aPost.getName(), aPost.getMessage());
+					standardInfoStruct sis = new standardInfoStruct(aPost.getCreatedTime(), aPost.getName(), aPost.getMessage());
 					lista.add(sis);
 				}
 				counterTotal++;

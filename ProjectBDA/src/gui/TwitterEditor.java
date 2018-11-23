@@ -14,8 +14,6 @@ import javax.swing.WindowConstants;
 
 import twitter.TwitterApp;
 
-
-
 public class TwitterEditor {
 
 	private JFrame frame;
@@ -45,6 +43,7 @@ public class TwitterEditor {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				twitter.postTweet(tweet.getText());
+				tweet.setText("");
 				
 			}
 		});
@@ -62,6 +61,11 @@ public class TwitterEditor {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}	
+	
+//	public static void main(String[] args) {
+//		TwitterApp twitter = new TwitterApp();
+//		twitter.authenticateMyAccount();
+//	}
 
 
 

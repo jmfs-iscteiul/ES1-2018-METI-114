@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -138,19 +139,17 @@ public class Interface {
 		ArrayList<standardInfoStruct> tweetList = twitter.fetchTimeline();
 
 		List<MailInfoStruct> emailList = email.receberEmail();
+		
+		ArrayList<standardInfoStruct> all = new ArrayList<>(); 
+		all.addAll(faceList);
+		all.addAll(tweetList);
+		all.addAll(emailList);
+		Collections.sort(all);
 
 		DefaultListModel<standardInfoStruct> model = new DefaultListModel<>();
-
-		for(standardInfoStruct fInfo : faceList) 
-			model.addElement(fInfo);
-
-
-		for(standardInfoStruct tInfo : tweetList)
-			model.addElement(tInfo);
-
-		for(MailInfoStruct mInfo : emailList)
-			model.addElement(mInfo);
-
+		
+		for(standardInfoStruct val : all)
+			model.addElement(val);
 
 		return model;
 

@@ -1,6 +1,7 @@
 package mail;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import common.standardInfoStruct;
@@ -19,14 +20,14 @@ public class MailInfoStruct extends standardInfoStruct {
 	
 	private List<File> attachments = null;
 	
-	public MailInfoStruct(String date, String author, String text, String subject, String to, String cc) {
+	public MailInfoStruct(Date date, String author, String text, String subject, String to, String cc) {
 		super(date, author, text);
 		this.subject = subject;
 		this.to = to;
 		this.cc = cc;
 	}
 
-	public MailInfoStruct(String date, String author, String text, String subject, String to, String cc, List<File> attachments) {
+	public MailInfoStruct(Date date, String author, String text, String subject, String to, String cc, List<File> attachments) {
 		super(date, author, text);
 		this.to = to;
 		this.cc = cc;
@@ -51,6 +52,6 @@ public class MailInfoStruct extends standardInfoStruct {
 	
 	@Override
 		public String toString() {
-			return getDate() + '-' +  subject;
+			return getDate().toString() + '-' +  subject;
 		}
 }

@@ -81,7 +81,7 @@ public class TwitterApp {
             for (Status status : timelineStatuses) {
 				if (status.getUser().getName() != null) {
 					//System.out.println(counter + " -> "  + status.getCreatedAt() + " - " + "@" + status.getUser().getName() + ":" + status.getText());
-					mensagem = new standardInfoStruct(status.getCreatedAt().toString(), status.getUser().getScreenName(), status.getText());
+					mensagem = new standardInfoStruct(status.getCreatedAt(), status.getUser().getScreenName(), status.getText());
 					listaTweets.add(mensagem);
 				}
 				counter++;
