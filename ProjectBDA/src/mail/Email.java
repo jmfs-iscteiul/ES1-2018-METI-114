@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,10 +28,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 
+import org.apache.commons.io.IOUtils;
+
 import com.sun.mail.util.BASE64DecoderStream;
+import com.sun.mail.util.DecodingException;
 
 /**
  * Classe encarregue da funcionalidade de email. Contém um construtor que recebe as informações de email do utilizador e prepara a sessão de email.
@@ -158,13 +163,24 @@ public class Email {
 				System.out.println("--------" + message.getSubject() + "--------");
 
 				if(message.isMimeType("multipart/*")) {
-					emails.add(obterMensagemMultipart(message));
+//					emails.add(obterMensagemMultipart(message));
+
+					List<File> anexos = new ArrayList<>();
+					String texto = obterMensagemMultipartTeste((Multipart)message.getContent(), anexos);
+
+					if(anexos.size() == 0)
+						emails.add(new MailInfoStruct(message.getReceivedDate(), InternetAddress.toString(message.getFrom()), 
+								texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC))));
+					else
+						emails.add(new MailInfoStruct(message.getReceivedDate(), InternetAddress.toString(message.getFrom()), 
+								texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)), anexos));
+
 					//				} else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
 				} else if (message.isMimeType("text/*")) {
 					Object content = message.getContent();
 					System.out.println("Mensagem simples");
 					if(content != null)
-						emails.add(new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
+						emails.add(new MailInfoStruct(message.getReceivedDate(), InternetAddress.toString(message.getFrom()), 
 								message.getContent().toString(), message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC))));
 				} else {
 					System.out.println("Não pertencem a um dos tipos de email compativeis: " + message.getContentType());
@@ -180,8 +196,8 @@ public class Email {
 		return emails;
 	}
 
-	
-	private MailInfoStruct obterMensagemMultipart(Message message) throws MessagingException, IOException{
+
+/*	private MailInfoStruct obterMensagemMultipart(Message message) throws MessagingException, IOException{
 		// content may contain attachments
 		System.out.println("Contem anexos");
 		Multipart multiPart = (Multipart) message.getContent();
@@ -192,38 +208,71 @@ public class Email {
 
 		for (int partCount = 0; partCount < numberOfParts; partCount++) {
 			MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);
+			if(part.getContent() instanceof Multipart) {
+				System.out.println("Afinal há partes");
+			}
 			if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
 				// this part is attachment
 				String fileName = part.getFileName();
 				//				attachFiles += fileName + ", ";
-//				part.saveFile(diretoria + File.separator + fileName);
+				//				part.saveFile(diretoria + File.separator + fileName);
 				if(attachments == null)
 					attachments = new ArrayList<>();
+
 				attachments.add(new File(diretoria + File.separator + fileName));
 			} else if (part.getDisposition() == null) {
 				System.out.println("A disposição retornou null");
 				DataHandler data = part.getDataHandler();
 				InputStream stream = data.getInputStream();
-				texto += convertStreamToString(stream);
+				//				texto += convertStreamToString(stream);
+
+				try {
+					texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
+				} catch (DecodingException | NullPointerException e) {
+					System.err.println("Erro no decoding");
+				}
+
+
+
 				System.out.println("Fim da disposição null");
 			} else {
 				System.out.println("Parte do texto");
-				if(part.getContent() instanceof BASE64DecoderStream) { //Por resolver
-					BASE64DecoderStream stream = (BASE64DecoderStream)part.getContent();
-					int b = stream.read();
-					List<Integer> bytes = new ArrayList<>();
-					while(b != -1) {
-						bytes.add(b);
-						b = stream.read();
-					}
-					
-					
-					
-					texto += stream.toString();
-				} else {
-					System.out.println(part.getContent().toString());
-					texto += part.getContent().toString();
-				}
+				//				if(part.getContent() instanceof InputStream) { //Por resolver
+				//					BASE64DecoderStream stream = (BASE64DecoderStream)part.getContent();
+				//					int b = stream.read();
+				//					List<Integer> bytes = new ArrayList<>();
+				//					while(b != -1) {
+				//						bytes.add(b);
+				//						b = stream.read();
+				//					}
+				//					
+				//					
+				//					
+				//					texto += stream.toString();
+
+				//				InputStream stream = (InputStream) part.getContent();
+				//					//					byte[] encodeBase64 = Base64.getDecoder().decode(streambytes);
+				//					byte[] encodebase64 = IOUtils.toByteArray(stream);
+				//					System.out.println("Base 64:");
+				//					System.out.println(IOUtils.toString(stream, "UTF-8"));
+				//					try {
+				//						byte[] decoded = Base64.getDecoder().decode(encodebase64);
+				//						texto += IOUtils.toString(decoded, "UTF-8");
+				//					} catch(IllegalArgumentException e) {
+				//						System.err.println("Erro na base 64");
+				//					}
+
+				//					texto += MimeUtility.decode(stream, part.getEncoding());
+				//				try {
+				//					texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
+				//				}
+				//				catch (DecodingException e) {
+				//					System.err.println("Erro no decoding");
+				//				}
+				//				} else {
+				//					System.out.println(part.getContent().toString());
+				//					texto += part.getContent().toString();
+				//				}
 			}
 		}
 
@@ -233,6 +282,61 @@ public class Email {
 		else
 			return new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
 					texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)), attachments);
+	}*/
+
+	private String obterMensagemMultipartTeste (Multipart parteInicial, List<File> anexos) throws MessagingException, IOException {
+		String texto = "";
+		int numeroPartes = parteInicial.getCount();
+
+		for (int partCount = 0; partCount < numeroPartes; partCount++) {
+			MimeBodyPart part = (MimeBodyPart) parteInicial.getBodyPart(partCount);
+
+			if(part.getContent() instanceof Multipart) {
+				texto += obterMensagemMultipartTeste((Multipart)part.getContent(), anexos);
+			} else if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
+				String fileName = part.getFileName();
+				part.saveFile(diretoria + File.separator + fileName);
+				anexos.add(new File(diretoria + File.separator + fileName));
+			} else if (part.getDisposition() == null) {
+				System.out.println("A disposição retornou null");
+				DataHandler data = part.getDataHandler();
+				InputStream stream = data.getInputStream();
+				//				texto += convertStreamToString(stream);
+
+				try {
+					texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
+				} catch (DecodingException | NullPointerException e) {
+					System.err.println("Erro no decoding");
+				}
+
+				System.out.println("Teste: " + part.getContent().toString());
+
+				System.out.println("Fim da disposição null");
+			} else {
+				/*if(part.getContent() instanceof BASE64DecoderStream) {
+					BASE64DecoderStream stream = (BASE64DecoderStream) part.getContent();
+					try {
+//						texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
+						byte [] encoded = IOUtils.toByteArray(stream);
+						byte [] decoded = Base64.getMimeDecoder().decode(encoded);
+						System.out.println("Decoded Base 64:");
+						
+						String result = new String(decoded, "UTF-8");
+						System.out.println(result);
+						texto += result;
+					}
+					catch (DecodingException e) {
+						System.err.println("Erro no decoding");
+					}
+				} else {*/
+					System.out.println("Parte do texto");
+					System.out.println(part.getContent().toString());
+					texto += part.getContent().toString();
+//				}
+			}
+		}
+
+		return texto;
 	}
 
 	/**
