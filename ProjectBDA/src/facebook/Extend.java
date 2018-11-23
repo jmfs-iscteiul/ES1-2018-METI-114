@@ -7,14 +7,26 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.FacebookClient.AccessToken;
 
-public class Extend {
+
+/**
+	 * Esta classe tem como função, fornecendo um acesstoken do facebook, fornecer um access token com período de validade alargado.
+	 * 
+	 * @author rmcmc-iscteiul
+	 */
 	
+public class Extend {
 	private String accessToken = "";
 	FacebookClient fbClient4;
 	
 	public Extend () {
 		fbClient4 = new DefaultFacebookClient(accessToken);
 	}
+	
+	/**
+	 * Função que imprime o token com validade alargada no ficheiro txt.
+	 * 
+	 * @return devolve a String do token alargado.
+	 */
 	
 	public String getExtension () {
 		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("313621502554589","f2cc137fdfa12d9e959fec3e7be184e9");

@@ -11,6 +11,12 @@ import com.restfb.types.Post;
 
 import common.standardInfoStruct;
 
+/**
+ * Esta classe permite-nos ir buscar à timeline do utilizador posts que contenham palavras chave indicadas pelo utilizador.
+ * @author ricardo
+ *
+ */
+
 public class Timeline {
 
 	private String accessToken;
@@ -24,13 +30,19 @@ public class Timeline {
 		fbClient = new DefaultFacebookClient(accessToken);
 	}
 	
-	
+	/**
+	 * Altera o parâmetro filtro para o escolhido pelo utilizador.
+	 * @param filter String com o filtro escolhido pelo utilizador.
+	 */
 
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
 
-
+	/**
+	 * Esta função vai buscar os posts à timeline do utilizador, tendo em conta o filtro forneido pelo mesmo.
+	 * @return Devolve uma lista com os posts.
+	 */
 
 	public ArrayList <standardInfoStruct> getTimeline () {
 		ArrayList<standardInfoStruct> lista = new ArrayList<standardInfoStruct> ();

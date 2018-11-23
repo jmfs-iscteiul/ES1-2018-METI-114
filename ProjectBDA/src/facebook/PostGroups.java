@@ -18,6 +18,12 @@ import com.restfb.Parameter;
 import com.restfb.types.FacebookType;
 import com.restfb.types.Group;
 
+/**
+ * Esta classe como o nome indica permite ao utilizador publicar em grupos do facebook em que somos administradores.
+ * @author ricardo
+ *
+ */
+
 public class PostGroups {
 
 
@@ -34,7 +40,11 @@ public class PostGroups {
 		Grupo = new HashMap <String, String> ();
 	}
 
-
+/**
+ * Esta função fornecendo o grupo onde queremos partilhar e o texto que queremos partilhar, permit-nos fazer um post de texto nesse grupo.
+ * @param nomeGrupo String com nome do Grupo em que queremos publicar.
+ * @param message String com o post que queremos fazer.
+ */
 
 	public void postarTexto (String nomeGrupo, String message) {
 		String post = message;
@@ -43,7 +53,14 @@ public class PostGroups {
 
 	}
 
-
+/**
+ * Fornecendo os parâmetros indicados abaixo permite publicar no grupo uma foto e descrição para a mesma.
+ * 
+ * @param caminho String com caminho da imagem.
+ * @param nome String com nome da imagem.
+ * @param descricao String com o texto que queremos postar como descrição da imagem.
+ * @param nomeGrupo String com o nome do grupo onde queremos partilhar.
+ */
 	public void postarimagem (String caminho, String nome, String descricao, String nomeGrupo) {
 
 		String attachmentName = caminho;
