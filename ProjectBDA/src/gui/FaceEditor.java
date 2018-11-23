@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -39,8 +40,8 @@ public class FaceEditor {
 		post.setLineWrap(true);
 		post.setWrapStyleWord(true);
 		
-		JButton postar = new JButton("Send");
-		JButton archieve = new JButton("Add archive");
+		JButton postar = new JButton(new ImageIcon(getClass().getResource("/send.png")));
+		JButton archieve = new JButton(new ImageIcon(getClass().getResource("/file.png")));
 		
 		postGroups = new PostGroups("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
 		ArrayList<String> grupos = postGroups.getResult();
@@ -51,7 +52,6 @@ public class FaceEditor {
 		
 		JComboBox<String> groups = new JComboBox<>(vetorGrupos);
 		
-//		panel1.add(groups);
 		panel1.add(post);
 		
 		panel2.add(postar);

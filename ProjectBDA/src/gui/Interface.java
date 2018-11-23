@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -50,6 +53,9 @@ public class Interface {
 	private JFXPanel webPanel;
 	private WebView webView;
 	private JButton faceButton;
+	private JButton tweetButton;
+	private TwitterApp twitter;
+	private JCheckBox f, t, e;
 
 	public Interface(Email email) {
 
@@ -57,13 +63,17 @@ public class Interface {
 		frame.setLayout(new BorderLayout());
 
 		this.email = email;
+		twitter = new TwitterApp();
+		twitter.authenticateMyAccount();
 
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
+		JPanel panel3 = new JPanel();
 
 		panel1.setLayout(new GridLayout());
 		frame.add(panel1, BorderLayout.CENTER);
 		frame.add(panel2, BorderLayout.SOUTH);
+		frame.add(panel3, BorderLayout.NORTH);
 
 		allLists = new JList<>();
 		allLists.setCellRenderer(new IconListRenderer());
@@ -87,20 +97,30 @@ public class Interface {
 		Platform.setImplicitExit(false);
 
 		JScrollPane scrollPane1 = new JScrollPane(allLists);
+		scrollPane1.setHorizontalScrollBar(null);
+		scrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane2 = new JScrollPane(viewPost);
 
 		panel1.add(scrollPane1);
 		panel1.add(scrollPane2);
 
-		faceButton = new JButton("Post");
-		JButton tweetButton = new JButton("Tweet");
-		JButton sendEmail = new JButton("Email");
+		faceButton = new JButton("Postar");
+		tweetButton = new JButton("Tweetar");
+		JButton sendEmail = new JButton("Enviar email");
+
+		
+		stateIcons();
 
 		panel2.add(faceButton);
 		panel2.add(tweetButton);
 		panel2.add(sendEmail);
-		
+
+		panel3.add(f);
+		panel3.add(t);
+		panel3.add(e);
+
 		editPosts();
+		editTweets();
 
 		viewPost.setEditable(false);
 
@@ -114,9 +134,6 @@ public class Interface {
 
 		Timeline timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
 		ArrayList<standardInfoStruct> faceList = timelineList.getTimeline();
-
-		TwitterApp twitter = new TwitterApp();
-		twitter.authenticateMyAccount();
 
 		ArrayList<standardInfoStruct> tweetList = twitter.fetchTimeline();
 
@@ -176,6 +193,44 @@ public class Interface {
 				
 			}
 		});
+	}
+
+	private void editTweets() {
+		tweetButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				TwitterEditor te = new TwitterEditor(twitter);
+				te.open();
+				
+			}
+		});
+	}
+	
+	private void stateIcons() {
+		
+		f = new JCheckBox();
+		f.setSelected(true);
+
+		f.setIcon(new ImageIcon(getClass().getResource("/facebook-disabled.png")));
+		f.setSelectedIcon(new ImageIcon(getClass().getResource("/facebook-able.png")));
+		f.setDisabledIcon(new ImageIcon(getClass().getResource("/facebook-disabled.png")));
+		
+		t = new JCheckBox();
+		t.setSelected(true);
+
+		t.setIcon(new ImageIcon(getClass().getResource("/twitter-disabled.png")));
+		t.setSelectedIcon(new ImageIcon(getClass().getResource("/twitter-able.png")));
+		t.setDisabledIcon(new ImageIcon(getClass().getResource("/twitter-disabled.png")));
+		
+		e = new JCheckBox();
+		e.setSelected(true);
+
+		e.setIcon(new ImageIcon(getClass().getResource("/email-disabled.png")));
+		e.setSelectedIcon(new ImageIcon(getClass().getResource("/email-able.png")));
+		e.setDisabledIcon(new ImageIcon(getClass().getResource("/email-disabled.png")));
+		
 	}
 
 	public void open() {
