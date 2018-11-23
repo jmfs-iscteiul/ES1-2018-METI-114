@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -30,6 +31,7 @@ public class IconListRenderer extends JLabel implements ListCellRenderer<standar
 			int index, boolean isSelected, boolean cellHasFocus) {
 		
 		setText(value.toString());
+		setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		setOpaque(true);
 		if(isSelected) {
 			setBackground(Color.LIGHT_GRAY);
@@ -47,7 +49,7 @@ public class IconListRenderer extends JLabel implements ListCellRenderer<standar
 	
 	private void setIcons(standardInfoStruct value) {
 		if(value instanceof MailInfoStruct) {
-			setIcon(new ImageIcon(this.getClass().getResource("/letter-icon.png")));
+			setIcon(new ImageIcon(this.getClass().getResource("/email-icon.png")));
 		}
 		else if(value.getAuthor() == null) {
 			setIcon(new ImageIcon(this.getClass().getResource("/facebook-icon.png")));
