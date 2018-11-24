@@ -29,7 +29,8 @@ public class Timeline {
 		this.accessToken = accessToken;
 		fbClient = new DefaultFacebookClient(accessToken);
 	}
-	
+
+
 	/**
 	 * Altera o parâmetro filtro para o escolhido pelo utilizador.
 	 * @param filter String com o filtro escolhido pelo utilizador.
@@ -39,6 +40,14 @@ public class Timeline {
 		this.filter = filter;
 	}
 
+	/**
+	 * Função que devolve o valor da string filter
+	 * @return String filter
+	 */
+
+	public String getFilter() {
+		return filter;
+	}
 	/**
 	 * Esta função vai buscar os posts à timeline do utilizador, tendo em conta o filtro forneido pelo mesmo.
 	 * @return Devolve uma lista com os posts.
@@ -80,55 +89,4 @@ public class Timeline {
 	}
 
 
-
-@SuppressWarnings("deprecation")
-public static void main(String[] args) {
-	
-	
-	Timeline timeline = new Timeline ("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
-	timeline.setFilter(" ");
-	timeline.getTimeline();
-
-//	@SuppressWarnings("deprecation")
-//	Scanner s = new Scanner ("tokens.txt");
-//	//		if (s.nextLine().startsWith("Facebook")) {
-//	//			String linha = s.nextLine();
-//	//			String [] line = linha.split(" ");
-//	String accessToken = "";
-//	FacebookClient fbClient = new DefaultFacebookClient(accessToken);
-//
-//
-//	Connection<Group> result1 = fbClient.fetchConnection("me/groups",Group.class); //Lista de Grupos
-//
-//
-//
-//	int counter = 0;
-//	int counterTotal = 0;
-//
-//	//		for (List<Group> GroupPages : result1) {
-//	//			for(Group aGrupo : GroupPages) {
-//	Connection<Post> result = fbClient.fetchConnection("me/feed",Post.class);	
-//	//				Connection<Post> result = fbClient.fetchConnection(aGrupo.getId() + "/feed",Post.class); //Lista de Posts
-//	for (List<Post> page : result) {
-//		for (Post aPost : page) {
-//			// Filters only posts that contain the word "Inform"
-//			if (aPost.getMessage() != null && aPost.getMessage().contains("Jorge")) {
-//				System.out.println("\nPosts:");
-//				System.out.println("---- Post "+ counter + " ----");
-//				System.out.println("Id: "+"fb.com/"+aPost.getId());
-//				System.out.println("Message: "+aPost.getMessage());
-//				System.out.println("Created: "+aPost.getCreatedTime());
-//				counter++;
-//			}
-//			counterTotal++;
-//		}
-//		//				}
-//		//			}
-//
-//
-//	}
-//	//		}
-//
-//	//		System.out.println("-------------\nN� of Results: " + counter+"/"+counterTotal);		
-}
 }
