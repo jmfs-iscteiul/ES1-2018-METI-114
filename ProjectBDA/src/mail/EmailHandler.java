@@ -44,20 +44,20 @@ import tech.blueglacier.parser.CustomContentHandler;
 
 /**
  * Classe encarregue da funcionalidade de email. Contém um construtor que recebe as informações de email do utilizador e prepara a sessão de email.
- * Existem também 2 funções, uma para o envio de emails e outra para a receção destes. 
+ * Existem 2 funções principais, uma para o envio de emails e outra para a receção destes.
  * 
  * @author darsa-iscteiul
  *
  */
 public class EmailHandler {
 
-	private String hostEnvio = "smtp-mail.outlook.com";
-	private String hostRececao = "imap-mail.outlook.com";
-	private String user;
-	private String password;
+	private String hostEnvio = "smtp-mail.outlook.com";			//Servidor de envio de emails
+	private String hostRececao = "imap-mail.outlook.com";		//Servidor de receção de emails
+	private String user;										//email do user
+	private String password;									//Password do user
 
-	private Session mailSession;
-	private String diretoria;		//diretoria onde gravar anexos de email
+	private Session mailSession;								//Sessão de email
+	private String diretoria;									//diretoria onde gravar anexos de email
 
 	/**
 	 * Construtor da classe email. Recebe as informações e prepara a sessão para o envio e a receção de emails.
@@ -96,12 +96,6 @@ public class EmailHandler {
 		props.put("mail.imaps.host", hostRececao);
 		props.put("mail.imaps.port", "993");
 
-		System.setProperty("mail.mime.decodetext.strict", "false");
-		System.setProperty("mail.mime.base64.ignoreerrors", "true");
-		System.setProperty("mail.mime.charset", "UTF-8");
-		System.setProperty("mail.mime.decodefilename", "true");
-
-
 		//Criar Sessão de Email
 		mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			@Override
@@ -116,29 +110,31 @@ public class EmailHandler {
 	 * 
 	 * @param assunto Assunto do email
 	 * @param texto Corpo de texto do email
-	 * @param enderecos Endereços de destino do email
+	 * @param to Endereços de destino do email
+	 * @param cc Endereços cc do email
+	 * @param bcc Endereços bcc do email
 	 */
-	public void enviarEmail(String assunto, String texto, InternetAddress[] enderecos) {
+	public void enviarEmail(String assunto, String texto, InternetAddress[] to, InternetAddress [] cc, InternetAddress [] bcc) {
 
-		Message msg = new MimeMessage(mailSession);						//Mensagem a enviar
+		Message msg = new MimeMessage(mailSession);														//Mensagem a enviar
 
-		try {
-			msg.setFrom(new InternetAddress(user));						//Remetente
-			msg.setRecipients(Message.RecipientType.TO, enderecos);		//Destinos do email
-			msg.setSubject(assunto);									//Assunto do email
-			msg.setSentDate(new Date());								//Data de envio
-			msg.setText(texto);											//Texto a enviar
-
-			Transport transport = mailSession.getTransport();
-			transport.connect(hostEnvio, user, password);
-			transport.sendMessage(msg, msg.getAllRecipients());
-			transport.close();
-
-
+		try (Transport transport = mailSession.getTransport()){
+			msg.setFrom(new InternetAddress(user));														//Remetente
+			msg.setRecipients(Message.RecipientType.TO, to);											//Destinos do email
+			msg.setSubject(assunto);																	//Assunto do email
+			msg.setSentDate(new Date());																//Data de envio
+			msg.setText(texto);																			//Texto a enviar
+			
+			if(cc != null)	msg.setRecipients(Message.RecipientType.CC, cc); 							//Destinos cc do email
+			
+			if(bcc != null)	msg.setRecipients(Message.RecipientType.BCC, bcc);							//Destinos bcc do email
+			
+			transport.connect(hostEnvio, user, password);												//Conexão para envio de email
+			transport.sendMessage(msg, msg.getAllRecipients());											//Envio do email
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-
+		
 		System.out.println("Mensagem Enviada");
 	}
 
@@ -201,50 +197,49 @@ public class EmailHandler {
 
 	/**
 	 * Função que recebe email da caixa de correio do email do utilizador e filtra os mais recentes.
-	 * @return
+	 * 
+	 * @return	Lista de todos os emails recebidos que se apliquem ao filtro
 	 */
 	public List<MailInfoStruct> receberEmail() {
-		List<MailInfoStruct> emails = new ArrayList<>();
+		List<MailInfoStruct> emails = new ArrayList<>();													//Lista de emails recebidos
 
 		try (Store store = mailSession.getStore("imaps")){
 			System.out.println(user);
-			store.connect(hostRececao, user, password);
+			store.connect(hostRececao, user, password);														//Conectar ao endereço de email
 			System.out.println("Conectado");
 
-			Folder inbox = store.getFolder("inbox");													//Pasta do email em que os emails recebidos se encontram
+			Folder inbox = store.getFolder("inbox");														//Pasta do email em que os emails recebidos se encontram
 			inbox.open(Folder.READ_ONLY);
 
 			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.HOUR_OF_DAY, -24);															//Alterar para puder variar a data de filtro
+			cal.add(Calendar.HOUR_OF_DAY, -24);																//Alterar para aplicar filtros dependendo da escolha
 			Date oneDayAgo = cal.getTime();
 
-			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));		//Vai buscar emails consoante o filtro de tempo
+			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));			//Vai buscar emails consoante o filtro
 			System.out.println(messages.length);
 
 			/*******************************/
 			for(Message message : messages) {
 				ContentHandler contentHandler = new CustomContentHandler();
 
-				Builder builder = new MimeConfig.Builder().setMaxLineLen(-1).setMaxHeaderCount(-1);
+				Builder builder = new MimeConfig.Builder().setMaxLineLen(-1).setMaxHeaderCount(-1);			//Fazer setup ao Parser de email
 				MimeConfig mime4jParserConfig = builder.build();
 				BodyDescriptorBuilder bodyDescriptorBuilder = new DefaultBodyDescriptorBuilder();
 				MimeStreamParser mime4jParser = new MimeStreamParser(mime4jParserConfig, DecodeMonitor.SILENT, bodyDescriptorBuilder);
 				mime4jParser.setContentDecoding(true);
-				mime4jParser.setContentHandler(contentHandler);
+				mime4jParser.setContentHandler(contentHandler);												//Fazer setup ao Parser de email
 				
 				/*ByteArrayOutputStream out2 = new ByteArrayOutputStream();
 				message.writeTo(out2);
 				InputStream mailIn = new ByteArrayInputStream(out2.toByteArray());*/
 				
-				ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-				message.writeTo(out2);
-//				String temp = new String(out2.toByteArray(), Charset.forName("UTF-8"));
-//				InputStream mailIn = IOUtils.toInputStream(temp, Charset.forName("UTF-8"));
-				String temp = new String(out2.toByteArray(), Charset.forName("UTF-8"));
-				InputStream mailIn = IOUtils.toInputStream(temp, Charset.forName("UTF-8"));
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				message.writeTo(out);
+				String temp = new String(out.toByteArray(), Charset.forName("UTF-8"));
+				InputStream mailIn = IOUtils.toInputStream(temp, Charset.forName("UTF-8"));					//Obter InputStream para o email
 
 				try {
-					mime4jParser.parse(mailIn);
+					mime4jParser.parse(mailIn);																//Fazer parse ao email
 				} catch (EmptyStackException e) {
 					System.err.println("Erro no parse");
 				}
@@ -252,26 +247,26 @@ public class EmailHandler {
 				Email email = ((CustomContentHandler) contentHandler).getEmail();
 
 				Attachment at;
-				if(email.getHTMLEmailBody() != null) {
+				if(email.getHTMLEmailBody() != null) {														//Se o email for em HTML
 					at = email.getHTMLEmailBody();
 				} else {
-					at = email.getPlainTextEmailBody();
+					at = email.getPlainTextEmailBody();														//Se o email for plain text
 				}
 				
-				List<Attachment> attachments =  email.getAttachments();
-				List<File> anexos = new ArrayList<>();
-				String texto = IOUtils.toString(at.getIs(), Charset.forName("UTF-8"));
+				String texto = IOUtils.toString(at.getIs(), Charset.forName("UTF-8"));						//Corpo de texto do email
 				
-				for(Attachment attachment : attachments) {
-					System.out.println(attachment.toString());
+				List<Attachment> attachments =  email.getAttachments();										//Anexos do email
+				List<File> anexos = new ArrayList<>();														//Lista de anexos de email na classe File
+				
+				for(Attachment attachment : attachments) {													//Gravar anexos no computador e adiciona-los a lista de anexos
 					File anexo = new File(diretoria + File.separator + attachment.getAttachmentName());
 					FileUtils.copyInputStreamToFile(attachment.getIs(), anexo);
 					anexos.add(anexo);
 				}
 
-				if(anexos.size() > 0) {
+				if(anexos.size() > 0) {																		//Email com anexos
 					emails.add(new MailInfoStruct(message.getReceivedDate(), email.getFromEmailHeaderValue(), texto, email.getEmailSubject(), email.getToEmailHeaderValue(), email.getCCEmailHeaderValue(), anexos));
-				} else {
+				} else {																					//Email sem anexos
 					emails.add(new MailInfoStruct(message.getReceivedDate(), email.getFromEmailHeaderValue(), texto, email.getEmailSubject(), email.getToEmailHeaderValue(), email.getCCEmailHeaderValue()));
 				}
 				mime4jParser.stop();
@@ -343,26 +338,6 @@ public class EmailHandler {
 		}
 
 		return texto;
-	}*/
-
-	/**
-	 * Função que serve para converter uma lista de emails na classe Address para uma string
-	 * 
-	 * @param emails Lista de emails
-	 * @return String com todos os emails na lista de emails
-	 */
-	/*private String juntarEmails(Address[] emails) {
-		if(emails == null) {
-			System.out.println("Lista de emails era null");
-			return null;
-		}
-		if(emails.length == 0)
-			return "";
-		String f = emails[0].toString();
-		for(int i = 1; i <  emails.length - 1; i++) {
-			f += ", " + emails[i];
-		}
-		return f;
 	}*/
 	
 	/**
