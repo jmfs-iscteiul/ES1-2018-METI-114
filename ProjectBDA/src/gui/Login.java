@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.WindowConstants;
 
-import mail.Email;
+import mail.EmailHandler;
 
 public class Login {
 	
@@ -61,7 +61,7 @@ public class Login {
 				
 				if(itsAnEmail() == true) {
 					System.out.println("Acesso concedido");
-					Interface i = new Interface(new Email(getcboxText(), getPass()));
+					Interface i = new Interface(new EmailHandler(getcboxText(), getPass()));
 					i.open();
 				}
 			

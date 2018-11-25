@@ -29,7 +29,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
-import mail.Email;
+import mail.EmailHandler;
 import mail.MailInfoStruct;
 import twitter.TwitterApp;
 
@@ -49,7 +49,7 @@ public class Interface {
 	private JFrame frame;
 	private JList<standardInfoStruct> allLists;
 	private JTextArea viewPost;
-	private Email email;
+	private EmailHandler email;
 	private JScrollPane scrollPane2;
 	private JFXPanel webPanel;
 	private WebView webView;
@@ -58,7 +58,7 @@ public class Interface {
 	private TwitterApp twitter;
 	private JCheckBox f, t, e;
 
-	public Interface(Email email) {
+	public Interface(EmailHandler email) {
 
 		frame = new JFrame("Bom Dia Academia");
 		frame.setLayout(new BorderLayout());

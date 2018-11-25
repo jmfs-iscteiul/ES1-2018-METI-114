@@ -1,41 +1,47 @@
 package mail;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 
-import javax.activation.DataHandler;
-import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.james.mime4j.MimeException;
+import org.apache.james.mime4j.codec.DecodeMonitor;
+import org.apache.james.mime4j.message.DefaultBodyDescriptorBuilder;
+import org.apache.james.mime4j.parser.ContentHandler;
+import org.apache.james.mime4j.parser.MimeStreamParser;
+import org.apache.james.mime4j.stream.BodyDescriptorBuilder;
+import org.apache.james.mime4j.stream.MimeConfig;
+import org.apache.james.mime4j.stream.MimeConfig.Builder;
 
-import com.sun.mail.util.BASE64DecoderStream;
-import com.sun.mail.util.DecodingException;
+import tech.blueglacier.email.Attachment;
+import tech.blueglacier.email.Email;
+import tech.blueglacier.parser.CustomContentHandler;
 
 /**
  * Classe encarregue da funcionalidade de email. Contém um construtor que recebe as informações de email do utilizador e prepara a sessão de email.
@@ -44,15 +50,15 @@ import com.sun.mail.util.DecodingException;
  * @author darsa-iscteiul
  *
  */
-public class Email {
+public class EmailHandler {
 
-	private String hostEnvio;
-	private String hostRececao;
+	private String hostEnvio = "smtp-mail.outlook.com";
+	private String hostRececao = "imap-mail.outlook.com";
 	private String user;
 	private String password;
 
 	private Session mailSession;
-	private static String diretoria;		//diretoria onde gravar anexos de email
+	private String diretoria;		//diretoria onde gravar anexos de email
 
 	/**
 	 * Construtor da classe email. Recebe as informações e prepara a sessão para o envio e a receção de emails.
@@ -60,15 +66,12 @@ public class Email {
 	 * @param user Email do utilizador
 	 * @param password Password do utilizador
 	 */
-	public Email(String user, String password) {
-		//		Login l = new Login();
-		this.hostEnvio = "smtp-mail.outlook.com";
-		this.hostRececao = "imap-mail.outlook.com";
+	public EmailHandler(String user, String password) {
 		this.user = user;
 		this.password = password; 
 
 		try {
-			String temp = Email.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+			String temp = EmailHandler.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 			temp = URLDecoder.decode(temp, "UTF-8");
 			diretoria = temp.substring(1,temp.lastIndexOf("/") );
 			diretoria += File.separator + "temp";
@@ -93,6 +96,12 @@ public class Email {
 		props.put("mail.store.protocol", "imaps");
 		props.put("mail.imaps.host", hostRececao);
 		props.put("mail.imaps.port", "993");
+
+		System.setProperty("mail.mime.decodetext.strict", "false");
+		System.setProperty("mail.mime.base64.ignoreerrors", "true");
+		System.setProperty("mail.mime.charset", "UTF-8");
+		System.setProperty("mail.mime.decodefilename", "true");
+
 
 		//Criar Sessão de Email
 		mailSession = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
@@ -140,7 +149,7 @@ public class Email {
 	 * 
 	 * @return Lista de emails recebidos pelo Utilizador em formato MailInfoStruct
 	 */
-	public List<MailInfoStruct> receberEmail() {
+	/*public List<MailInfoStruct> receberEmail() {
 		List<MailInfoStruct> emails = new ArrayList<>();
 
 		try (Store store = mailSession.getStore("imaps")){
@@ -194,10 +203,100 @@ public class Email {
 		}
 
 		return emails;
+	}*/
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<MailInfoStruct> receberEmail() {
+		List<MailInfoStruct> emails = new ArrayList<>();
+
+		try (Store store = mailSession.getStore("imaps")){
+			System.out.println(user);
+			store.connect(hostRececao, user, password);
+			System.out.println("Conectado");
+
+			Folder inbox = store.getFolder("inbox");													//Pasta do email em que os emails recebidos se encontram
+			inbox.open(Folder.READ_ONLY);
+
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -24);															//Alterar para puder variar a data de filtro
+			Date oneDayAgo = cal.getTime();
+
+			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));		//Vai buscar emails consoante o filtro de tempo
+			System.out.println(messages.length);
+
+			/*******************************/
+			for(Message message : messages) {
+				ContentHandler contentHandler = new CustomContentHandler();
+
+				Builder builder = new MimeConfig.Builder().setMaxLineLen(-1).setMaxHeaderCount(-1);
+				MimeConfig mime4jParserConfig = builder.build();
+				BodyDescriptorBuilder bodyDescriptorBuilder = new DefaultBodyDescriptorBuilder();
+				MimeStreamParser mime4jParser = new MimeStreamParser(mime4jParserConfig, DecodeMonitor.SILENT, bodyDescriptorBuilder);
+				mime4jParser.setContentDecoding(true);
+				mime4jParser.setContentHandler(contentHandler);
+				
+				/*ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+				message.writeTo(out2);
+				InputStream mailIn = new ByteArrayInputStream(out2.toByteArray());*/
+				
+				ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+				message.writeTo(out2);
+//				String temp = new String(out2.toByteArray(), Charset.forName("UTF-8"));
+//				InputStream mailIn = IOUtils.toInputStream(temp, Charset.forName("UTF-8"));
+				String temp = new String(out2.toByteArray(), Charset.forName("UTF-8"));
+				InputStream mailIn = IOUtils.toInputStream(temp, Charset.forName("UTF-8"));
+
+				try {
+					mime4jParser.parse(mailIn);
+				} catch (EmptyStackException e) {
+					System.err.println("Erro no parse");
+				}
+
+				Email email = ((CustomContentHandler) contentHandler).getEmail();
+
+				Attachment at;
+				if(email.getHTMLEmailBody() != null) {
+					at = email.getHTMLEmailBody();
+				} else {
+					at = email.getPlainTextEmailBody();
+				}
+				
+				List<Attachment> attachments =  email.getAttachments();
+				List<File> anexos = new ArrayList<>();
+				String texto = IOUtils.toString(at.getIs(), Charset.forName("UTF-8"));
+				
+				for(Attachment attachment : attachments) {
+					System.out.println(attachment.toString());
+					File anexo = new File(diretoria + File.separator + attachment.getAttachmentName());
+					FileUtils.copyInputStreamToFile(attachment.getIs(), anexo);
+					anexos.add(anexo);
+				}
+
+				if(anexos.size() > 0) {  //Falta esta condição incluir anexos
+					emails.add(new MailInfoStruct(message.getReceivedDate(), email.getFromEmailHeaderValue(), texto, email.getEmailSubject(), email.getToEmailHeaderValue(), email.getCCEmailHeaderValue(), anexos));
+				} else {
+					emails.add(new MailInfoStruct(message.getReceivedDate(), email.getFromEmailHeaderValue(), texto, email.getEmailSubject(), email.getToEmailHeaderValue(), email.getCCEmailHeaderValue()));
+				}
+				mime4jParser.stop();
+			}
+			/******************************/
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (MimeException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return emails;
 	}
 
 
-/*	private MailInfoStruct obterMensagemMultipart(Message message) throws MessagingException, IOException{
+	/*	private MailInfoStruct obterMensagemMultipart(Message message) throws MessagingException, IOException{
 		// content may contain attachments
 		System.out.println("Contem anexos");
 		Multipart multiPart = (Multipart) message.getContent();
@@ -284,7 +383,7 @@ public class Email {
 					texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)), attachments);
 	}*/
 
-	private String obterMensagemMultipartTeste (Multipart parteInicial, List<File> anexos) throws MessagingException, IOException {
+	/*private String obterMensagemMultipartTeste (Multipart parteInicial, List<File> anexos) throws MessagingException, IOException {
 		String texto = "";
 		int numeroPartes = parteInicial.getCount();
 
@@ -295,7 +394,7 @@ public class Email {
 				texto += obterMensagemMultipartTeste((Multipart)part.getContent(), anexos);
 			} else if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
 				String fileName = part.getFileName();
-//				part.saveFile(diretoria + File.separator + fileName);
+				//				part.saveFile(diretoria + File.separator + fileName);
 				anexos.add(new File(diretoria + File.separator + fileName));
 			} else if (part.getDisposition() == null) {
 				System.out.println("A disposição retornou null");
@@ -313,14 +412,14 @@ public class Email {
 
 				System.out.println("Fim da disposição null");
 			} else {
-				/*if(part.getContent() instanceof BASE64DecoderStream) {
+				if(part.getContent() instanceof BASE64DecoderStream) {
 					BASE64DecoderStream stream = (BASE64DecoderStream) part.getContent();
 					try {
-//						texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
+						//						texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
 						byte [] encoded = IOUtils.toByteArray(stream);
 						byte [] decoded = Base64.getMimeDecoder().decode(encoded);
 						System.out.println("Decoded Base 64:");
-						
+
 						String result = new String(decoded, "UTF-8");
 						System.out.println(result);
 						texto += result;
@@ -328,32 +427,16 @@ public class Email {
 					catch (DecodingException e) {
 						System.err.println("Erro no decoding");
 					}
-				} else {*/
+				} else {
 					System.out.println("Parte do texto");
 					System.out.println(part.getContent().toString());
 					texto += part.getContent().toString();
-//				}
+				}
 			}
 		}
 
 		return texto;
-	}
-
-	/**
-	 * Função que serve para converter uma InputStream recebida por email para uma String com o texto recebido
-	 * 
-	 * @param stream InputStream a converter
-	 * @return String que resulta da conversão da InputStream
-	 */
-	private String convertStreamToString(InputStream stream) {
-		Scanner s = new Scanner(stream, "UTF-8");
-		s.useDelimiter("\\A");
-		try {
-			return s.hasNext() ? s.next() : "";
-		} finally {
-			s.close();
-		}
-	}
+	}*/
 
 	/**
 	 * Função que serve para converter uma lista de emails na classe Address para uma string
@@ -361,7 +444,7 @@ public class Email {
 	 * @param emails Lista de emails
 	 * @return String com todos os emails na lista de emails
 	 */
-	private String juntarEmails(Address[] emails) {
+	/*private String juntarEmails(Address[] emails) {
 		if(emails == null) {
 			System.out.println("Lista de emails era null");
 			return null;
@@ -373,6 +456,21 @@ public class Email {
 			f += ", " + emails[i];
 		}
 		return f;
+	}*/
+	
+	public String getDiretoria() {
+		return diretoria;
 	}
-
+	
+	public String getHostEnvio() {
+		return hostEnvio;
+	}
+	
+	public String getHostRececao() {
+		return hostRececao;
+	}
+	
+	public String getUser() {
+		return user;
+	}
 }
