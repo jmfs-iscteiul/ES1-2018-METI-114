@@ -1,6 +1,7 @@
 package jUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,13 +21,7 @@ public class EmailHandlerTest {
 	}
 
 	@Test
-	public void testEnviarEmail() {
-		fail("Not yet implemented");
+	public void testGetDiretoria() {
+		assertNotNull(email.getDiretoria());
 	}
-
-	@Test
-	public void testReceberEmail() {
-		fail("Not yet implemented");
-	}
-
 }

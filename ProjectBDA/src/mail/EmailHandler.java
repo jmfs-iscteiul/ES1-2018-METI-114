@@ -269,7 +269,7 @@ public class EmailHandler {
 					anexos.add(anexo);
 				}
 
-				if(anexos.size() > 0) {  //Falta esta condição incluir anexos
+				if(anexos.size() > 0) {
 					emails.add(new MailInfoStruct(message.getReceivedDate(), email.getFromEmailHeaderValue(), texto, email.getEmailSubject(), email.getToEmailHeaderValue(), email.getCCEmailHeaderValue(), anexos));
 				} else {
 					emails.add(new MailInfoStruct(message.getReceivedDate(), email.getFromEmailHeaderValue(), texto, email.getEmailSubject(), email.getToEmailHeaderValue(), email.getCCEmailHeaderValue()));
