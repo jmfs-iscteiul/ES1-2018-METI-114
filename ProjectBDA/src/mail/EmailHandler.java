@@ -1,6 +1,5 @@
 package mail;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -144,11 +143,6 @@ public class EmailHandler {
 	}
 
 
-	/**
-	 * Função que recebe email da caixa de correio do email do utilizador e filtra os mais recentes.
-	 * 
-	 * @return Lista de emails recebidos pelo Utilizador em formato MailInfoStruct
-	 */
 	/*public List<MailInfoStruct> receberEmail() {
 		List<MailInfoStruct> emails = new ArrayList<>();
 
@@ -206,7 +200,7 @@ public class EmailHandler {
 	}*/
 
 	/**
-	 * 
+	 * Função que recebe email da caixa de correio do email do utilizador e filtra os mais recentes.
 	 * @return
 	 */
 	public List<MailInfoStruct> receberEmail() {
@@ -294,94 +288,7 @@ public class EmailHandler {
 
 		return emails;
 	}
-
-
-	/*	private MailInfoStruct obterMensagemMultipart(Message message) throws MessagingException, IOException{
-		// content may contain attachments
-		System.out.println("Contem anexos");
-		Multipart multiPart = (Multipart) message.getContent();
-		int numberOfParts = multiPart.getCount();
-
-		List<File> attachments = null;
-		String texto = "";
-
-		for (int partCount = 0; partCount < numberOfParts; partCount++) {
-			MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);
-			if(part.getContent() instanceof Multipart) {
-				System.out.println("Afinal há partes");
-			}
-			if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
-				// this part is attachment
-				String fileName = part.getFileName();
-				//				attachFiles += fileName + ", ";
-				//				part.saveFile(diretoria + File.separator + fileName);
-				if(attachments == null)
-					attachments = new ArrayList<>();
-
-				attachments.add(new File(diretoria + File.separator + fileName));
-			} else if (part.getDisposition() == null) {
-				System.out.println("A disposição retornou null");
-				DataHandler data = part.getDataHandler();
-				InputStream stream = data.getInputStream();
-				//				texto += convertStreamToString(stream);
-
-				try {
-					texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
-				} catch (DecodingException | NullPointerException e) {
-					System.err.println("Erro no decoding");
-				}
-
-
-
-				System.out.println("Fim da disposição null");
-			} else {
-				System.out.println("Parte do texto");
-				//				if(part.getContent() instanceof InputStream) { //Por resolver
-				//					BASE64DecoderStream stream = (BASE64DecoderStream)part.getContent();
-				//					int b = stream.read();
-				//					List<Integer> bytes = new ArrayList<>();
-				//					while(b != -1) {
-				//						bytes.add(b);
-				//						b = stream.read();
-				//					}
-				//					
-				//					
-				//					
-				//					texto += stream.toString();
-
-				//				InputStream stream = (InputStream) part.getContent();
-				//					//					byte[] encodeBase64 = Base64.getDecoder().decode(streambytes);
-				//					byte[] encodebase64 = IOUtils.toByteArray(stream);
-				//					System.out.println("Base 64:");
-				//					System.out.println(IOUtils.toString(stream, "UTF-8"));
-				//					try {
-				//						byte[] decoded = Base64.getDecoder().decode(encodebase64);
-				//						texto += IOUtils.toString(decoded, "UTF-8");
-				//					} catch(IllegalArgumentException e) {
-				//						System.err.println("Erro na base 64");
-				//					}
-
-				//					texto += MimeUtility.decode(stream, part.getEncoding());
-				//				try {
-				//					texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
-				//				}
-				//				catch (DecodingException e) {
-				//					System.err.println("Erro no decoding");
-				//				}
-				//				} else {
-				//					System.out.println(part.getContent().toString());
-				//					texto += part.getContent().toString();
-				//				}
-			}
-		}
-
-		if(attachments == null)
-			return new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
-					texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)));
-		else
-			return new MailInfoStruct(message.getReceivedDate().toString(), InternetAddress.toString(message.getFrom()), 
-					texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)), attachments);
-	}*/
+	
 
 	/*private String obterMensagemMultipartTeste (Multipart parteInicial, List<File> anexos) throws MessagingException, IOException {
 		String texto = "";
@@ -458,18 +365,40 @@ public class EmailHandler {
 		return f;
 	}*/
 	
+	/**
+	 * Devolve a string que contém a diretoria a gravar os emails.
+	 * 
+	 * @return Diretoria a gravar os emails.
+	 */
 	public String getDiretoria() {
 		return diretoria;
 	}
 	
+	/**
+	 * Devolve o servidor utilizado para enviar os emails.
+	 * 
+	 * @return Servidor usado para envio.
+	 */
 	public String getHostEnvio() {
 		return hostEnvio;
 	}
 	
+	
+	/**
+	 * Devolve o servidor utilizado para receber os emails.
+	 * 
+	 * @return Servidor usado para receção.
+	 */
 	public String getHostRececao() {
 		return hostRececao;
 	}
 	
+	
+	/**
+	 * Devolve o email do utilizador
+	 * 
+	 * @return Email do utilizador
+	 */
 	public String getUser() {
 		return user;
 	}
