@@ -14,6 +14,11 @@ import javax.swing.WindowConstants;
 
 import twitter.TwitterApp;
 
+/**
+ * Classe que permite a criação de uma janela para envio de tweets para a plataforma twitter online
+ * @author jose_santos
+ */
+
 public class TwitterEditor {
 
 	private JFrame frame;
@@ -36,6 +41,11 @@ public class TwitterEditor {
 		panel1.add(tweet);
 
 		panel2.add(tweetar);
+		
+		/**
+		 * O ActionListener do botão tweetar tem como objetivo saber o que está escrito na JTextArea
+		 * tweet e enviar essa informação para a plataforma twitter online
+		 */
 		
 		tweetar.addActionListener(new ActionListener() {
 			

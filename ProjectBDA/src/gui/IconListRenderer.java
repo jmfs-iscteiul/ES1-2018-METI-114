@@ -25,6 +25,9 @@ public class IconListRenderer extends JLabel implements ListCellRenderer<standar
 	 */
 	private static final long serialVersionUID = 1L;
 	
+/**
+ * Esta classe tem como objetivo adaptarmos os icons no incio de cada elemento da lista
+ */
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends standardInfoStruct> list, standardInfoStruct value,
@@ -46,6 +49,12 @@ public class IconListRenderer extends JLabel implements ListCellRenderer<standar
 		setFont(list.getFont());
 		return this;
 	}
+	
+	/**
+	 * Função que define quais os icons que correspondem a cada classe (facebook, twitter ou email)
+	 * pela estrutura da mensagem
+	 * @param value
+	 */
 	
 	private void setIcons(standardInfoStruct value) {
 		if(value instanceof MailInfoStruct) {

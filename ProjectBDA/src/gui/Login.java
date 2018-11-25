@@ -24,6 +24,10 @@ public class Login {
 	private JPasswordField pass;
 	private JButton lButton;
 	
+/**
+ * O Login permite, por equanto, que haja a autenticação do mail antes de entrarmos na aplicação.
+ */
+	
 	public Login() {
 		
 		frame = new JFrame("Authentication");
@@ -53,6 +57,11 @@ public class Login {
 		
 		lButton = new JButton("Login");
 		panel2.add(lButton);
+		
+/**
+ * O ActionListener do lbutton permite que a janela da interface seja aberta a partir do momento
+ * em que o mail está correto
+ */
 	
 		lButton.addActionListener(new ActionListener() {
 			
@@ -60,7 +69,6 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(itsAnEmail() == true) {
-					System.out.println("Acesso concedido");
 					Interface i = new Interface(new Email(getcboxText(), getPass()));
 					i.open();
 				}
@@ -73,6 +81,12 @@ public class Login {
 		
 	}
 	
+/**
+ * Esta função tem como objetivo garantir que o que está inserido na JComboBox é um mail contento
+ * um @ e com ou @ e pt
+ * @return boolean que verifica se é um mail ou não
+ */
+	
 	private boolean itsAnEmail() {
 		
 		String email = cbox.getSelectedItem().toString();
@@ -84,11 +98,20 @@ public class Login {
 		System.out.println("Email não válido");
 		return false;
 	}
+
+/**
+ * 
+ * @return o conteudo da combo box
+ */
 	
 	public String getcboxText() {
 		return cbox.getSelectedItem().toString();
 	}
 
+/**
+ * 
+ * @return a passe que está inserida
+ */
 
 	public String getPass() {
 		
