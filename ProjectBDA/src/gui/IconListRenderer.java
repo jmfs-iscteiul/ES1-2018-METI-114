@@ -2,14 +2,8 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
