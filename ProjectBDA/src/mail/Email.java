@@ -294,7 +294,8 @@ public class Email {
 			if(part.getContent() instanceof Multipart) {
 				texto += obterMensagemMultipartTeste((Multipart)part.getContent(), anexos);
 			} else if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
-				String fileName = part.getFileName();
+//				String fileName = part.getFileName();
+				String fileName = MimeUtility.decodeText(part.getFileName());
 //				part.saveFile(diretoria + File.separator + fileName);
 				anexos.add(new File(diretoria + File.separator + fileName));
 			} else if (part.getDisposition() == null) {

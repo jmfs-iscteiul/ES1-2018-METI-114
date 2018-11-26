@@ -29,6 +29,7 @@ public class MailInfoStruct extends standardInfoStruct {
 
 	public MailInfoStruct(Date date, String author, String text, String subject, String to, String cc, List<File> attachments) {
 		super(date, author, text);
+		this.subject = subject;
 		this.to = to;
 		this.cc = cc;
 		this.attachments = attachments;
@@ -52,6 +53,6 @@ public class MailInfoStruct extends standardInfoStruct {
 	
 	@Override
 		public String toString() {
-			return getDate().toString() + '-' +  subject;
+			return getDate().toString() + " - " +  subject;
 		}
 }

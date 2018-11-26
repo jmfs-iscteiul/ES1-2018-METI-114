@@ -8,9 +8,11 @@
 	<name>Bom Dia Academia</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<mainClass>gui/Login.java</mainClass>
 	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -20,9 +22,13 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.1</version>
+			</plugin>
 		</plugins>
 	</build>
-
 	<dependencies>
 		<dependency>
 			<groupId>javax.activation</groupId>
@@ -63,6 +69,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>tech.blueglacier</groupId>
+			<artifactId>email-mime-parser</artifactId>
+			<version>1.0.3</version>
 		</dependency>
 
 		<dependency>

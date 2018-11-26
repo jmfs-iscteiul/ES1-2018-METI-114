@@ -4,9 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.WindowConstants;
 
-import mail.Email;
+import mail.EmailHandler;
 
 public class Login {
 	
@@ -23,6 +21,10 @@ public class Login {
 	private JComboBox<String> cbox;
 	private JPasswordField pass;
 	private JButton lButton;
+	
+/**
+ * O Login permite, por equanto, que haja a autenticação do mail antes de entrarmos na aplicação.
+ */
 	
 	public Login() {
 		
@@ -53,6 +55,11 @@ public class Login {
 		
 		lButton = new JButton("Login");
 		panel2.add(lButton);
+		
+/**
+ * O ActionListener do lbutton permite que a janela da interface seja aberta a partir do momento
+ * em que o mail está correto
+ */
 	
 		lButton.addActionListener(new ActionListener() {
 			
@@ -61,7 +68,7 @@ public class Login {
 				
 				if(itsAnEmail() == true) {
 					System.out.println("Acesso concedido");
-					Interface i = new Interface(new Email(getcboxText(), getPass()));
+					Interface i = new Interface(new EmailHandler(getcboxText(), getPass()));
 					i.open();
 				}
 			
@@ -72,6 +79,12 @@ public class Login {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
 	}
+	
+/**
+ * Esta função tem como objetivo garantir que o que está inserido na JComboBox é um mail contento
+ * um @ e com ou @ e pt
+ * @return boolean que verifica se é um mail ou não
+ */
 	
 	private boolean itsAnEmail() {
 		
@@ -84,11 +97,20 @@ public class Login {
 		System.out.println("Email não válido");
 		return false;
 	}
+
+/**
+ * 
+ * @return o conteudo da combo box
+ */
 	
 	public String getcboxText() {
 		return cbox.getSelectedItem().toString();
 	}
 
+/**
+ * 
+ * @return a passe que está inserida
+ */
 
 	public String getPass() {
 		

@@ -18,6 +18,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import facebook.PostGroups;
 
+/**
+ * Classe que permite a criação de uma janela para envio de posts com e sem images para a 
+ * plataforma facebook online
+ * @author jose_santos
+ */
+
 public class FaceEditor {
 	
 	private JFrame frame;
@@ -57,6 +63,11 @@ public class FaceEditor {
 		panel2.add(postar);
 		panel2.add(archieve);
 		
+		/**
+		 * O ActionListener do botão postar tem como objetivo saber o que está escrito na JTextArea
+		 * post e enviar essa informação para a plataforma facebook online
+		 */
+		
 		postar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -73,6 +84,13 @@ public class FaceEditor {
 				}
 			}
 		});
+		
+		
+		/**
+		 * ActionListener que permite que a ação do botão archive seja a abertura de um diretório
+		 * default do computador para a escolha de imagens. Qualquer ficheiro que não seja jpg, gif
+		 * ou png não será aceite 
+		 */
 		
 		archieve.addActionListener(new ActionListener() {
 			
@@ -116,9 +134,9 @@ public class FaceEditor {
 		frame.setLocationRelativeTo(null);
 	}	
 	
-	public static void main(String[] args) {
-		FaceEditor fe = new FaceEditor();
-		fe.open();
-	}
+//	public static void main(String[] args) {
+//		FaceEditor fe = new FaceEditor();
+//		fe.open();
+//	}
 
 }
