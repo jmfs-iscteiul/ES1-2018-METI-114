@@ -54,25 +54,24 @@ public class TwitterApp {
 		}
 	}
 	
-	public void authenticateIscteAccount(){
-		
-		try {
-        	ConfigurationBuilder cb = new ConfigurationBuilder();
-        	cb.setDebugEnabled(true)
-        	  .setOAuthConsumerKey("W1f0VvgWPfT8OBqVxvy4Mw")
-        	  .setOAuthConsumerSecret("zKH2yAtRyefwsgOO8h8Szc4kru68iEm95QmIG7svw")
-        	  .setOAuthAccessToken("36481851-VhzByC4f9MSsZES1QZQ4e4iBvA9bWGLyv9HKFpy7c")
-        	  .setOAuthAccessTokenSecret("OahDuXF2Lhl5xlNYALhYZir6xSflAxKP9Zh89T05po");
-        	TwitterFactory tf = new TwitterFactory(cb.build());
-        	twitter = tf.getInstance();
-        	
-		}catch (Exception e) { 
-			System.out.println(e.getMessage()); 
-		}
-	}
+//	public void authenticateIscteAccount(){
+//		
+//		try {
+//        	ConfigurationBuilder cb = new ConfigurationBuilder();
+//        	cb.setDebugEnabled(true)
+//        	  .setOAuthConsumerKey("W1f0VvgWPfT8OBqVxvy4Mw")
+//        	  .setOAuthConsumerSecret("zKH2yAtRyefwsgOO8h8Szc4kru68iEm95QmIG7svw")
+//        	  .setOAuthAccessToken("36481851-VhzByC4f9MSsZES1QZQ4e4iBvA9bWGLyv9HKFpy7c")
+//        	  .setOAuthAccessTokenSecret("OahDuXF2Lhl5xlNYALhYZir6xSflAxKP9Zh89T05po");
+//        	TwitterFactory tf = new TwitterFactory(cb.build());
+//        	twitter = tf.getInstance();
+//        	
+//		}catch (Exception e) { 
+//			System.out.println(e.getMessage()); 
+//		}
+//	}
 	
-	public ArrayList<standardInfoStruct> fetchTimeline(){  //METER NA ESTRUTURA DA MENSAGEM
-		        		
+	public ArrayList<standardInfoStruct> fetchTimeline(){  //METER NA ESTRUTURA DA MENSAGEM  		
 		try{
 			timelineStatuses = twitter.getHomeTimeline();
 			listaTweets = new ArrayList<standardInfoStruct>();
@@ -94,70 +93,65 @@ public class TwitterApp {
 	}
 	
 	public void postTweet(String tweet){
-		
 		try{
-			
 			Status status = twitter.updateStatus(tweet);
 			System.out.println(status.getText());			
-			
 		}catch(TwitterException e){
 			System.out.println("Catch de publicar Tweet: Falhou");
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	public void retweetPost(long statusID){
-		
-		try {
-			twitter.retweetStatus(statusID);
-		} catch (TwitterException e) {
-			System.out.println("Falhou no Retweet");
-			e.getMessage();
-		}
-	}
+//	public void retweetPost(long statusID){
+//		
+//		try {
+//			twitter.retweetStatus(statusID);
+//		} catch (TwitterException e) {
+//			System.out.println("Falhou no Retweet");
+//			e.getMessage();
+//		}
+//	}
 	
-	public Status getChooseRetweet(){
-		Status primeiroTweet = timelineStatuses.get(13);
-		return primeiroTweet;
-	}
+//	public Status getChooseRetweet(){
+//		Status primeiroTweet = timelineStatuses.get(13);
+//		return primeiroTweet;
+//	}
 	
-	public void searchHashtag(String hashtag){ // Procura uma hashtag mas so mostra uns poucos resultados
-		
-		try{
-			Query query = new Query(hashtag);
-			QueryResult result = twitter.search(query);
-			int counter = 0;
-			for(Status status : result.getTweets()){
-				counter++;
-				System.out.println(counter + "-> "+ "@" + status.getUser().getScreenName() + ": " + status.getText() + " : " + status.getGeoLocation());
-				System.out.println("-----------------------------------------------------------------------");
-			}
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+//	public void searchHashtag(String hashtag){ // Procura uma hashtag mas so mostra uns poucos resultados
+//		
+//		try{
+//			Query query = new Query(hashtag);
+//			QueryResult result = twitter.search(query);
+//			int counter = 0;
+//			for(Status status : result.getTweets()){
+//				counter++;
+//				System.out.println(counter + "-> "+ "@" + status.getUser().getScreenName() + ": " + status.getText() + " : " + status.getGeoLocation());
+//				System.out.println("-----------------------------------------------------------------------");
+//			}
+//		}catch(Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//	}
 	
-	public void searchPerson(String person){
-		
-		try{
-			Query query = new Query(person);
-			ResponseList<User> result = twitter.searchUsers(query.toString(), -1);
-			int counter = 0;
-			System.out.println("estou aqui");
-			for(User user : result){
-				System.out.println("entrei");
-				if(user.getName() != null){
-					System.out.println("aqui depois");
-					counter++;
-					System.out.println(counter + "-> " + user.getName() );
-					System.out.println("----------------------------------");	
-				}
-			}	
-		}catch(TwitterException e){
-			System.out.println(e.getMessage());
-		}
-		
-		
-	}
+//	public void searchPerson(String person){
+//		
+//		try{
+//			Query query = new Query(person);
+//			ResponseList<User> result = twitter.searchUsers(query.toString(), -1);
+//			int counter = 0;
+//			System.out.println("estou aqui");
+//			for(User user : result){
+//				System.out.println("entrei");
+//				if(user.getName() != null){
+//					System.out.println("aqui depois");
+//					counter++;
+//					System.out.println(counter + "-> " + user.getName() );
+//					System.out.println("----------------------------------");	
+//				}
+//			}	
+//		}catch(TwitterException e){
+//			System.out.println(e.getMessage());
+//		}
+//	}
 	
 }
