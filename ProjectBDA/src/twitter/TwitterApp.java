@@ -14,6 +14,11 @@ import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * Esta classe servirá para interagir com o Twitter, permitindo várias funcionalidades abaixo descritas.
+ * @author João Oliveira
+ *
+ */
 public class TwitterApp {
 
 	private List<twitter4j.Status> timelineStatuses;
@@ -37,6 +42,9 @@ public class TwitterApp {
 		
 //     }
 	
+	/**
+	 * Esta função serve para autenticar o utilizador na conta do twitter com as credênciais de Developer.
+	 */
 	public void authenticateMyAccount(){
 		
 		try {
@@ -71,15 +79,17 @@ public class TwitterApp {
 //		}
 //	}
 	
+	/**
+	 * Esta função irá buscar a Timeline do Twitter.
+	 * @return Devolve uma lista que contém as mensagens organizadas com data, nome de utilizador e conteúdo da mensagem.
+	 */
 	public ArrayList<standardInfoStruct> fetchTimeline(){  //METER NA ESTRUTURA DA MENSAGEM  		
 		try{
 			timelineStatuses = twitter.getHomeTimeline();
 			listaTweets = new ArrayList<standardInfoStruct>();
-            System.out.println("                              MOSTRAR TIMELINE ");
             int counter = 1;
             for (Status status : timelineStatuses) {
 				if (status.getUser().getName() != null) {
-					//System.out.println(counter + " -> "  + status.getCreatedAt() + " - " + "@" + status.getUser().getName() + ":" + status.getText());
 					mensagem = new standardInfoStruct(status.getCreatedAt(), status.getUser().getScreenName(), status.getText());
 					listaTweets.add(mensagem);
 				}
@@ -88,10 +98,14 @@ public class TwitterApp {
         } catch (Exception e) { 
         	System.out.println(); 
         	}
-		//System.out.println(listaTweets );
 		return listaTweets;
 	}
 	
+	
+	/**
+	 * Esta função publica um Tweet na aplicação
+	 * @param tweet Este parâmetro é o conteúdo da mensagem que será publicada.
+	 */
 	public void postTweet(String tweet){
 		try{
 			Status status = twitter.updateStatus(tweet);
