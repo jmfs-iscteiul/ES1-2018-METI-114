@@ -35,11 +35,11 @@ import twitter.TwitterApp;
 
 /**
  * A classe interface tem como objetivo criar a base gráfica do projeto.
- * Esta JFrame é constituida por dois JScrollPane com JTextArea incluidas que posteriormente serão alteradas para 
- * JLists de modo a termos a timeline. O outro JScrollPane irá ser utilizado para abrir os respetivos posts, tweets
- * e mails.
- * Para além do dito anteriormente existe também três botões que quando premidos vão criar cada um uma janela para
- * escrever posts, tweets e mails para serem enviados.
+ * Esta JFrame é constituida por dois JScrollPane com uma JTextArea para visualização de posts e 
+ * uma JList para visualizar a timeline por ordem cronológica. 
+ * Para além do dito anteriormente existe também três botões que quando premidos criam uma janela
+ * de edição de posts e tweets que são enviados para a plataforma online (falta fazer a edição e 
+ * envio de emails)
  * @author jose_santos
  *
  */
@@ -129,6 +129,13 @@ public class Interface {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 	}
+	
+/**
+ * A função getList tem como objetivo retornar uma DefaultListModel de standardInfoStruct. Esta model é
+ * constituida pelas listas de posts, tweets e emails que são retornadas das respetivas classes.
+ * Posteriormente essa model vai ser adicionada a JList para que seja mostrada a timeline.
+ * @return model com a timeline
+ */
 
 
 	private DefaultListModel<standardInfoStruct> getLists() {
@@ -155,7 +162,11 @@ public class Interface {
 
 
 	}
-
+	
+/**
+ * A função readElements é uma forma de vermos as notifiações na JTextArea com um principal cuidado
+ * para o mail que está a ser adicionado a uma webView.
+ */
 
 	private void readElements() {
 		allLists.addListSelectionListener(new ListSelectionListener() {
@@ -181,6 +192,11 @@ public class Interface {
 		});
 	}
 	
+/**
+ * Função para dar uma ação ao (JButton) faceButton para garantir que abre o editor de envio de
+ * posts para a plataforma facebook
+ */
+	
 	private void editPosts() {
 		faceButton.addActionListener(new ActionListener() {
 			
@@ -194,6 +210,11 @@ public class Interface {
 		});
 	}
 
+/**
+ * Função para dar uma ação ao (JButton) tweetButton para garantir que abre o editor de envio de
+ * tweets para a plataforma twitter
+ */
+
 	private void editTweets() {
 		tweetButton.addActionListener(new ActionListener() {
 			
@@ -206,6 +227,12 @@ public class Interface {
 			}
 		});
 	}
+	
+/**
+ * A função stateIcons() é ainda incompleta mas tem como objetivo ser uma check box de icons para
+ * ativar e desativar as arraylist do facebook, do twitter e do mail. Neste momento só altera o estado
+ * do icon
+ */
 	
 	private void stateIcons() {
 		
@@ -231,6 +258,10 @@ public class Interface {
 		e.setDisabledIcon(new ImageIcon(getClass().getResource("/email-disabled.png")));
 		
 	}
+
+/**
+ * Função para abrir a janela do BDA e coloca-la no centro do ecrã
+ */
 
 	public void open() {
 		frame.setVisible(true);
