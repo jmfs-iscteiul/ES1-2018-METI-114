@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<XML>	
+	<Service Account="joao@iscte-iul.pt" Password="abcd" Protocol="imap"/>
+	<Service Account="jose@iscte-iul.pt" Password="efgh" Protocol="pop"/>
+	<Paths>
+		<docPath>/users/js/importantDocument.doc</docPath>
+		<logPath>/users/js/dailyLog.log</logPath>
+	</Paths>	
+<Mail Account="darsa@iscte-iul.pt"/>
+<Facebook Token="EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD" User="ricas1997@gmail.com"/>
+</XML>
