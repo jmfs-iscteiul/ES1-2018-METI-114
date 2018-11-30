@@ -47,13 +47,92 @@ public class PostGroups {
  * @param message String com o post que queremos fazer.
  */
 
-	public void postarTexto (String nomeGrupo, String message) {
+	public boolean postarTexto (String nomeGrupo, String message) {
 		String post = message;
 		FacebookType response = fbClient.publish(Grupo.get(nomeGrupo) + "/feed", FacebookType.class,Parameter.with("message", post));
-
+		return true;
 
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 /**
  * Fornecendo os parâmetros indicados abaixo permite publicar no grupo uma foto e descrição para a mesma.
  * 

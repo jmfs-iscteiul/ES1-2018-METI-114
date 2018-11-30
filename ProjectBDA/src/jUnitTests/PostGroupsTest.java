@@ -17,6 +17,14 @@ public class PostGroupsTest {
 		assertNotNull(pc);
 	}
 
+	
+	@Test
+	public void testPostartexto() {
+		assertEquals(true, pc.postarTexto("ES1 Teste", "oi"));
+		
+	}
+	
+	
 	@Test
 	public void testGetResult() {
 		assertNotNull(pc.getResult());
