@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PackageAnalysis>
+    <Package name="common" x="286" y="223"/>
+    <Package name="facebook" x="298" y="78">
+        <DependencyLink destination="common"/>
+    </Package>
+    <Package name="gui" x="140" y="253">
+        <DependencyLink destination="twitter"/>
+        <DependencyLink destination="common"/>
+        <DependencyLink destination="mail"/>
+        <DependencyLink destination="facebook"/>
+    </Package>
+    <Package name="jUnitTests" x="470" y="149">
+        <DependencyLink destination="twitter"/>
+        <DependencyLink destination="common"/>
+        <DependencyLink destination="mail"/>
+        <DependencyLink destination="facebook"/>
+    </Package>
+    <Package name="mail" x="167" y="109">
+        <DependencyLink destination="common"/>
+    </Package>
+    <Package name="twitter" x="414" y="317">
+        <DependencyLink destination="common"/>
+    </Package>
+</PackageAnalysis>
