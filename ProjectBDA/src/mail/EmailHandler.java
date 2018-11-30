@@ -117,7 +117,7 @@ public class EmailHandler {
 	 * @param cc Endereços cc do email
 	 * @param bcc Endereços bcc do email
 	 */
-	public void enviarEmail(String assunto, String texto, InternetAddress[] to, InternetAddress [] cc, InternetAddress [] bcc) {
+	public boolean enviarEmail(String assunto, String texto, InternetAddress[] to, InternetAddress [] cc, InternetAddress [] bcc) {
 
 		Message msg = new MimeMessage(mailSession);														//Mensagem a enviar
 
@@ -140,11 +140,14 @@ public class EmailHandler {
 			transport.sendMessage(msg, msg.getAllRecipients());	
 
 			transport.close();
+			
+			System.out.println("Mensagem Enviada");
+			return true;
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 
-		System.out.println("Mensagem Enviada");
+		return false;
 	}
 
 	
