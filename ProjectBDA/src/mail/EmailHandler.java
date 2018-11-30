@@ -86,6 +86,7 @@ public class EmailHandler {
 		Properties props = new Properties(); //Propriedades para a sessão de Email
 
 		//Propriedades de envio
+		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.host", hostEnvio);
 		props.put("mail.smtp.port", "587");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -118,25 +119,34 @@ public class EmailHandler {
 
 		Message msg = new MimeMessage(mailSession);														//Mensagem a enviar
 
-		try (Transport transport = mailSession.getTransport()){
+		Thread t = Thread.currentThread();
+		ClassLoader ccl = t.getContextClassLoader();
+		t.setContextClassLoader(mailSession.getClass().getClassLoader());
+		try {
+			Transport transport = mailSession.getTransport();
 			msg.setFrom(new InternetAddress(user));														//Remetente
 			msg.setRecipients(Message.RecipientType.TO, to);											//Destinos do email
 			msg.setSubject(assunto);																	//Assunto do email
 			msg.setSentDate(new Date());																//Data de envio
 			msg.setText(texto);																			//Texto a enviar
-			
+
 			if(cc != null)	msg.setRecipients(Message.RecipientType.CC, cc); 							//Destinos cc do email
-			
+
 			if(bcc != null)	msg.setRecipients(Message.RecipientType.BCC, bcc);							//Destinos bcc do email
-			
+
 			msg.saveChanges();
-			
-			transport.connect(hostEnvio, user, password);										//Conexão para envio de email
+
+			transport.connect(hostEnvio, user, password); //Conexão para envio de email
+
 			transport.sendMessage(msg, msg.getAllRecipients());	
+
+			transport.close();
 		} catch (MessagingException e) {
 			e.printStackTrace();
+		} finally {
+			t.setContextClassLoader(ccl);
 		}
-		
+
 		System.out.println("Mensagem Enviada");
 	}
 
@@ -205,7 +215,8 @@ public class EmailHandler {
 	public List<MailInfoStruct> receberEmail() {
 		List<MailInfoStruct> emails = new ArrayList<>();													//Lista de emails recebidos
 
-		try (Store store = mailSession.getStore("imaps")){
+		try {
+			Store store = mailSession.getStore("imaps");
 			System.out.println(user);
 			store.connect(hostRececao, user, password);														//Conectar ao endereço de email
 			System.out.println("Conectado");
@@ -230,11 +241,11 @@ public class EmailHandler {
 				MimeStreamParser mime4jParser = new MimeStreamParser(mime4jParserConfig, DecodeMonitor.SILENT, bodyDescriptorBuilder);
 				mime4jParser.setContentDecoding(true);
 				mime4jParser.setContentHandler(contentHandler);												//Fazer setup ao Parser de email
-				
+
 				/*ByteArrayOutputStream out2 = new ByteArrayOutputStream();
 				message.writeTo(out2);
 				InputStream mailIn = new ByteArrayInputStream(out2.toByteArray());*/
-				
+
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				message.writeTo(out);
 				String temp = new String(out.toByteArray(), Charset.forName("UTF-8"));
@@ -254,12 +265,12 @@ public class EmailHandler {
 				} else {
 					at = email.getPlainTextEmailBody();														//Se o email for plain text
 				}
-				
+
 				String texto = IOUtils.toString(at.getIs(), Charset.forName("UTF-8"));						//Corpo de texto do email
-				
+
 				List<Attachment> attachments =  email.getAttachments();										//Anexos do email
 				List<File> anexos = new ArrayList<>();														//Lista de anexos de email na classe File
-				
+
 				for(Attachment attachment : attachments) {													//Gravar anexos no computador e adiciona-los a lista de anexos
 					File anexo = new File(diretoria + File.separator + attachment.getAttachmentName());
 					FileUtils.copyInputStreamToFile(attachment.getIs(), anexo);
@@ -272,9 +283,10 @@ public class EmailHandler {
 					emails.add(new MailInfoStruct(message.getReceivedDate(), email.getFromEmailHeaderValue(), texto, email.getEmailSubject(), email.getToEmailHeaderValue(), email.getCCEmailHeaderValue()));
 				}
 				mime4jParser.stop();
-			}
-			/******************************/
 
+			}
+			store.close();
+			/******************************/
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (MimeException e) {
@@ -285,7 +297,7 @@ public class EmailHandler {
 
 		return emails;
 	}
-	
+
 
 	/*private String obterMensagemMultipartTeste (Multipart parteInicial, List<File> anexos) throws MessagingException, IOException {
 		String texto = "";
@@ -341,7 +353,7 @@ public class EmailHandler {
 
 		return texto;
 	}*/
-	
+
 	/**
 	 * Devolve a string que contém a diretoria a gravar os emails.
 	 * 
@@ -350,7 +362,7 @@ public class EmailHandler {
 	public String getDiretoria() {
 		return diretoria;
 	}
-	
+
 	/**
 	 * Devolve o servidor utilizado para enviar os emails.
 	 * 
@@ -359,8 +371,8 @@ public class EmailHandler {
 	public String getHostEnvio() {
 		return hostEnvio;
 	}
-	
-	
+
+
 	/**
 	 * Devolve o servidor utilizado para receber os emails.
 	 * 
@@ -369,8 +381,8 @@ public class EmailHandler {
 	public String getHostRececao() {
 		return hostRececao;
 	}
-	
-	
+
+
 	/**
 	 * Devolve o email do utilizador
 	 * 

@@ -99,12 +99,17 @@ public class EmailEditor {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					InternetAddress[] to = {new InternetAddress(toArea.getText())};
-					InternetAddress[] cc = {new InternetAddress(ccArea.getText())};
+//					InternetAddress[] cc = {new InternetAddress(ccArea.getText())};
 //					InternetAddress[] bcc = {new InternetAddress(bccArea.getText())};
-					email.enviarEmail(subArea.getText(), content.getText(), to, cc, null);
+					email.enviarEmail(subArea.getText(), content.getText(), to, null, null);
 				} catch (AddressException ex) {
 					ex.printStackTrace();
 				}
+				toArea.setText("");
+				ccArea.setText("");
+				bccArea.setText("");
+				subArea.setText("");
+				content.setText("");
 			}
 		});
 	}
