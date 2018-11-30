@@ -119,9 +119,6 @@ public class EmailHandler {
 
 		Message msg = new MimeMessage(mailSession);														//Mensagem a enviar
 
-		Thread t = Thread.currentThread();
-		ClassLoader ccl = t.getContextClassLoader();
-		t.setContextClassLoader(mailSession.getClass().getClassLoader());
 		try {
 			Transport transport = mailSession.getTransport();
 			msg.setFrom(new InternetAddress(user));														//Remetente
@@ -143,8 +140,6 @@ public class EmailHandler {
 			transport.close();
 		} catch (MessagingException e) {
 			e.printStackTrace();
-		} finally {
-			t.setContextClassLoader(ccl);
 		}
 
 		System.out.println("Mensagem Enviada");
@@ -231,7 +226,6 @@ public class EmailHandler {
 			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));			//Vai buscar emails consoante o filtro
 			System.out.println(messages.length);
 
-			/*******************************/
 			for(Message message : messages) {
 				ContentHandler contentHandler = new CustomContentHandler();
 
@@ -262,8 +256,8 @@ public class EmailHandler {
 				Attachment at;
 				if(email.getHTMLEmailBody() != null) {														//Se o email for em HTML
 					at = email.getHTMLEmailBody();
-				} else {
-					at = email.getPlainTextEmailBody();														//Se o email for plain text
+				} else {																					//Se o email for plain text
+					at = email.getPlainTextEmailBody();
 				}
 
 				String texto = IOUtils.toString(at.getIs(), Charset.forName("UTF-8"));						//Corpo de texto do email
@@ -286,7 +280,6 @@ public class EmailHandler {
 
 			}
 			store.close();
-			/******************************/
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (MimeException e) {
@@ -294,7 +287,6 @@ public class EmailHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return emails;
 	}
 
