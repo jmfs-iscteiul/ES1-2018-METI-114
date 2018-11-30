@@ -1,9 +1,13 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,10 +17,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -55,8 +61,16 @@ public class Interface {
 	private WebView webView;
 	private JButton faceButton;
 	private JButton tweetButton;
+	private JButton sendEmail;
+	private JButton search;
+	private JButton reset;
+	private JTextField word;
 	private TwitterApp twitter;
 	private JCheckBox f, t, e;
+	private ArrayList<standardInfoStruct> faceList, tweetList;
+	private List<MailInfoStruct> emailList;
+	private ArrayList<standardInfoStruct> all;
+	private DefaultListModel<standardInfoStruct> model;
 
 	public Interface(EmailHandler email) {
 
@@ -64,17 +78,20 @@ public class Interface {
 		frame.setLayout(new BorderLayout());
 
 		this.email = email;
+		
 		twitter = new TwitterApp();
 		twitter.authenticateMyAccount();
 
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
-		JPanel panel3 = new JPanel();
+		JPanel panel3 = new JPanel(new FlowLayout());
 
 		panel1.setLayout(new GridLayout());
 		frame.add(panel1, BorderLayout.CENTER);
 		frame.add(panel2, BorderLayout.SOUTH);
 		frame.add(panel3, BorderLayout.NORTH);
+
+		stateIcons();
 
 		allLists = new JList<>();
 		allLists.setCellRenderer(new IconListRenderer());
@@ -85,6 +102,7 @@ public class Interface {
 		viewPost.setWrapStyleWord(true);
 
 		readElements();
+		iconsAction();
 
 		webPanel = new JFXPanel();
 		Platform.runLater(()-> {
@@ -101,27 +119,37 @@ public class Interface {
 		scrollPane1.setHorizontalScrollBar(null);
 		scrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane2 = new JScrollPane(viewPost);
-
+	
 		panel1.add(scrollPane1);
 		panel1.add(scrollPane2);
-
+		
+		search = new JButton("Procurar");
+		word = new JTextField("Introduzir palavra", 30);
+		reset = new JButton("Reset");
+		
 		faceButton = new JButton("Postar");
 		tweetButton = new JButton("Tweetar");
-		JButton sendEmail = new JButton("Enviar email");
-
+		sendEmail = new JButton("Enviar email");
 		
-		stateIcons();
-
+		ImageIcon image = new ImageIcon(getClass().getResource("/vertical-line.png"));
+		JLabel filtros = new JLabel("Filtros: ");
+		JLabel separator = new JLabel(image);
+		
 		panel2.add(faceButton);
 		panel2.add(tweetButton);
 		panel2.add(sendEmail);
 
+		panel3.add(reset);
+		panel3.add(search);
+		panel3.add(word);
+		panel3.add(separator);
+		panel3.add(filtros);
 		panel3.add(f);
 		panel3.add(t);
 		panel3.add(e);
 
-		editPosts();
-		editTweets();
+		sendNot();
+		searchWord();
 
 		viewPost.setEditable(false);
 
@@ -129,32 +157,31 @@ public class Interface {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 	}
-	
-/**
- * A função getList tem como objetivo retornar uma DefaultListModel de standardInfoStruct. Esta model é
- * constituida pelas listas de posts, tweets e emails que são retornadas das respetivas classes.
- * Posteriormente essa model vai ser adicionada a JList para que seja mostrada a timeline.
- * @return model com a timeline
- */
+
+	/**
+	 * A função getList tem como objetivo retornar uma DefaultListModel de standardInfoStruct. Esta model é
+	 * constituida pelas listas de posts, tweets e emails que são retornadas das respetivas classes.
+	 * Posteriormente essa model vai ser adicionada a JList para que seja mostrada a timeline.
+	 * @return model com a timeline
+	 */
 
 
 	private DefaultListModel<standardInfoStruct> getLists() {
+		all = new ArrayList<>(); 
 
 		Timeline timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
-		ArrayList<standardInfoStruct> faceList = timelineList.getTimeline();
+		faceList = timelineList.getTimeline();
 
-		ArrayList<standardInfoStruct> tweetList = twitter.fetchTimeline();
-
-		List<MailInfoStruct> emailList = email.receberEmail();
+		tweetList = twitter.fetchTimeline();
+		emailList = email.receberEmail();
 		
-		ArrayList<standardInfoStruct> all = new ArrayList<>(); 
 		all.addAll(faceList);
 		all.addAll(tweetList);
 		all.addAll(emailList);
 		Collections.sort(all);
 
-		DefaultListModel<standardInfoStruct> model = new DefaultListModel<>();
-		
+		model = new DefaultListModel<>();
+
 		for(standardInfoStruct val : all)
 			model.addElement(val);
 
@@ -162,11 +189,11 @@ public class Interface {
 
 
 	}
-	
-/**
- * A função readElements é uma forma de vermos as notifiações na JTextArea com um principal cuidado
- * para o mail que está a ser adicionado a uma webView.
- */
+
+	/**
+	 * A função readElements é uma forma de vermos as notifiações na JTextArea com um principal cuidado
+	 * para o mail que está a ser adicionado a uma webView.
+	 */
 
 	private void readElements() {
 		allLists.addListSelectionListener(new ListSelectionListener() {
@@ -191,77 +218,202 @@ public class Interface {
 
 		});
 	}
-	
-/**
- * Função para dar uma ação ao (JButton) faceButton para garantir que abre o editor de envio de
- * posts para a plataforma facebook
- */
-	
-	private void editPosts() {
-		faceButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				FaceEditor fe = new FaceEditor();
-				fe.open();
-				
-			}
-		});
-	}
 
-/**
- * Função para dar uma ação ao (JButton) tweetButton para garantir que abre o editor de envio de
- * tweets para a plataforma twitter
- */
-
-	private void editTweets() {
-		tweetButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				TwitterEditor te = new TwitterEditor(twitter);
-				te.open();
-				
-			}
-		});
-	}
-	
-/**
- * A função stateIcons() é ainda incompleta mas tem como objetivo ser uma check box de icons para
- * ativar e desativar as arraylist do facebook, do twitter e do mail. Neste momento só altera o estado
- * do icon
- */
-	
-	private void stateIcons() {
+	private void sendNot() {
 		
-		f = new JCheckBox();
-		f.setSelected(true);
+		faceButton.addActionListener((e) -> {
 
-		f.setIcon(new ImageIcon(getClass().getResource("/facebook-disabled.png")));
+			FaceEditor fe = new FaceEditor();
+			fe.open();
+
+		});
+		
+		tweetButton.addActionListener((e) -> {
+
+			TwitterEditor te = new TwitterEditor(twitter);
+			te.open();
+
+		});
+		
+		sendEmail.addActionListener((e) -> {
+
+			EmailEditor ee = new EmailEditor(email);
+			ee.open();
+
+		});
+	}
+
+	/**
+	 * A função stateIcons() é ainda incompleta mas tem como objetivo ser uma check box de icons para
+	 * ativar e desativar as arraylist do facebook, do twitter e do mail. Neste momento só altera o estado
+	 * do icon
+	 */
+
+	private void stateIcons() {
+
+		f = new JCheckBox(new ImageIcon(getClass().getResource("/facebook-disabled.png")),true);
+
 		f.setSelectedIcon(new ImageIcon(getClass().getResource("/facebook-able.png")));
 		f.setDisabledIcon(new ImageIcon(getClass().getResource("/facebook-disabled.png")));
-		
+
 		t = new JCheckBox();
 		t.setSelected(true);
 
 		t.setIcon(new ImageIcon(getClass().getResource("/twitter-disabled.png")));
 		t.setSelectedIcon(new ImageIcon(getClass().getResource("/twitter-able.png")));
 		t.setDisabledIcon(new ImageIcon(getClass().getResource("/twitter-disabled.png")));
-		
+
 		e = new JCheckBox();
 		e.setSelected(true);
 
 		e.setIcon(new ImageIcon(getClass().getResource("/email-disabled.png")));
 		e.setSelectedIcon(new ImageIcon(getClass().getResource("/email-able.png")));
 		e.setDisabledIcon(new ImageIcon(getClass().getResource("/email-disabled.png")));
+
+	}
+
+	private void iconsAction() {
+		List<standardInfoStruct> temp = new ArrayList<>();
+
+		f.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				model.clear();
+				viewPost.setText(null);
+				
+				if(!f.isSelected()) {
+
+					if(t.isSelected()) temp.addAll(tweetList);
+					if(e.isSelected()) temp.addAll(emailList);
+					
+					Collections.sort(temp);
+					for(standardInfoStruct s : temp) {
+						model.addElement(s);
+					}
+					temp.clear();
+				} else {
+
+					if(t.isSelected()) temp.addAll(tweetList);
+					if(e.isSelected()) temp.addAll(emailList);
+					temp.addAll(faceList);
+
+					Collections.sort(temp);
+					
+					for(standardInfoStruct s : temp) {
+						model.addElement(s);
+					}
+					temp.clear();
+				}
+
+			}
+		});
+		
+		t.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				model.clear();
+				viewPost.setText(null);
+				
+				if(!t.isSelected()) {
+
+					if(f.isSelected()) temp.addAll(faceList);
+					if(e.isSelected()) temp.addAll(emailList);
+					
+					Collections.sort(temp);
+					for(standardInfoStruct s : temp) {
+						model.addElement(s);
+					}
+					temp.clear();
+				} else {
+
+					if(f.isSelected()) temp.addAll(faceList);
+					if(e.isSelected()) temp.addAll(emailList);
+					temp.addAll(tweetList);
+
+					Collections.sort(temp);
+					
+					for(standardInfoStruct s : temp) {
+						model.addElement(s);
+					}
+					temp.clear();
+				}
+
+			}
+		});
+		
+		e.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				model.clear();
+				viewPost.setText(null);
+				
+				if(!e.isSelected()) {
+
+					if(f.isSelected()) temp.addAll(faceList);
+					if(t.isSelected()) temp.addAll(tweetList);
+					
+					Collections.sort(temp);
+					for(standardInfoStruct s : temp) {
+						model.addElement(s);
+					}
+					temp.clear();
+				} else {
+
+					if(f.isSelected()) temp.addAll(faceList);
+					if(t.isSelected()) temp.addAll(tweetList);
+					temp.addAll(emailList);
+
+					Collections.sort(temp);
+					
+					for(standardInfoStruct s : temp) {
+						model.addElement(s);
+					}
+					temp.clear();
+				}
+
+			}
+		});
+	}
+	
+	private void searchWord() {
+		
+		search.addActionListener((event) -> {
+			model.clear();
+			for(int i = 0; i < all.size(); i++) {
+				if(all.get(i).toString().contains(word.getText())) {
+					if((all.get(i) instanceof MailInfoStruct && e.isSelected()) || 
+							(all.get(i).getAuthor() == null && f.isSelected())
+								|| (all.get(i).getAuthor() != null && t.isSelected())) {
+										model.addElement(all.get(i));
+					}
+				}
+			}
+		});
+		
+		
+		word.addMouseListener(new MouseAdapter() {
+			
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getSource() == word)
+					word.setText("");
+			}
+		});
+		
+		reset.addActionListener((event) -> {
+			
+			word.setText("");
+			for(standardInfoStruct val : all)
+				model.addElement(val);
+			
+		});
 		
 	}
 
-/**
- * Função para abrir a janela do BDA e coloca-la no centro do ecrã
- */
+	/**
+	 * Função para abrir a janela do BDA e coloca-la no centro do ecrã
+	 */
 
 	public void open() {
 		frame.setVisible(true);
@@ -269,7 +421,6 @@ public class Interface {
 	}	
 
 //	public static void main(String[] args) {
-//		Email email = new Email("");
 //		Interface i = new Interface();
 //		i.open();
 //	}

@@ -129,8 +129,10 @@ public class EmailHandler {
 			
 			if(bcc != null)	msg.setRecipients(Message.RecipientType.BCC, bcc);							//Destinos bcc do email
 			
-			transport.connect(hostEnvio, user, password);												//Conexão para envio de email
-			transport.sendMessage(msg, msg.getAllRecipients());											//Envio do email
+			msg.saveChanges();
+			
+			transport.connect(hostEnvio, user, password);										//Conexão para envio de email
+			transport.sendMessage(msg, msg.getAllRecipients());	
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
