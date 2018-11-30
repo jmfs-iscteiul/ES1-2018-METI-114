@@ -106,7 +106,7 @@ public class TwitterApp {
 	 * Esta função publica um Tweet na aplicação
 	 * @param tweet Este parâmetro é o conteúdo da mensagem que será publicada.
 	 */
-	public void postTweet(String tweet){
+	public boolean postTweet(String tweet){
 		try{
 			Status status = twitter.updateStatus(tweet);
 			System.out.println(status.getText());			
@@ -114,6 +114,7 @@ public class TwitterApp {
 			System.out.println("Catch de publicar Tweet: Falhou");
 			System.out.println(e.getMessage());
 		}
+		return true;
 	}
 	
 //	public void retweetPost(long statusID){

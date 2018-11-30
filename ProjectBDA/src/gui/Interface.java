@@ -313,6 +313,9 @@ public class Interface {
 			public void actionPerformed(ActionEvent event) {
 				model.clear();
 				viewPost.setText(null);
+				Platform.runLater(() -> {
+					webView.getEngine().loadContent("");
+				});
 				
 				if(!t.isSelected()) {
 
