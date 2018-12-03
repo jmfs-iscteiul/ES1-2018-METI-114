@@ -1,5 +1,6 @@
 package mail;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -187,8 +188,8 @@ public class EmailHandler {
 
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				message.writeTo(out);
-				String temp = new String(out.toByteArray(), Charset.forName("UTF-8"));
-				InputStream mailIn = IOUtils.toInputStream(temp, Charset.forName("UTF-8"));					//Obter InputStream para o email
+				byte [] t = out.toByteArray();
+				InputStream mailIn = new ByteArrayInputStream(t);											//Obter InputStream para o email
 
 				try {
 					mime4jParser.parse(mailIn);																//Fazer parse ao email
