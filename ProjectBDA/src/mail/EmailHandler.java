@@ -1,5 +1,6 @@
 package mail;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,6 +60,7 @@ public class EmailHandler {
 	private Session mailSession;								//Sessão de email
 	private String diretoria;									//diretoria onde gravar anexos de email
 
+	
 	/**
 	 * Construtor da classe email. Recebe as informações e prepara a sessão para o envio e a receção de emails.
 	 * 
@@ -106,6 +108,7 @@ public class EmailHandler {
 		});
 	}
 
+	
 	/**
 	 * Função que efetua o envio de um email.
 	 * 
@@ -115,13 +118,10 @@ public class EmailHandler {
 	 * @param cc Endereços cc do email
 	 * @param bcc Endereços bcc do email
 	 */
-	public void enviarEmail(String assunto, String texto, InternetAddress[] to, InternetAddress [] cc, InternetAddress [] bcc) {
+	public boolean enviarEmail(String assunto, String texto, InternetAddress[] to, InternetAddress [] cc, InternetAddress [] bcc) {
 
 		Message msg = new MimeMessage(mailSession);														//Mensagem a enviar
 
-		Thread t = Thread.currentThread();
-		ClassLoader ccl = t.getContextClassLoader();
-		t.setContextClassLoader(mailSession.getClass().getClassLoader());
 		try {
 			Transport transport = mailSession.getTransport();
 			msg.setFrom(new InternetAddress(user));														//Remetente
@@ -141,72 +141,17 @@ public class EmailHandler {
 			transport.sendMessage(msg, msg.getAllRecipients());	
 
 			transport.close();
+			
+			System.out.println("Mensagem Enviada");
+			return true;
 		} catch (MessagingException e) {
 			e.printStackTrace();
-		} finally {
-			t.setContextClassLoader(ccl);
 		}
 
-		System.out.println("Mensagem Enviada");
+		return false;
 	}
 
-
-	/*public List<MailInfoStruct> receberEmail() {
-		List<MailInfoStruct> emails = new ArrayList<>();
-
-		try (Store store = mailSession.getStore("imaps")){
-			System.out.println(user);
-			store.connect(hostRececao, user, password);
-			System.out.println("Conectado");
-
-			Folder inbox = store.getFolder("inbox");													//Pasta do email em que os emails recebidos se encontram
-			inbox.open(Folder.READ_ONLY);
-
-			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.HOUR_OF_DAY, -24);															//Alterar para puder variar a data de filtro
-			Date oneDayAgo = cal.getTime();
-
-			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));		//Vai buscar emails consoante o filtro de tempo
-			System.out.println(messages.length);
-
-			for(Message message : messages) {
-				//				String contentType = message.getContentType();
-				System.out.println("--------" + message.getSubject() + "--------");
-
-				if(message.isMimeType("multipart/*")) {
-//					emails.add(obterMensagemMultipart(message));
-
-					List<File> anexos = new ArrayList<>();
-					String texto = obterMensagemMultipartTeste((Multipart)message.getContent(), anexos);
-
-					if(anexos.size() == 0)
-						emails.add(new MailInfoStruct(message.getReceivedDate(), InternetAddress.toString(message.getFrom()), 
-								texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC))));
-					else
-						emails.add(new MailInfoStruct(message.getReceivedDate(), InternetAddress.toString(message.getFrom()), 
-								texto, message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC)), anexos));
-
-					//				} else if (contentType.contains("text/plain") || contentType.contains("text/html")) {
-				} else if (message.isMimeType("text/*")) {
-					Object content = message.getContent();
-					System.out.println("Mensagem simples");
-					if(content != null)
-						emails.add(new MailInfoStruct(message.getReceivedDate(), InternetAddress.toString(message.getFrom()), 
-								message.getContent().toString(), message.getSubject(), juntarEmails(message.getRecipients(Message.RecipientType.TO)), juntarEmails(message.getRecipients(Message.RecipientType.CC))));
-				} else {
-					System.out.println("Não pertencem a um dos tipos de email compativeis: " + message.getContentType());
-				}
-				System.out.println("--------" + message.getSubject() + "--------");
-			}
-		}  catch (MessagingException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return emails;
-	}*/
-
+	
 	/**
 	 * Função que recebe email da caixa de correio do email do utilizador e filtra os mais recentes.
 	 * 
@@ -231,7 +176,6 @@ public class EmailHandler {
 			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));			//Vai buscar emails consoante o filtro
 			System.out.println(messages.length);
 
-			/*******************************/
 			for(Message message : messages) {
 				ContentHandler contentHandler = new CustomContentHandler();
 
@@ -242,14 +186,10 @@ public class EmailHandler {
 				mime4jParser.setContentDecoding(true);
 				mime4jParser.setContentHandler(contentHandler);												//Fazer setup ao Parser de email
 
-				/*ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-				message.writeTo(out2);
-				InputStream mailIn = new ByteArrayInputStream(out2.toByteArray());*/
-
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				message.writeTo(out);
-				String temp = new String(out.toByteArray(), Charset.forName("UTF-8"));
-				InputStream mailIn = IOUtils.toInputStream(temp, Charset.forName("UTF-8"));					//Obter InputStream para o email
+				byte [] t = out.toByteArray();
+				InputStream mailIn = new ByteArrayInputStream(t);											//Obter InputStream para o email
 
 				try {
 					mime4jParser.parse(mailIn);																//Fazer parse ao email
@@ -262,8 +202,8 @@ public class EmailHandler {
 				Attachment at;
 				if(email.getHTMLEmailBody() != null) {														//Se o email for em HTML
 					at = email.getHTMLEmailBody();
-				} else {
-					at = email.getPlainTextEmailBody();														//Se o email for plain text
+				} else {																					//Se o email for plain text
+					at = email.getPlainTextEmailBody();
 				}
 
 				String texto = IOUtils.toString(at.getIs(), Charset.forName("UTF-8"));						//Corpo de texto do email
@@ -285,8 +225,7 @@ public class EmailHandler {
 				mime4jParser.stop();
 
 			}
-			store.close();
-			/******************************/
+			store.close();																					//Fechar a store
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		} catch (MimeException e) {
@@ -294,66 +233,10 @@ public class EmailHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return emails;
 	}
 
-
-	/*private String obterMensagemMultipartTeste (Multipart parteInicial, List<File> anexos) throws MessagingException, IOException {
-		String texto = "";
-		int numeroPartes = parteInicial.getCount();
-
-		for (int partCount = 0; partCount < numeroPartes; partCount++) {
-			MimeBodyPart part = (MimeBodyPart) parteInicial.getBodyPart(partCount);
-
-			if(part.getContent() instanceof Multipart) {
-				texto += obterMensagemMultipartTeste((Multipart)part.getContent(), anexos);
-			} else if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {
-				String fileName = part.getFileName();
-				//				part.saveFile(diretoria + File.separator + fileName);
-				anexos.add(new File(diretoria + File.separator + fileName));
-			} else if (part.getDisposition() == null) {
-				System.out.println("A disposição retornou null");
-				DataHandler data = part.getDataHandler();
-				InputStream stream = data.getInputStream();
-				//				texto += convertStreamToString(stream);
-
-				try {
-					texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
-				} catch (DecodingException | NullPointerException e) {
-					System.err.println("Erro no decoding");
-				}
-
-				System.out.println("Teste: " + part.getContent().toString());
-
-				System.out.println("Fim da disposição null");
-			} else {
-				if(part.getContent() instanceof BASE64DecoderStream) {
-					BASE64DecoderStream stream = (BASE64DecoderStream) part.getContent();
-					try {
-						//						texto += IOUtils.toString(MimeUtility.decode(stream, part.getEncoding()), "UTF-8");
-						byte [] encoded = IOUtils.toByteArray(stream);
-						byte [] decoded = Base64.getMimeDecoder().decode(encoded);
-						System.out.println("Decoded Base 64:");
-
-						String result = new String(decoded, "UTF-8");
-						System.out.println(result);
-						texto += result;
-					}
-					catch (DecodingException e) {
-						System.err.println("Erro no decoding");
-					}
-				} else {
-					System.out.println("Parte do texto");
-					System.out.println(part.getContent().toString());
-					texto += part.getContent().toString();
-				}
-			}
-		}
-
-		return texto;
-	}*/
-
+	
 	/**
 	 * Devolve a string que contém a diretoria a gravar os emails.
 	 * 
@@ -363,6 +246,7 @@ public class EmailHandler {
 		return diretoria;
 	}
 
+	
 	/**
 	 * Devolve o servidor utilizado para enviar os emails.
 	 * 
