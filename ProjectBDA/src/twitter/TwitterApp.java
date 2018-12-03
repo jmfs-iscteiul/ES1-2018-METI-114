@@ -15,6 +15,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author João Oliveira
  *
  */
+
 public class TwitterApp {
 	
 	private Twitter twitter;								//Instancia da classe twitter4j
@@ -85,7 +86,7 @@ public class TwitterApp {
 	
 	public boolean postTweet(String tweet){
 		try{
-			Status status = twitter.updateStatus(tweet);	//Variável 		
+			Status status = twitter.updateStatus(tweet);	//Variável que define o novo tweet	
 		}catch(TwitterException e){
 			System.out.println(e.getMessage());
 		}
