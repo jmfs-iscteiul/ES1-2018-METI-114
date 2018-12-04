@@ -31,7 +31,7 @@ public class EmailHandlerTest {
 		try {
 			InternetAddress [] addresses = {new InternetAddress("es1_grupo114@outlook.pt")};
 			
-			assertEquals(true, email.enviarEmail("Assunto Teste JUnit", "Corpo de email do JUnit", addresses, null, null));
+			assertEquals(true, email.enviarEmail("Assunto Teste JUnit", "Corpo de email do JUnit", addresses, null, null, null));
 		} catch (AddressException e) {
 			e.printStackTrace();
 		}
