@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
 import mail.MailInfoStruct;
 
 /**
- * Esta classe permite ler e escrever em ficheiros XML, sendo que usaremoes esse ficheiro como uma espécie de base de dados para armazenar tokens dos serviços e permitir também o funcionamento offline.
+ * Esta classe permite ler e escrever em ficheiros XML, sendo que usaremos esse ficheiro como uma espécie de base de dados para armazenar tokens dos serviços e permitir também o funcionamento offline.
  * 	
  * 
  * @author darsa-iscteiul e rmcmc-iscteiul
@@ -94,7 +94,7 @@ public class Xml {
 
 	/**
 	 * 
-	 * Fornecendo os paâmetros abaixo indicado devolve o valor desejado.
+	 * Fornecendo os parâmetros abaixo indicado devolve o valor desejado.
 	 * 
 	 * @param servico Serviço que queremos consultar.
 	 * @param atributo	Atributo cujo valor que queremos está associado.
@@ -207,7 +207,7 @@ public class Xml {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
 				LocalDateTime ddd = LocalDateTime.parse(teste, formatter);
 				Date d = Date.from(ddd.atZone(ZoneId.systemDefault()).toInstant());
-				if (e.getAttribute("CC").equals("")) {
+				if (e.getAttribute("To").equals("")) {
 					standardInfoStruct s = new standardInfoStruct(d, e.getAttribute("Author"), 
 							e.getAttribute("Text"));
 					lista.add(s);

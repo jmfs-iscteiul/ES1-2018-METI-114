@@ -41,14 +41,14 @@ public class TwitterApp {
 	 * Esta função serve para autenticar o utilizador na conta do twitter com as credênciais de Developer.
 	 */
 	
-	public void authenticateMyAccount(){
+	public void authenticateMyAccount(String ck, String cs, String at, String ats){
 		try {
         	ConfigurationBuilder cb = new ConfigurationBuilder();      //Variável que constrói as definições padrão de autenticação
         	cb.setDebugEnabled(true)
-        	  .setOAuthConsumerKey("QRFyiUq64mbtFLxZUGAMoFb7T")
-        	  .setOAuthConsumerSecret("SJCB1ZmR0xxZtV95zUEfxNSkZWXU76pf1jIhG7WXEzDiHIrd0I")
-        	  .setOAuthAccessToken("1052294113620611073-wO7U7iqqQ4v7jFqb3Pb3pqnJa7HCdM")
-        	  .setOAuthAccessTokenSecret("O94jOOxoSRsAfQAvu4GHrykJUrZ0nzoubUpKdGEd6TXGF");
+        	  .setOAuthConsumerKey(ck)
+        	  .setOAuthConsumerSecret(cs)
+        	  .setOAuthAccessToken(at)
+        	  .setOAuthAccessTokenSecret(ats);
         	TwitterFactory tf = new TwitterFactory(cb.build());
         	twitter = tf.getInstance();
         	

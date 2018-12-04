@@ -7,6 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +33,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import common.Xml;
 import common.standardInfoStruct;
 import facebook.Timeline;
 import javafx.application.Platform;
@@ -54,7 +61,6 @@ public class Interface {
 	private JFrame frame;
 	private JList<standardInfoStruct> allLists;
 	private JTextArea viewPost;
-	private EmailHandler email;
 	private JScrollPane scrollPane2;
 	private JFXPanel webPanel;
 	private WebView webView;
@@ -64,23 +70,26 @@ public class Interface {
 	private JButton search;
 	private JButton reset;
 	private JTextField word;
+	private Timeline facebook;
 	private TwitterApp twitter;
+	private EmailHandler email;
+	private Xml xml;
 	private JCheckBox f, t, e;
 	private ArrayList<standardInfoStruct> faceList, tweetList;
 	private List<MailInfoStruct> emailList;
 	private ArrayList<standardInfoStruct> all;
 	private DefaultListModel<standardInfoStruct> model;
 
-	public Interface(EmailHandler email) {
+	public Interface(Timeline facebook, TwitterApp twitter, EmailHandler email, Xml xml) {
 
 		frame = new JFrame("Bom Dia Academia");
 		frame.setLayout(new BorderLayout());
 
+		this.facebook = facebook;
+		this.twitter = twitter;
 		this.email = email;
+		this.xml = xml;
 		
-		twitter = new TwitterApp();
-		twitter.authenticateMyAccount();
-
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
 		JPanel panel3 = new JPanel(new FlowLayout());
@@ -166,27 +175,53 @@ public class Interface {
 
 
 	private DefaultListModel<standardInfoStruct> getLists() {
-		all = new ArrayList<>(); 
-
-		Timeline timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
-		faceList = timelineList.getTimeline();
-
-		tweetList = twitter.fetchTimeline();
-		emailList = email.receberEmail();
 		
-		all.addAll(faceList);
-		all.addAll(tweetList);
-		all.addAll(emailList);
-		Collections.sort(all);
-
+		all = new ArrayList<>();
 		model = new DefaultListModel<>();
+		
+			
+		if(verifyInternetConnection()) {
 
+			Timeline timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
+			faceList = timelineList.getTimeline();
+
+			tweetList = twitter.fetchTimeline();
+			emailList = email.receberEmail();
+
+			all.addAll(faceList);
+			all.addAll(tweetList);
+			all.addAll(emailList);
+			Collections.sort(all);
+
+			xml.escreverDeVarias(all);
+			
+		}else {
+			
+			all = xml.lerDeVarias();
+			emailList = new ArrayList<>();
+			faceList = new ArrayList<>();
+			tweetList = new ArrayList<>();
+			
+			for(int i = 0; i < all.size(); i++) {
+				if(all.get(i) instanceof MailInfoStruct) {
+					emailList.add((MailInfoStruct) all.get(i));
+				}
+				else if(all.get(i).getAuthor() == null || all.get(i).getAuthor().equals("")) {
+					faceList.add(all.get(i));
+				}
+				else {
+					tweetList.add(all.get(i));
+				}
+			}
+			
+			
+		}
+		
 		for(standardInfoStruct val : all)
 			model.addElement(val);
-
+		
 		return model;
-
-
+		
 	}
 
 	/**
@@ -279,6 +314,9 @@ public class Interface {
 			public void actionPerformed(ActionEvent event) {
 				model.clear();
 				viewPost.setText(null);
+				Platform.runLater(() -> {
+					webView.getEngine().loadContent("");
+				});
 				
 				if(!f.isSelected()) {
 
@@ -348,6 +386,9 @@ public class Interface {
 			public void actionPerformed(ActionEvent event) {
 				model.clear();
 				viewPost.setText(null);
+				Platform.runLater(() -> {
+					webView.getEngine().loadContent("");
+				});
 				
 				if(!e.isSelected()) {
 
@@ -421,6 +462,24 @@ public class Interface {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}	
+	
+	private boolean verifyInternetConnection() {
+		Socket socket = null;
+		boolean reachable = false;
+		try {
+		    socket = new Socket("www.google.com", 80);
+		    reachable = true;
+		} catch (Exception e) {
+		} finally {            
+		    if (socket != null) 
+		    	try { 
+		    		socket.close(); 
+		    	} catch(IOException e) {}
+		}
+		
+		return reachable;
+
+	}
 
 //	public static void main(String[] args) {
 //		Interface i = new Interface();

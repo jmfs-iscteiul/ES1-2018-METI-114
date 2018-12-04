@@ -54,7 +54,7 @@ public class IconListRenderer extends JLabel implements ListCellRenderer<standar
 		if(value instanceof MailInfoStruct) {
 			setIcon(new ImageIcon(this.getClass().getResource("/email-icon.png")));
 		}
-		else if(value.getAuthor() == null) {
+		else if(value.getAuthor() == null || value.getAuthor().equals("")) {
 			setIcon(new ImageIcon(this.getClass().getResource("/facebook-icon.png")));
 		}
 		else {
