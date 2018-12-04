@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import mail.EmailHandler;
 
@@ -27,7 +30,10 @@ public class EmailEditor {
 	private JTextField ccArea;
 	private JTextField bccArea;
 	private JTextField subArea;
-	private JButton enviar; 
+	private JButton enviar;
+	private JButton archive;
+	private JFileChooser chooser;
+	private boolean pressed = false;
 	private EmailHandler email;
 
 	public EmailEditor(EmailHandler email) {
@@ -69,12 +75,12 @@ public class EmailEditor {
 		content.setWrapStyleWord(true);
 
 		enviar = new JButton(new ImageIcon(getClass().getResource("/send.png")));
-		JButton archieve = new JButton(new ImageIcon(getClass().getResource("/file.png")));
+		archive = new JButton(new ImageIcon(getClass().getResource("/file.png")));
 
 		panel1.add(content);
 
 		panel2.add(enviar);
-		panel2.add(archieve);
+		panel2.add(archive);
 
 		panel3.add(panelL, BorderLayout.WEST);
 		panel3.add(panelTF, BorderLayout.CENTER);
@@ -95,11 +101,19 @@ public class EmailEditor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				try {
+					
 					InternetAddress[] to = {new InternetAddress(toArea.getText())};
-//					InternetAddress[] cc = {new InternetAddress(ccArea.getText())};
-//					InternetAddress[] bcc = {new InternetAddress(bccArea.getText())};
-					email.enviarEmail(subArea.getText(), content.getText(), to, null, null);
+					//				InternetAddress[] cc = {new InternetAddress(ccArea.getText())};
+					//				InternetAddress[] bcc = {new InternetAddress(bccArea.getText())};
+
+					
+					if(isPressed() == true) {
+						email.enviarEmail(subArea.getText(), content.getText(), to, null, null, chooser.getSelectedFile());
+					} else {
+						email.enviarEmail(subArea.getText(), content.getText(), to, null, null, null);
+					}
 				} catch (AddressException ex) {
 					ex.printStackTrace();
 				}
@@ -110,9 +124,29 @@ public class EmailEditor {
 				content.setText("");
 			}
 		});
+
+		archive.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				pressed = true;
+				
+				chooser = new JFileChooser();
+				int returnVal = chooser.showOpenDialog(null);
+			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			       System.out.println("You chose to open this file: " +
+			            chooser.getSelectedFile().getName());
+			    }
+			    
+			    
+			}
+		});
 	}
 
-
+	private boolean isPressed() {
+		return pressed;
+	}
 
 	public void open() {
 		frame.setVisible(true);

@@ -75,6 +75,7 @@ public class Login {
 					
 					Interface i = new Interface(facebook, twitter, email, xml);
 					i.open();
+					frame.dispose();
 				}
 				else {
 					String message = "Credenciais incorretas";

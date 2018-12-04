@@ -123,7 +123,7 @@ public class FaceEditor {
 	}
 	
 	
-	public boolean isPressed() {
+	private boolean isPressed() {
 		return pressed;
 	}
 
