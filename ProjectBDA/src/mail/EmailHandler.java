@@ -15,15 +15,21 @@ import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.mail.search.ComparisonTerm;
 import javax.mail.search.ReceivedDateTerm;
 
@@ -60,7 +66,7 @@ public class EmailHandler {
 	private Session mailSession;								//Sessão de email
 	private String diretoria;									//diretoria onde gravar anexos de email
 
-	
+
 	/**
 	 * Construtor da classe email. Recebe as informações e prepara a sessão para o envio e a receção de emails.
 	 * 
@@ -108,7 +114,7 @@ public class EmailHandler {
 		});
 	}
 
-	
+
 	/**
 	 * Função que efetua o envio de um email.
 	 * 
@@ -117,8 +123,10 @@ public class EmailHandler {
 	 * @param to Endereços de destino do email
 	 * @param cc Endereços cc do email
 	 * @param bcc Endereços bcc do email
+	 * @param attachment
+	 * @return boolean que representa envio correto do email
 	 */
-	public boolean enviarEmail(String assunto, String texto, InternetAddress[] to, InternetAddress [] cc, InternetAddress [] bcc) {
+	public boolean enviarEmail(String assunto, String texto, InternetAddress[] to, InternetAddress [] cc, InternetAddress [] bcc, File attachment) {
 
 		Message msg = new MimeMessage(mailSession);														//Mensagem a enviar
 
@@ -128,20 +136,33 @@ public class EmailHandler {
 			msg.setRecipients(Message.RecipientType.TO, to);											//Destinos do email
 			msg.setSubject(assunto);																	//Assunto do email
 			msg.setSentDate(new Date());																//Data de envio
-			msg.setText(texto);																			//Texto a enviar
+//			msg.setText(texto);																			//Texto a enviar
 
 			if(cc != null)	msg.setRecipients(Message.RecipientType.CC, cc); 							//Destinos cc do email
 
 			if(bcc != null)	msg.setRecipients(Message.RecipientType.BCC, bcc);							//Destinos bcc do email
 
+			Multipart multipart = new MimeMultipart();
+
+			MimeBodyPart textpart = new MimeBodyPart();
+			textpart.setText(texto);
+			multipart.addBodyPart(textpart);															//Texto a enviar
+
+			if(attachment != null) {
+				MimeBodyPart attachmentpart = new MimeBodyPart();
+				DataSource ds = new FileDataSource(attachment);
+				attachmentpart.setDataHandler(new DataHandler(ds));
+				attachmentpart.setFileName(attachment.getName());
+				multipart.addBodyPart(attachmentpart);														//Anexo a enviar
+			}
+
+			msg.setContent(multipart);
 			msg.saveChanges();
 
 			transport.connect(hostEnvio, user, password); //Conexão para envio de email
-
 			transport.sendMessage(msg, msg.getAllRecipients());	
-
 			transport.close();
-			
+
 			System.out.println("Mensagem Enviada");
 			return true;
 		} catch (MessagingException e) {
@@ -151,7 +172,7 @@ public class EmailHandler {
 		return false;
 	}
 
-	
+
 	/**
 	 * Função que recebe email da caixa de correio do email do utilizador e filtra os mais recentes.
 	 * 
@@ -236,7 +257,7 @@ public class EmailHandler {
 		return emails;
 	}
 
-	
+
 	/**
 	 * Devolve a string que contém a diretoria a gravar os emails.
 	 * 
@@ -246,7 +267,7 @@ public class EmailHandler {
 		return diretoria;
 	}
 
-	
+
 	/**
 	 * Devolve o servidor utilizado para enviar os emails.
 	 * 
