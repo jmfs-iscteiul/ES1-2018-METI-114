@@ -29,9 +29,9 @@ public class EmailHandlerTest {
 	@Test
 	public void testEnviarEmail() {
 		try {
-			InternetAddress [] addresses = {new InternetAddress("es1_grupo114@outlook.pt")};
+			InternetAddress to = new InternetAddress("es1_grupo114@outlook.pt");
 			
-			assertEquals(true, email.enviarEmail("Assunto Teste JUnit", "Corpo de email do JUnit", addresses, null, null, null));
+			assertEquals(true, email.enviarEmail("Assunto Teste JUnit", "Corpo de email do JUnit", to, null, null, null));
 		} catch (AddressException e) {
 			e.printStackTrace();
 		}

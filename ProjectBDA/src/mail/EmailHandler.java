@@ -89,7 +89,6 @@ public class EmailHandler {
 		File directory = new File(diretoria);
 		if(!directory.exists())
 			directory.mkdir();
-		System.out.println("Diretoria: " + directory.getAbsolutePath());
 
 		Properties props = new Properties(); //Propriedades para a sessão de Email
 
@@ -120,10 +119,10 @@ public class EmailHandler {
 	 * 
 	 * @param assunto Assunto do email
 	 * @param texto Corpo de texto do email
-	 * @param to Endereços de destino do email
-	 * @param cc Endereços cc do email
-	 * @param bcc Endereços bcc do email
-	 * @param attachment
+	 * @param to Endereço de destino do email
+	 * @param cc Endereço cc do email
+	 * @param bcc Endereço bcc do email
+	 * @param attachment anexo a enviar
 	 * @return boolean que representa envio correto do email
 	 */
 	public boolean enviarEmail(String assunto, String texto, InternetAddress to, InternetAddress cc, InternetAddress bcc, File attachment) {
@@ -134,19 +133,18 @@ public class EmailHandler {
 			Transport transport = mailSession.getTransport();
 			msg.setFrom(new InternetAddress(user));														//Remetente
 			InternetAddress [] toAddress = {to};
-			msg.setRecipients(Message.RecipientType.TO, toAddress);											//Destinos do email
+			msg.setRecipients(Message.RecipientType.TO, toAddress);										//Destinos do email
 			msg.setSubject(assunto);																	//Assunto do email
 			msg.setSentDate(new Date());																//Data de envio
-//			msg.setText(texto);																			//Texto a enviar
 
 			if(cc != null) {
 				InternetAddress [] ccAddress = {cc};
-				msg.setRecipients(Message.RecipientType.CC, ccAddress); 							//Destinos cc do email
+				msg.setRecipients(Message.RecipientType.CC, ccAddress); 								//Destinos cc do email
 			}
 
 			if(bcc != null)	{
 				InternetAddress [] bccAddress = {bcc};
-				msg.setRecipients(Message.RecipientType.BCC, bccAddress);							//Destinos bcc do email
+				msg.setRecipients(Message.RecipientType.BCC, bccAddress);								//Destinos bcc do email
 			}
 
 			Multipart multipart = new MimeMultipart();
@@ -160,13 +158,13 @@ public class EmailHandler {
 				DataSource ds = new FileDataSource(attachment);
 				attachmentpart.setDataHandler(new DataHandler(ds));
 				attachmentpart.setFileName(attachment.getName());
-				multipart.addBodyPart(attachmentpart);														//Anexo a enviar
+				multipart.addBodyPart(attachmentpart);													//Anexo a enviar
 			}
 
 			msg.setContent(multipart);
 			msg.saveChanges();
 
-			transport.connect(hostEnvio, user, password); //Conexão para envio de email
+			transport.connect(hostEnvio, user, password); 												//Conexão para envio de email
 			transport.sendMessage(msg, msg.getAllRecipients());	
 			transport.close();
 
@@ -175,7 +173,6 @@ public class EmailHandler {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-
 		return false;
 	}
 
@@ -190,7 +187,6 @@ public class EmailHandler {
 
 		try {
 			Store store = mailSession.getStore("imaps");
-			System.out.println(user);
 			store.connect(hostRececao, user, password);														//Conectar ao endereço de email
 			System.out.println("Conectado");
 
@@ -202,7 +198,6 @@ public class EmailHandler {
 			Date oneDayAgo = cal.getTime();
 
 			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));			//Vai buscar emails consoante o filtro
-			System.out.println(messages.length);
 
 			for(Message message : messages) {
 				ContentHandler contentHandler = new CustomContentHandler();

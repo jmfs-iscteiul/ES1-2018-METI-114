@@ -15,32 +15,14 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author João Oliveira
  *
  */
-
 public class TwitterApp {
 	
 	private Twitter twitter;								//Instancia da classe twitter4j
 	private ArrayList<standardInfoStruct> tweetsList;		//Lista de tweets manipulada com a estrutura da mensagem
 	
-//	public static void main(String[] args) {
-//		TwitterApp t = new TwitterApp();
-//		
-//		t.authenticateMyAccount();
-//		t.fetchTimeline();
-		//t.postTweet("As coisas hoje n�o me est�o a correr bem. HELP!");
-		//Status retweet = t.getChooseRetweet();
-		//t.retweetPost(retweet.getId());
-		//t.searchHashtag("#university");
-		
-		
-		//t.searchPerson("ana");
-		//t.authenticateIscteAccount();
-		
-//     }
-	
 	/**
-	 * Esta função serve para autenticar o utilizador na conta do twitter com as credênciais de Developer.
+	 * Esta função serve para autenticar o utilizador na conta do twitter com as credenciais de Developer.
 	 */
-	
 	public void authenticateMyAccount(String ck, String cs, String at, String ats){
 		try {
         	ConfigurationBuilder cb = new ConfigurationBuilder();      //Variável que constrói as definições padrão de autenticação
@@ -61,7 +43,6 @@ public class TwitterApp {
 	 * Esta função irá buscar a Timeline do Twitter.
 	 * @return Devolve uma lista que contém as mensagens organizadas com data, nome de utilizador e conteúdo da mensagem.
 	 */
-	
 	public ArrayList<standardInfoStruct> fetchTimeline(){  		
 		try{
 			List<twitter4j.Status> timelineStatuses = twitter.getHomeTimeline();  //Lista da timeline em formato status
@@ -83,10 +64,9 @@ public class TwitterApp {
 	 * Esta função publica um Tweet na aplicação
 	 * @param tweet Este parâmetro é o conteúdo da mensagem que será publicada.
 	 */
-	
 	public boolean postTweet(String tweet){
 		try{
-			Status status = twitter.updateStatus(tweet);	//Variável que define o novo tweet	
+			twitter.updateStatus(tweet);	//Variável que define o novo tweet	
 		}catch(TwitterException e){
 			System.out.println(e.getMessage());
 		}
