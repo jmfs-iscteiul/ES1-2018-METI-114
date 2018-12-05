@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.EmptyStackException;
 import java.util.List;
@@ -30,8 +29,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.mail.search.ComparisonTerm;
-import javax.mail.search.ReceivedDateTerm;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -193,11 +190,7 @@ public class EmailHandler {
 			Folder inbox = store.getFolder("inbox");														//Pasta do email em que os emails recebidos se encontram
 			inbox.open(Folder.READ_ONLY);
 
-			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.HOUR_OF_DAY, -24);																//Alterar para aplicar filtros dependendo da escolha
-			Date oneDayAgo = cal.getTime();
-
-			Message[] messages = inbox.search(new ReceivedDateTerm(ComparisonTerm.GE, oneDayAgo));			//Vai buscar emails consoante o filtro
+			Message[] messages = inbox.getMessages();														//Vai buscar os emails na caixa de email
 
 			for(Message message : messages) {
 				ContentHandler contentHandler = new CustomContentHandler();
