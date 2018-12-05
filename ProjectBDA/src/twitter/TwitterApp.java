@@ -73,19 +73,5 @@ public class TwitterApp {
 		return true;
 	}
 	
-//	public void retweetPost(long statusID){
-//		
-//		try {
-//			twitter.retweetStatus(statusID);
-//		} catch (TwitterException e) {
-//			System.out.println("Falhou no Retweet");
-//			e.getMessage();
-//		}
-//	}
-	
-//	public Status getChooseRetweet(){
-//		Status primeiroTweet = timelineStatuses.get(13);
-//		return primeiroTweet;
-//	}
 
 }
