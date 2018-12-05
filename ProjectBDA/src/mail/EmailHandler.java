@@ -126,21 +126,28 @@ public class EmailHandler {
 	 * @param attachment
 	 * @return boolean que representa envio correto do email
 	 */
-	public boolean enviarEmail(String assunto, String texto, InternetAddress[] to, InternetAddress [] cc, InternetAddress [] bcc, File attachment) {
+	public boolean enviarEmail(String assunto, String texto, InternetAddress to, InternetAddress cc, InternetAddress bcc, File attachment) {
 
 		Message msg = new MimeMessage(mailSession);														//Mensagem a enviar
 
 		try {
 			Transport transport = mailSession.getTransport();
 			msg.setFrom(new InternetAddress(user));														//Remetente
-			msg.setRecipients(Message.RecipientType.TO, to);											//Destinos do email
+			InternetAddress [] toAddress = {to};
+			msg.setRecipients(Message.RecipientType.TO, toAddress);											//Destinos do email
 			msg.setSubject(assunto);																	//Assunto do email
 			msg.setSentDate(new Date());																//Data de envio
 //			msg.setText(texto);																			//Texto a enviar
 
-			if(cc != null)	msg.setRecipients(Message.RecipientType.CC, cc); 							//Destinos cc do email
+			if(cc != null) {
+				InternetAddress [] ccAddress = {cc};
+				msg.setRecipients(Message.RecipientType.CC, ccAddress); 							//Destinos cc do email
+			}
 
-			if(bcc != null)	msg.setRecipients(Message.RecipientType.BCC, bcc);							//Destinos bcc do email
+			if(bcc != null)	{
+				InternetAddress [] bccAddress = {bcc};
+				msg.setRecipients(Message.RecipientType.BCC, bccAddress);							//Destinos bcc do email
+			}
 
 			Multipart multipart = new MimeMultipart();
 

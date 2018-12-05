@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import common.Xml;
 import facebook.PostGroups;
 
 /**
@@ -30,8 +31,10 @@ public class FaceEditor {
 	private PostGroups postGroups;
 	private boolean pressed = false;
 	private JFileChooser chooser;
+	private Xml xml;
 	
-	public FaceEditor() {
+	public FaceEditor(Xml xml) {
+		this.xml = xml;
 		
 		frame = new JFrame("Editor");
 		frame.setLayout(new BorderLayout());
@@ -49,7 +52,7 @@ public class FaceEditor {
 		JButton postar = new JButton(new ImageIcon(getClass().getResource("/send.png")));
 		JButton archieve = new JButton(new ImageIcon(getClass().getResource("/file.png")));
 		
-		postGroups = new PostGroups("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
+		postGroups = new PostGroups(xml.leituraXML("Facebook", "Token"));
 		ArrayList<String> grupos = postGroups.getResult();
 		String[]vetorGrupos = new String [grupos.size()];
 		for (int i = 0; i < grupos.size(); i++) {

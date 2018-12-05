@@ -104,15 +104,22 @@ public class EmailEditor {
 
 				try {
 					
-					InternetAddress[] to = {new InternetAddress(toArea.getText())};
-					//				InternetAddress[] cc = {new InternetAddress(ccArea.getText())};
-					//				InternetAddress[] bcc = {new InternetAddress(bccArea.getText())};
-
+					InternetAddress to = new InternetAddress(toArea.getText());
+					
+					InternetAddress cc = null;
+					if(!ccArea.getText().equals("")) {
+						cc = new InternetAddress(ccArea.getText());
+					}
+					
+					InternetAddress bcc = null;
+					if(!bccArea.getText().equals("")) {
+						bcc = new InternetAddress(bccArea.getText());
+					}
 					
 					if(isPressed() == true) {
-						email.enviarEmail(subArea.getText(), content.getText(), to, null, null, chooser.getSelectedFile());
+						email.enviarEmail(subArea.getText(), content.getText(), to, cc, bcc, chooser.getSelectedFile());
 					} else {
-						email.enviarEmail(subArea.getText(), content.getText(), to, null, null, null);
+						email.enviarEmail(subArea.getText(), content.getText(), to, cc, bcc, null);
 					}
 				} catch (AddressException ex) {
 					ex.printStackTrace();

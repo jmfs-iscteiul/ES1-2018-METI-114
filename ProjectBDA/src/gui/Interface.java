@@ -257,7 +257,7 @@ public class Interface {
 		
 		faceButton.addActionListener((e) -> {
 
-			FaceEditor fe = new FaceEditor();
+			FaceEditor fe = new FaceEditor(xml);
 			fe.open();
 
 		});
