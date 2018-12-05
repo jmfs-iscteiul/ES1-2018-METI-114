@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -18,10 +17,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import mail.EmailHandler;
 
+/**
+ * Classe que permite a criação de uma janela para envio de emails com e sem ficheiros.
+ * 
+ * @author jose_santos
+ */
 public class EmailEditor {
 
 	private JFrame frame;
@@ -90,12 +93,18 @@ public class EmailEditor {
 		frame.add(panel3, BorderLayout.NORTH);
 
 		enviarEmail();
-		
+
 		frame.setSize(1000, 400);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 	}
 
+	/**
+	 * A função enviarEmail() serve para fazermos o ActionListener do JButton enviar e do archive.
+	 * O ActionListener do enviar vai permitir o envio de emails para o endereço que queremos com ou sem 
+	 * ficheiros em anexo. Em relação ao ActionListener do archive, este só permite abrir uma diretoria com os
+	 * ficheiros do nosso pc para ser anexado ao email.
+	 */
 	private void enviarEmail() {
 		enviar.addActionListener(new ActionListener() {
 
@@ -103,19 +112,19 @@ public class EmailEditor {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-					
+
 					InternetAddress to = new InternetAddress(toArea.getText());
-					
+
 					InternetAddress cc = null;
 					if(!ccArea.getText().equals("")) {
 						cc = new InternetAddress(ccArea.getText());
 					}
-					
+
 					InternetAddress bcc = null;
 					if(!bccArea.getText().equals("")) {
 						bcc = new InternetAddress(bccArea.getText());
 					}
-					
+
 					if(isPressed() == true) {
 						email.enviarEmail(subArea.getText(), content.getText(), to, cc, bcc, chooser.getSelectedFile());
 					} else {
@@ -136,33 +145,35 @@ public class EmailEditor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				pressed = true;
-				
+
 				chooser = new JFileChooser();
 				int returnVal = chooser.showOpenDialog(null);
-			    if(returnVal == JFileChooser.APPROVE_OPTION) {
-			       System.out.println("You chose to open this file: " +
-			            chooser.getSelectedFile().getName());
-			    }
-			    
-			    
+				if(returnVal == JFileChooser.APPROVE_OPTION) {
+					System.out.println("You chose to open this file: " +
+							chooser.getSelectedFile().getName());
+				}
+
+
 			}
 		});
 	}
 
+	/**
+	 * 
+	 * @return variável que permite saber se o JButton archive foi primido.
+	 */
 	private boolean isPressed() {
 		return pressed;
 	}
 
+	/**
+	 * Função para a JFrame ser aberta no centro do ecrã.
+	 */
 	public void open() {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}	
-
-	//	public static void main(String[] args) {
-	//		EmailEditor ee = new EmailEditor();
-	//		ee.open();
-	//	}
 
 }
