@@ -2,6 +2,12 @@ package common;
 
 import java.util.Date;
 
+/**
+ * Classe que define a estrutura das notificações.
+ * 
+ * @author jose_santos
+ */
+
 public class standardInfoStruct implements Comparable<standardInfoStruct>{
 	
 	private Date date;
@@ -13,32 +19,44 @@ public class standardInfoStruct implements Comparable<standardInfoStruct>{
 		this.author = a;
 		this.text = t;
 	}
-
-	public void setSender(String author) {
-		this.author = author;
-	}
-
-	public void setContent(String title) {
-		this.text = title;
-	}
-	
+	/**
+	 * 
+	 * @return a data da notificação escolhida.
+	 */
 	public Date getDate() {
 		return date;
 	}
 
+	/**
+	 * 
+	 * @return o autor da notificação escolhida.
+	 */
 	public String getAuthor() {
 		return author;
 	}
 
+	/**
+	 * 
+	 * @return o titulo da notificação escolhida.
+	 */
 	public String getTitle() {
 		return text;
 	}
 	
+	/**
+	 * 
+	 * @return uma nova forma de visualização de notificações.
+	 */
 	@Override
 	public String toString() {
 		return date + " - " + text;
 	}
 
+	/**
+	 * 
+	 * @return valor entre -1 e 1 para que as notificações sejam organizadas por ordem de cronologica da data
+	 * do mais recente para o mais antigo.
+	 */
 	@Override
 	public int compareTo(standardInfoStruct other) {
 		if(this.getDate().compareTo(other.getDate()) < 0)
@@ -46,9 +64,6 @@ public class standardInfoStruct implements Comparable<standardInfoStruct>{
 		if(this.getDate().compareTo(other.getDate()) > 0)
 			return -1;
 		return 0;
-			
-		
 	}
-	
 	
 }

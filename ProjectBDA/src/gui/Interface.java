@@ -45,13 +45,11 @@ import twitter.TwitterApp;
  * A classe interface tem como objetivo criar a base gráfica do projeto.
  * Esta JFrame é constituida por dois JScrollPane com uma JTextArea para visualização de posts e 
  * uma JList para visualizar a timeline por ordem cronológica. 
- * Para além do dito anteriormente existe também três botões que quando premidos criam uma janela
- * de edição de posts e tweets que são enviados para a plataforma online (falta fazer a edição e 
- * envio de emails)
+ * Para além do dito anteriormente existe também três botões que quando primidos criam uma janela
+ * para envio de post, tweets e emails.
+ * 
  * @author jose_santos
- *
  */
-
 public class Interface {
 
 	private JFrame frame;
@@ -85,7 +83,7 @@ public class Interface {
 		this.twitter = twitter;
 		this.email = email;
 		this.xml = xml;
-		
+
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
 		JPanel panel3 = new JPanel(new FlowLayout());
@@ -123,22 +121,22 @@ public class Interface {
 		scrollPane1.setHorizontalScrollBar(null);
 		scrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane2 = new JScrollPane(viewPost);
-	
+
 		panel1.add(scrollPane1);
 		panel1.add(scrollPane2);
-		
+
 		search = new JButton("Procurar");
 		word = new JTextField("Introduzir palavra", 30);
 		reset = new JButton("Reset");
-		
+
 		faceButton = new JButton("Postar");
 		tweetButton = new JButton("Tweetar");
 		sendEmail = new JButton("Enviar email");
-		
+
 		ImageIcon image = new ImageIcon(getClass().getResource("/vertical-line.png"));
 		JLabel filtros = new JLabel("Filtros: ");
 		JLabel separator = new JLabel(image);
-		
+
 		panel2.add(faceButton);
 		panel2.add(tweetButton);
 		panel2.add(sendEmail);
@@ -168,14 +166,12 @@ public class Interface {
 	 * Posteriormente essa model vai ser adicionada a JList para que seja mostrada a timeline.
 	 * @return model com a timeline
 	 */
-
-
 	private DefaultListModel<standardInfoStruct> getLists() {
-		
+
 		all = new ArrayList<>();
 		model = new DefaultListModel<>();
-		
-			
+
+
 		if(verifyInternetConnection()) {
 
 			Timeline timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
@@ -190,14 +186,14 @@ public class Interface {
 			Collections.sort(all);
 
 			xml.escreverDeVarias(all);
-			
+
 		}else {
-			
+
 			all = xml.lerDeVarias();
 			emailList = new ArrayList<>();
 			faceList = new ArrayList<>();
 			tweetList = new ArrayList<>();
-			
+
 			for(int i = 0; i < all.size(); i++) {
 				if(all.get(i) instanceof MailInfoStruct) {
 					emailList.add((MailInfoStruct) all.get(i));
@@ -209,22 +205,21 @@ public class Interface {
 					tweetList.add(all.get(i));
 				}
 			}
-			
-			
+
+
 		}
-		
+
 		for(standardInfoStruct val : all)
 			model.addElement(val);
-		
+
 		return model;
-		
+
 	}
 
 	/**
 	 * A função readElements é uma forma de vermos as notifiações na JTextArea com um principal cuidado
 	 * para o mail que está a ser adicionado a uma webView.
 	 */
-
 	private void readElements() {
 		allLists.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -249,22 +244,26 @@ public class Interface {
 		});
 	}
 
+	/**
+	 * Função que permite fazer a acção de cada JButton para abrir a janela de edição de posts, tweets e 
+	 * emails.
+	 */
 	private void sendNot() {
-		
+
 		faceButton.addActionListener((e) -> {
 
 			FaceEditor fe = new FaceEditor(xml);
 			fe.open();
 
 		});
-		
+
 		tweetButton.addActionListener((e) -> {
 
 			TwitterEditor te = new TwitterEditor(twitter);
 			te.open();
 
 		});
-		
+
 		sendEmail.addActionListener((e) -> {
 
 			EmailEditor ee = new EmailEditor(email);
@@ -274,11 +273,9 @@ public class Interface {
 	}
 
 	/**
-	 * A função stateIcons() é ainda incompleta mas tem como objetivo ser uma check box de icons para
-	 * ativar e desativar as arraylist do facebook, do twitter e do mail. Neste momento só altera o estado
-	 * do icon
+	 * A função stateIcons() tem como objetivo trocar os icons para ativado / desativado. Posteriormente esses
+	 * icons serão usados para fazer os filtros de ativação / desativação de cada serviço.
 	 */
-
 	private void stateIcons() {
 
 		f = new JCheckBox(new ImageIcon(getClass().getResource("/facebook-disabled.png")),true);
@@ -302,6 +299,10 @@ public class Interface {
 
 	}
 
+	/**
+	 * Esta função permite a atualização das listas que são apresentadas consoante o icon (
+	 * ativado/desativado).
+	 */
 	private void iconsAction() {
 		List<standardInfoStruct> temp = new ArrayList<>();
 
@@ -313,12 +314,12 @@ public class Interface {
 				Platform.runLater(() -> {
 					webView.getEngine().loadContent("");
 				});
-				
+
 				if(!f.isSelected()) {
 
 					if(t.isSelected()) temp.addAll(tweetList);
 					if(e.isSelected()) temp.addAll(emailList);
-					
+
 					Collections.sort(temp);
 					for(standardInfoStruct s : temp) {
 						model.addElement(s);
@@ -331,7 +332,7 @@ public class Interface {
 					temp.addAll(faceList);
 
 					Collections.sort(temp);
-					
+
 					for(standardInfoStruct s : temp) {
 						model.addElement(s);
 					}
@@ -340,7 +341,7 @@ public class Interface {
 
 			}
 		});
-		
+
 		t.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -349,12 +350,12 @@ public class Interface {
 				Platform.runLater(() -> {
 					webView.getEngine().loadContent("");
 				});
-				
+
 				if(!t.isSelected()) {
 
 					if(f.isSelected()) temp.addAll(faceList);
 					if(e.isSelected()) temp.addAll(emailList);
-					
+
 					Collections.sort(temp);
 					for(standardInfoStruct s : temp) {
 						model.addElement(s);
@@ -367,7 +368,7 @@ public class Interface {
 					temp.addAll(tweetList);
 
 					Collections.sort(temp);
-					
+
 					for(standardInfoStruct s : temp) {
 						model.addElement(s);
 					}
@@ -376,7 +377,7 @@ public class Interface {
 
 			}
 		});
-		
+
 		e.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -385,12 +386,12 @@ public class Interface {
 				Platform.runLater(() -> {
 					webView.getEngine().loadContent("");
 				});
-				
+
 				if(!e.isSelected()) {
 
 					if(f.isSelected()) temp.addAll(faceList);
 					if(t.isSelected()) temp.addAll(tweetList);
-					
+
 					Collections.sort(temp);
 					for(standardInfoStruct s : temp) {
 						model.addElement(s);
@@ -403,7 +404,7 @@ public class Interface {
 					temp.addAll(emailList);
 
 					Collections.sort(temp);
-					
+
 					for(standardInfoStruct s : temp) {
 						model.addElement(s);
 					}
@@ -413,73 +414,74 @@ public class Interface {
 			}
 		});
 	}
-	
+
+	/**
+	 * Função que permite a procura de uma palavra chave (e.g. data ou palavra) na lista de notificações.
+	 */
 	private void searchWord() {
-		
+
 		search.addActionListener((event) -> {
 			model.clear();
 			for(int i = 0; i < all.size(); i++) {
 				if(all.get(i).toString().contains(word.getText())) {
 					if((all.get(i) instanceof MailInfoStruct && e.isSelected()) || 
 							(all.get(i).getAuthor() == null && f.isSelected())
-								|| (all.get(i).getAuthor() != null && t.isSelected())) {
-										model.addElement(all.get(i));
+							|| (all.get(i).getAuthor() != null && t.isSelected())) {
+						model.addElement(all.get(i));
 					}
 				}
 			}
 		});
-		
-		
+
+
 		word.addMouseListener(new MouseAdapter() {
-			
-			
+
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getSource() == word)
 					word.setText("");
 			}
 		});
-		
+
 		reset.addActionListener((event) -> {
-			
+
 			word.setText("");
 			for(standardInfoStruct val : all)
 				model.addElement(val);
-			
+
 		});
-		
+
 	}
 
 	/**
-	 * Função para abrir a janela do BDA e coloca-la no centro do ecrã
+	 * Função para verificação da existência de internet.
+	 * 
+	 * @return valor boolean que assinala se existe conexão à internet ou não
 	 */
-
-	public void open() {
-		frame.setVisible(true);
-		frame.setLocationRelativeTo(null);
-	}	
-	
 	private boolean verifyInternetConnection() {
 		Socket socket = null;
 		boolean reachable = false;
 		try {
-		    socket = new Socket("www.google.com", 80);
-		    reachable = true;
+			socket = new Socket("www.google.com", 80);
+			reachable = true;
 		} catch (Exception e) {
 		} finally {            
-		    if (socket != null) 
-		    	try { 
-		    		socket.close(); 
-		    	} catch(IOException e) {}
+			if (socket != null) 
+				try { 
+					socket.close(); 
+				} catch(IOException e) {}
 		}
-		
-		return reachable;
 
+		return reachable;
 	}
 
-//	public static void main(String[] args) {
-//		Interface i = new Interface();
-//		i.open();
-//	}
+	/**
+	 * Função para abrir a janela do BDA e coloca-la no centro do ecrã.
+	 */
+	public void open() {
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+	}	
 
 }
