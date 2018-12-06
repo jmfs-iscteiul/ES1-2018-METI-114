@@ -1,4 +1,4 @@
-package gui;
+package BDA.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-import mail.EmailHandler;
+import BDA.mail.EmailHandler;
 
 /**
  * Classe que permite a criação de uma janela para envio de emails com e sem ficheiros.

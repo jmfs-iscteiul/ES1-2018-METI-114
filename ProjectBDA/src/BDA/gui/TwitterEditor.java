@@ -1,4 +1,4 @@
-package gui;
+package BDA.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
-import twitter.TwitterApp;
+import BDA.twitter.TwitterApp;
 
 /**
  * Classe que permite a criação de uma janela para envio de tweets para a plataforma twitter online

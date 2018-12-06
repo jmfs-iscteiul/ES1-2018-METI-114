@@ -1,4 +1,4 @@
-package gui;
+package BDA.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -29,17 +29,17 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import common.Xml;
-import common.standardInfoStruct;
-import facebook.Timeline;
+import BDA.common.Xml;
+import BDA.common.standardInfoStruct;
+import BDA.facebook.Timeline;
+import BDA.mail.EmailHandler;
+import BDA.mail.MailInfoStruct;
+import BDA.twitter.TwitterApp;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
-import mail.EmailHandler;
-import mail.MailInfoStruct;
-import twitter.TwitterApp;
 
 /**
  * A classe interface tem como objetivo criar a base gráfica do projeto.

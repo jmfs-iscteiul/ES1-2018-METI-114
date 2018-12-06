@@ -1,9 +1,9 @@
-package twitter;
+package BDA.twitter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import common.standardInfoStruct;
+import BDA.common.standardInfoStruct;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

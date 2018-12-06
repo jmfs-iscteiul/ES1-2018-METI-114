@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import common.standardInfoStruct;
-import facebook.Timeline;
+import BDA.common.standardInfoStruct;
+import BDA.facebook.Timeline;
 
 public class TimelineTest {
 	

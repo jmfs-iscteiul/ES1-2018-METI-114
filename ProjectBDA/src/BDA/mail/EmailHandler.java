@@ -1,4 +1,4 @@
-package mail;
+package BDA.mail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import common.standardInfoStruct;
-import common.Xml;
-import twitter.TwitterApp;
+import BDA.common.Xml;
+import BDA.common.standardInfoStruct;
+import BDA.twitter.TwitterApp;
 
 public class TestTwitterApp {
 	

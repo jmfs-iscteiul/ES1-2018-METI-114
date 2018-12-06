@@ -1,4 +1,4 @@
-package gui;
+package BDA.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -16,8 +16,8 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import common.Xml;
-import facebook.PostGroups;
+import BDA.common.Xml;
+import BDA.facebook.PostGroups;
 
 /**
  * Classe que permite a criação de uma janela para envio de posts com ou sem images para a 

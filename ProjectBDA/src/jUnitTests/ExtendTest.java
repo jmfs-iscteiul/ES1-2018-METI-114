@@ -1,13 +1,10 @@
 package jUnitTests;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import facebook.Extend;
+import BDA.facebook.Extend;
 
 public class ExtendTest {
 	

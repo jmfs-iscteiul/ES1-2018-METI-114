@@ -1,4 +1,4 @@
-package common;
+package BDA.common;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import mail.MailInfoStruct;
+import BDA.mail.MailInfoStruct;
 
 /**
  * Esta classe permite ler e escrever em ficheiros XML, sendo que usaremos esse ficheiro como uma espécie de base de dados para armazenar tokens dos serviços e permitir também o funcionamento offline.

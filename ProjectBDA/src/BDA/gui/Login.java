@@ -1,4 +1,4 @@
-package gui;
+package BDA.gui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,10 +14,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-import common.Xml;
-import facebook.Timeline;
-import mail.EmailHandler;
-import twitter.TwitterApp;
+import BDA.common.Xml;
+import BDA.facebook.Timeline;
+import BDA.mail.EmailHandler;
+import BDA.twitter.TwitterApp;
 
 /**
  * O Login permite que haja uma autenticação da pessoa, sem que haja tokens e passes no código.

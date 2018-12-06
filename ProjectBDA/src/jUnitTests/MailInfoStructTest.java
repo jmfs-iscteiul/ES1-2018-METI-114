@@ -11,7 +11,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import mail.MailInfoStruct;
+import BDA.mail.MailInfoStruct;
 
 public class MailInfoStructTest {
 	

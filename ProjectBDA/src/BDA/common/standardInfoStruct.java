@@ -1,4 +1,4 @@
-package common;
+package BDA.common;
 
 import java.util.Date;
 

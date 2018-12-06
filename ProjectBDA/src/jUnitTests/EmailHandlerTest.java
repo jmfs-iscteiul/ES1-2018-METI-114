@@ -11,8 +11,8 @@ import javax.mail.internet.InternetAddress;
 import org.junit.Before;
 import org.junit.Test;
 
-import mail.EmailHandler;
-import mail.MailInfoStruct;
+import BDA.mail.EmailHandler;
+import BDA.mail.MailInfoStruct;
 
 public class EmailHandlerTest {
 

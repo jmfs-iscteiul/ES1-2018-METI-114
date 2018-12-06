@@ -1,4 +1,4 @@
-package gui;
+package BDA.gui;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import common.standardInfoStruct;
-import mail.MailInfoStruct;
+import BDA.common.standardInfoStruct;
+import BDA.mail.MailInfoStruct;
 
 /**
  * Esta classe tem como objetivo adaptarmos os icons no incio de cada elemento da lista.

@@ -1,4 +1,4 @@
-package facebook;
+package BDA.facebook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.types.Post;
 
-import common.standardInfoStruct;
+import BDA.common.standardInfoStruct;
 
 /**
  * Esta classe permite-nos ir buscar à timeline do utilizador posts que contenham palavras chave indicadas pelo utilizador.
