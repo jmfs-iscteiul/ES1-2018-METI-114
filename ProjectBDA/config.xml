@@ -6,7 +6,7 @@
 		<docPath>/users/js/importantDocument.doc</docPath>
 		<logPath>/users/js/dailyLog.log</logPath>
 	</Paths>	
-<Mail Account="es1_grupo114@outlook.pt" Password="es1grupo114"/>
+<Mail Account="testeES114@outlook.pt" Password="grupo114"/>
 <Facebook Password="verde123" Token="EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD" User="ricas1997@gmail.com"/>
 	<Twitter AccessToken="1052294113620611073-wO7U7iqqQ4v7jFqb3Pb3pqnJa7HCdM" AccessTokenSecret="O94jOOxoSRsAfQAvu4GHrykJUrZ0nzoubUpKdGEd6TXGF" ConsumerKey="QRFyiUq64mbtFLxZUGAMoFb7T" ConsumerSecret="SJCB1ZmR0xxZtV95zUEfxNSkZWXU76pf1jIhG7WXEzDiHIrd0I"/>
 <Mensagens>

@@ -16,20 +16,20 @@ import BDA.mail.MailInfoStruct;
 
 public class EmailHandlerTest {
 
-	EmailHandler email = new EmailHandler("es1_grupo114@outlook.pt", "es1grupo114");
+	EmailHandler email = new EmailHandler("testeES114@outlook.pt", "grupo114");
 	@Before
 
 	@Test
 	public void testEmailHandler() {
 		assertEquals(email.getHostEnvio(), "smtp-mail.outlook.com");
 		assertEquals(email.getHostRececao(), "imap-mail.outlook.com");
-		assertEquals(email.getUser(), "es1_grupo114@outlook.pt");
+		assertEquals(email.getUser(), "testeES114@outlook.pt");
 	}
 
 	@Test
 	public void testEnviarEmail() {
 		try {
-			InternetAddress to = new InternetAddress("es1_grupo114@outlook.pt");
+			InternetAddress to = new InternetAddress("testeES114@outlook.pt");
 			
 			assertEquals(true, email.enviarEmail("Assunto Teste JUnit", "Corpo de email do JUnit", to, null, null, null));
 		} catch (AddressException e) {
@@ -69,6 +69,6 @@ public class EmailHandlerTest {
 
 	@Test
 	public void testGetUser() {
-		assertEquals("es1_grupo114@outlook.pt", email.getUser());
+		assertEquals("testeES114@outlook.pt", email.getUser());
 	}
 }

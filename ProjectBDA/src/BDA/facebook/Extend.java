@@ -18,7 +18,8 @@ public class Extend {
 	FacebookClient fbClient4;
 
 	@SuppressWarnings("deprecation")
-	public Extend () {
+	public Extend (String accessToken) {
+		this.accessToken = accessToken;
 		fbClient4 = new DefaultFacebookClient(accessToken);
 	}
 
