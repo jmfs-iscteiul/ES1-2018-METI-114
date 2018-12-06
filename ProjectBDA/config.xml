@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<XML>	
+	<Service Account="joao@iscte-iul.pt" Password="abcd" Protocol="imap"/>
+	<Service Account="jose@iscte-iul.pt" Password="efgh" Protocol="pop"/>
+	<Paths>
+		<docPath>/users/js/importantDocument.doc</docPath>
+		<logPath>/users/js/dailyLog.log</logPath>
+	</Paths>	
+<Mail Account="testeES114@outlook.pt" Password="grupo114"/>
+<Facebook Password="verde123" Token="EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD" User="ricas1997@gmail.com"/>
+	<Twitter AccessToken="1052294113620611073-wO7U7iqqQ4v7jFqb3Pb3pqnJa7HCdM" AccessTokenSecret="O94jOOxoSRsAfQAvu4GHrykJUrZ0nzoubUpKdGEd6TXGF" ConsumerKey="QRFyiUq64mbtFLxZUGAMoFb7T" ConsumerSecret="SJCB1ZmR0xxZtV95zUEfxNSkZWXU76pf1jIhG7WXEzDiHIrd0I"/>
+<Mensagens>
+<Mensagem0 Author="2018Es1" Data="Wed Dec 05 16:37:46 WET 2018" Text="tweet"/>
+<Mensagem1 Author="2018Es1" Data="Wed Dec 05 12:42:17 WET 2018" Text="Já pinga malta"/>
+<Mensagem2 Author="2018Es1" Data="Tue Dec 04 21:32:15 WET 2018" Text="Nunca mais acaba isto para irmos para casa. Que secaaaa"/>
+<Mensagem3 Author="Grupo EngSoftware &lt;es1_grupo114@outlook.pt&gt;" CC="" Data="Tue Dec 04 15:36:45 WET 2018" Subject="Assunto Teste JUnit" Text="Corpo de email do JUnit" To="Grupo EngSoftware &lt;es1_grupo114@outlook.pt&gt;"/>
+<Mensagem4 Author="=?iso-8859-1?Q?Jo=E3o_Miguel_Oliveira?= &lt;jmloa@iscte-iul.pt&gt;" CC="" Data="Tue Dec 04 14:59:48 WET 2018" Subject="Email de spam 1" Text="&lt;html&gt;&lt;head&gt;&#13;&#10;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;&#13;&#10;&lt;/head&gt;&#13;&#10;&lt;body&gt;&#13;&#10;&lt;div dir=&quot;auto&quot; style=&quot;direction: ltr; margin: 0; padding: 0; font-family: sans-serif; font-size: 11pt; color: black; &quot;&gt;&#13;&#10;Lalala&lt;br&gt;&#13;&#10;&lt;/div&gt;&#13;&#10;&lt;/body&gt;&#13;&#10;&lt;/html&gt;&#13;&#10;" To="&quot;es1_grupo114@outlook.pt&quot; &lt;es1_grupo114@outlook.pt&gt;"/>
+<Mensagem5 Author="2018Es1" Data="Fri Nov 30 15:48:23 WET 2018" Text="Teste boolean"/>
+<Mensagem6 Author="ISCTEIUL" Data="Fri Nov 30 14:17:35 WET 2018" Text="I added a video to a @YouTube playlist https://t.co/VTnYO7nJ87 Livro do Mês dezembro 2018 Biblioteca ISCTE-IUL"/>
+<Mensagem7 Author="andre_almeida34" Data="Sat Nov 24 09:59:03 WET 2018" Text="RT @MKBHD: Giving a random follower who RTs this a free pair of Audio Technica ATH-M50XBT headphones! Anyone internationally can win. I'll…"/>
+<Mensagem8 Author="2018Es1" Data="Fri Nov 23 10:53:11 WET 2018" Text="Tweetar a partir do Acer, encontrado na sala de estudo ehehe"/>
+<Mensagem9 Author="2018Es1" Data="Fri Nov 23 10:41:30 WET 2018" Text="Tweetar a partir de um mac que foi achado na sala de estudo ihihihih!!!! :)"/>
+<Mensagem10 Author="ISCTEIUL" Data="Tue Nov 20 15:45:38 WET 2018" Text="I liked a @YouTube video https://t.co/LnnD84fM5c UMO AM LX"/>
+<Mensagem11 Author="ISCTEIUL" Data="Tue Nov 20 12:26:46 WET 2018" Text="I added a video to a @YouTube playlist https://t.co/U0EtGQ1DOa An Examination of Labor Trafficking from a Human Rights and Consumption"/>
+<Mensagem12 Author="ISCTEIUL" Data="Tue Nov 20 12:26:01 WET 2018" Text="I added a video to a @YouTube playlist https://t.co/U0EtGPK2WC An Examination of Labor Trafficking from a Human Rights and Consumption"/>
+<Mensagem13 Author="ISCTEIUL" Data="Tue Nov 20 12:19:34 WET 2018" Text="I liked a @YouTube video https://t.co/U0EtGPK2WC An Examination of Labor Trafficking from a Human Rights and Consumption Perspective"/>
+<Mensagem14 Author="andre_almeida34" Data="Wed Nov 14 10:24:08 WET 2018" Text="RT @RuiHCruz: Isto é capaz de ser a melhor coisa que vi nos últimos 6 meses, mesmo tendo em conta que hoje vi o vídeo da manifestação pró B…"/>
+<Mensagem15 Author="andre_almeida34" Data="Wed Nov 14 10:21:07 WET 2018" Text="RT @jaacqquueellyyn: i dont see the issue with this, its their brand and they can choose who they want to represent their brand. people are…"/>
+<Mensagem16 Author="2018Es1" Data="Fri Nov 09 13:34:40 WET 2018" Text="As coisas hoje não me estão a correr bem. HELP!"/>
+<Mensagem17 Author="2018Es1" Data="Fri Nov 09 12:04:44 WET 2018" Text="Estou a gostar muito das cadeiras de mestrado. LMAO"/>
+<Mensagem18 Author="2018Es1" Data="Thu Nov 08 19:54:46 WET 2018" Text="Teste 123 foi a Ana que disse"/>
+<Mensagem19 Author="2018Es1" Data="Thu Nov 08 18:57:14 WET 2018" Text="@andre_almeida34 estou a usar-te para testar o twitter a partir do eclipse"/>
+<Mensagem20 Author="2018Es1" Data="Thu Nov 08 18:30:12 WET 2018" Text="yolo"/>
+<Mensagem21 Author="2018Es1" Data="Thu Nov 08 18:29:25 WET 2018" Text="Teste a partir do Eclipse"/>
+<Mensagem22 Author="" Data="Sat Mar 24 21:35:09 WET 2018" Text="&#127965; &#128663;"/>
+<Mensagem23 Author="" Data="Wed Sep 20 09:46:18 WEST 2017" Text="Tão fofos Rafa Silva hahaha"/>
+<Mensagem24 Author="" Data="Wed Aug 09 19:39:04 WEST 2017" Text="&#128514;&#128514;"/>
+<Mensagem25 Author="" Data="Thu Jun 15 21:52:09 WEST 2017" Text="Simples"/>
+<Mensagem26 Author="" Data="Mon Jun 12 21:03:24 WEST 2017" Text="Ana Sofia Sequeira verdade !"/>
+<Mensagem27 Author="" Data="Sun Jun 11 11:59:09 WEST 2017" Text="O teu prémio!!! Parabéns &#128514;&#128514;"/>
+<Mensagem28 Author="" Data="Mon May 22 22:44:44 WEST 2017" Text="&#128514;&#128514;"/>
+<Mensagem29 Author="" Data="Wed Apr 26 20:14:38 WEST 2017" Text="tudo dito"/>
+<Mensagem30 Author="" Data="Thu Apr 20 21:32:44 WEST 2017" Text="&#128517;&#128517;"/>
+<Mensagem31 Author="" Data="Tue Mar 14 18:03:54 WET 2017" Text="Gustavo Marques Bruno Agostinho Icv Henrique José Melo Jorge Magalhães hahahah"/>
+<Mensagem32 Author="" Data="Sun Nov 13 19:51:32 WET 2016" Text="Ana Sofia Sequeira"/>
+<Mensagem33 Author="" Data="Fri Oct 21 13:38:11 WEST 2016" Text="Ana Sofia Sequeira"/>
+<Mensagem34 Author="" Data="Sun Oct 16 17:18:41 WEST 2016" Text="Grandes!"/>
+<Mensagem35 Author="" Data="Sat Oct 08 14:06:03 WEST 2016" Text="Ana Sofia Sequeira ❤❤"/>
+<Mensagem36 Author="" Data="Mon Aug 22 21:01:50 WEST 2016" Text="nem mais amo-te Ana Sofia Sequeira &lt;3"/>
+<Mensagem37 Author="" Data="Sun Aug 21 14:03:59 WEST 2016" Text="Tal e qual &#128514;&#128514;"/>
+<Mensagem38 Author="" Data="Mon Aug 15 19:46:55 WEST 2016" Text="Ana Sofia Sequeira &lt;3"/>
+<Mensagem39 Author="" Data="Mon Aug 15 18:55:49 WEST 2016" Text="che boas caracteristicas ^^ Ana Sofia Sequeira Rodrigo Rovisco Jorge Magalhães"/>
+<Mensagem40 Author="" Data="Thu Jul 28 16:42:00 WEST 2016" Text="triste este jornalismo..."/>
+<Mensagem41 Author="" Data="Sun Jul 24 17:34:02 WEST 2016" Text="Ana Sofia Sequeira &#128514;&#128514;"/>
+<Mensagem42 Author="" Data="Sat Jul 02 11:28:16 WEST 2016" Text="hahaha"/>
+<Mensagem43 Author="" Data="Fri May 20 22:04:50 WEST 2016" Text="Obrigado por tudo são os melhores padrinhos que podia ter escolhido &lt;3"/>
+<Mensagem44 Author="" Data="Fri May 20 21:46:57 WEST 2016" Text="Tenho muito orgulho em ser vossa madrinha! Os meus patinhos &#128037;❤️"/>
+<Mensagem45 Author="" Data="Mon May 02 22:02:33 WEST 2016" Text="Guerreiros parabéns Leicester &#128076;"/>
+<Mensagem46 Author="" Data="Tue Apr 26 20:04:01 WEST 2016" Text="&quot;Sente a vibração da capital&quot;"/>
+<Mensagem47 Author="" Data="Sun Mar 27 17:38:42 WEST 2016" Text="#RoadToMilan ❤&#128153;"/>
+<Mensagem48 Author="" Data="Sat Mar 12 11:50:50 WET 2016" Text="Nos bons e maus momentos sempre!"/>
+<Mensagem49 Author="" Data="Sat Feb 27 21:21:54 WET 2016" Text="Ana Sofia Sequeira  Raquel Estêvão  Hugo Novais  Rodrigo Rovisco  quero ver quem acerta mais hahah"/>
+<Mensagem50 Author="" Data="Thu Feb 18 10:57:24 WET 2016" Text="&#128154;&#128154;"/>
+<Mensagem51 Author="" Data="Sat Feb 13 21:48:45 WET 2016" Text="Para casar!"/>
+<Mensagem52 Author="" Data="Sat Feb 06 13:37:32 WET 2016" Text="Acho que o Slimani esteve em Belém ... João Bastos João Caparica Rafa Silva Andre Ribeiro Jorge Magalhães Renato Afonso"/>
+<Mensagem53 Author="" Data="Thu Dec 31 00:14:53 WET 2015" Text="Ana Sofia Sequeira explica lá está situação hahahaha &#128514;&#128514;"/>
+<Mensagem54 Author="" Data="Sat Nov 21 22:50:57 WET 2015" Text="Em 2016 há mais &#128154; #Bailando"/>
+<Mensagem55 Author="" Data="Wed Nov 11 22:19:09 WET 2015" Text="vergonhoso..."/>
+<Mensagem56 Author="" Data="Sun Sep 06 21:53:41 WEST 2015" Text="aqui vou eu! hahaha Ricardo Martins Rodrigo Rovisco Andre Ribeiro Rodrigo Lopes Filipe Silva Medeiros Filipe Machado Hugo Novais"/>
+<Mensagem57 Author="" Data="Sun Aug 23 20:12:27 WEST 2015" Text="Apreciando a Natureza de Massamá"/>
+<Mensagem58 Author="" Data="Wed Jun 24 13:30:21 WEST 2015" Text="Os novos equipamentos do nosso grande amor!"/>
+<Mensagem59 Author="" Data="Wed May 06 16:28:58 WEST 2015" Text="&lt;3"/>
+<Mensagem60 Author="" Data="Sat Mar 21 18:57:57 WET 2015" Text="Siga"/>
+<Mensagem61 Author="" Data="Fri Mar 06 11:31:29 WET 2015" Text="O dobro das selfies, o dobro da qualidade. Mais uma vez, vamos de fim de semana em grande. Alunos da Secundária Stuart Carvalhais, ganharam o prémio de melhor escola da semana!!"/>
+<Mensagem62 Author="" Data="Sat Feb 07 21:02:10 WET 2015" Text="#EuVouLáEstar"/>
+<Mensagem63 Author="" Data="Sun Feb 01 20:46:44 WET 2015" Text="Filipe Silva Medeiros Ricardo Martins Gonçalo Franco Filipe Machado hahahah"/>
+<Mensagem64 Author="" Data="Tue Jan 13 23:33:22 WET 2015" Text="hahahaha Rafa Silva Rodrigo RoviscoJoão Caparica Kmeedg"/>
+<Mensagem65 Author="" Data="Wed Dec 17 18:23:56 WET 2014" Text="A Raquel é linda ❤️❤️❤️"/>
+<Mensagem66 Author="" Data="Tue Dec 16 19:28:31 WET 2014" Text="Deficiente ❤️"/>
+<Mensagem67 Author="" Data="Thu Dec 04 22:25:50 WET 2014" Text="Meus putos &lt;3"/>
+<Mensagem68 Author="" Data="Sat Nov 15 20:36:20 WET 2014" Text="Hugo Novais Rafa Silva Filipe Ribeiro Raquel Estevao Joana Dias hahah"/>
+<Mensagem69 Author="" Data="Wed Oct 22 21:24:52 WEST 2014" Text="Apreciando a Natureza de Massamá"/>
+<Mensagem70 Author="" Data="Sun Oct 12 20:18:55 WEST 2014" Text="Ricardo Martins"/>
+<Mensagem71 Author="" Data="Sat Oct 11 22:41:36 WEST 2014" Text="Não sei como isto veio parar ao meu iPod mas ficou engraçado Raquel Estevao"/>
+<Mensagem72 Author="" Data="Sun Oct 05 22:55:39 WEST 2014" Text="Simples"/>
+<Mensagem73 Author="" Data="Sun Sep 28 20:37:21 WEST 2014" Text="Galático desde pequeno ou nao Raquel Estevao?! Nomeio o Ricardo Martins, o Rafa Silva, o Filipe Ribeiro e a Milene Ferreira!"/>
+<Mensagem74 Author="" Data="Fri Sep 19 11:10:01 WEST 2014" Text="Eu sei que ninguém vai ver a minha mensagem mas as vezes quando não tenho nada para fazer, eu vou ao meu jardim, cobro-me de terra e faço de conta que sou uma cenoura"/>
+<Mensagem75 Author="" Data="Tue Aug 26 21:35:18 WEST 2014" Text="Valeu"/>
+<Mensagem76 Author="" Data="Wed Jul 09 19:03:38 WEST 2014" Text="Os melhores ficam!"/>
+<Mensagem77 Author="" Data="Wed May 21 17:48:51 WEST 2014" Text="Rodrigo nós abusamos! hahaha"/>
+<Mensagem78 Author="" Data="Thu Mar 06 19:16:41 WET 2014" Text="Medeiros aprende comigo"/>
+<Mensagem79 Author="" Data="Sun Feb 09 21:37:23 WET 2014" Text="novo vídeo pessoal ja sabem like e sub obgd! espero q curtam :)"/>
+<Mensagem80 Author="" Data="Wed Feb 05 22:00:44 WET 2014" Text="Henrique Furtado a seduzir hahaha"/>
+<Mensagem81 Author="" Data="Sun Feb 02 23:18:28 WET 2014" Text="ta muito fixe dêm aí do like! Filipe Silva Medeiros Gonçalo Franco"/>
+<Mensagem82 Author="" Data="Thu Jan 30 21:50:46 WET 2014" Text="http://www.youtube.com/user/GamingPortugues/videos baza caras de cu a paisana "/>
+<Mensagem83 Author="" Data="Wed Jan 29 21:43:59 WET 2014" Text="Pessoal vejam ai o meu video e os do meu pessoal, like e sub sff! obgd :) http://www.youtube.com/watch?v=d9lZIZOaYJw &#10;"/>
+<Mensagem84 Author="" Data="Wed Jan 29 18:52:51 WET 2014" Text="http://www.youtube.com/watch?v=72R96J1rpHw video do filipe like ai meus putos "/>
+<Mensagem85 Author="" Data="Sat Jan 25 22:42:15 WET 2014" Text="curtia que estes tripeiros fdp levassem uma goleada em casa do benfica"/>
+<Mensagem86 Author="" Data="Tue Jan 14 22:35:16 WET 2014" Text="One love &lt;3"/>
+<Mensagem87 Author="" Data="Wed Jan 01 19:28:22 WET 2014" Text="Tenho saudades tuas :c"/>
+<Mensagem88 Author="" Data="Sun Dec 29 23:38:06 WET 2013" Text="&lt;3"/>
+<Mensagem89 Author="" Data="Mon Dec 16 21:40:00 WET 2013" Text="n papa"/>
+<Mensagem90 Author="" Data="Sun Dec 08 19:41:52 WET 2013" Text="&lt;3"/>
+<Mensagem91 Author="" Data="Sat Nov 02 22:10:39 WET 2013" Text="Tu vais vencer podes crer porque a nossa força é brutal, mais de um século de histórias para contar sporting tu nunca vais acabar!! Sporting &lt;3"/>
+<Mensagem92 Author="" Data="Mon Jul 08 17:35:34 WEST 2013" Text="Raquel Estevao obrigado por tudo: por seres a mlhr colega do lado a melhor amiga epa amo-te bff &lt;3"/>
+<Mensagem93 Author="" Data="Sun Jun 09 21:37:47 WEST 2013" Text="One love &lt;3"/>
+<Mensagem94 Author="" Data="Mon May 20 00:04:03 WEST 2013" Text="&lt;3"/>
+<Mensagem95 Author="" Data="Wed May 15 20:17:21 WEST 2013" Text="Sou do Sporting mas acima de tudo sou português por isso FORÇA BENFICA traz a taça para Portugal"/>
+<Mensagem96 Author="" Data="Tue Apr 23 20:10:37 WEST 2013" Text="goloooooooooooooooooo bayern &lt;3"/>
+<Mensagem97 Author="" Data="Wed Apr 10 21:36:03 WEST 2013" Text="Bayern &lt;3"/>
+<Mensagem98 Author="" Data="Tue Apr 02 21:50:54 WEST 2013" Text="Bayern &lt;3"/>
+<Mensagem99 Author="" Data="Tue Mar 05 21:10:39 WET 2013" Text="Aí está Ronaldo &lt;3"/>
+<Mensagem100 Author="" Data="Fri Jan 25 12:35:50 WET 2013" Text="Amigos que pertencem ao Grupo,&#10;Posso pedir-vos um favor ? &#10;PARTILHEM TODOS, não ponham só gosto, é bom mas não dá a conhecer ou lembrar as pessoas deste assunto. Partilhem as colheitas que aqui são anunciadas, façam os vossos pedidos para que TODOS os vossos amigos , conhecidos, colegas, familiares, tb divulguem. &#10;É URGENTE ! PRECISAMOS DE DADORES DE SANGUE, PLAQUETAS PARA AS VÁRIAS TRANSFUSÕES QUE O GONÇALO NECESSITA, E DADORES DE MEDULA. Expliquem a quem partilham que doar medula não custa nada, é como uma análise ao sangue, e que não demora nada,; podem ir na hora de almoço, ao fim do dia, ao fim de semana...Gastar uma hora do vosso tempo, mesmo na hora de almoço, para salvar vidas acho que vale a pena. VAMOS AJUDAR, POR FAVOR. &#10;Hoje é o Gonçalo, amanhã pode ser o filho de outro qualquer ! Não &quot;toca&quot; só aos outros ! Esta família também nunca imaginou que ia passar por isto...!&#10;Muito Obrigada"/>
+<Mensagem101 Author="" Data="Wed Jan 23 21:23:02 WET 2013" Text="sigam :D"/>
+<Mensagem102 Author="" Data="Mon Jan 14 19:57:28 WET 2013" Text="PEÇO ENCARECIDAMENTE À PESSOA QUE IRIA SER DADOR DO GONÇALO MAS DESISTIU, QUE RECONSIDERE.&#10;PELO AMOR DE DEUS, PELO AMOR QUE TEM AOS SEUS, OLHE BEM PARA ESTE MENINO, E RECONSIDERE. NÃO LHE FAÇA ISTO, NÃO LHE NEGUE AGORA A SUA CURA ! DEU-LHE ESPERANÇAS, AGORA TIRA-LHAS...COMO ? PORQUÊ ? E COMO SE EXPLICA ISTO AO GONÇALINHO SE NEM NÓS CONSEGUIMOS ENTENDER?!&#10;PONHA-SE NO LUGAR DOS PAIS, NO LUGAR DELE, E ENTENDA QUE O FACTO DE TER DESISTIDO O AFECTA MUITO PSICOLOGICAMENTE E QUE AS DEFESAS PODEM DESCER MAIS. SABE QUE APARECER UM DADOR COMPATÍVEL É COMO ENCONTRAR UMA AGULHA NUM PALHEIRO ! É UM MILAGRE. DEUS MANDOU-O ATRAVÉS DE SI, E AGORA VOCÊ NÃO LHO ENTREGA ?&#10;REPITO, PELO AMOR DE DEUS, PENSE QUE PODERIA SER UM DOS SEUS...COMO SE SENTIRIA SE O DADOR DESISTISSE ?!!!!&#10;POR FAVOR, RECONSIDERE E AJUDE O GONÇALO"/>
+<Mensagem103 Author="" Data="Tue Jan 01 00:15:05 WET 2013" Text="Feliz ano novo gente!!! :D"/>
+<Mensagem104 Author="" Data="Mon Dec 24 21:38:57 WET 2012" Text="Feliz natal pessoal :D"/>
+<Mensagem105 Author="" Data="Thu Nov 08 21:27:30 WET 2012" Text="GOLOOOOOOOOOOOOOOOOOOOOO"/>
+<Mensagem106 Author="" Data="Thu Oct 04 21:05:23 WEST 2012" Text="Eu amo minha mãe. Copie no prazo de 60 segundos, caso contrário, algo terrível acontecer a seu mae. tempo começa agora! ♥"/>
+<Mensagem107 Author="" Data="Thu Oct 04 20:38:21 WEST 2012" Text="E q n es mesmo!! T-T"/>
+<Mensagem108 Author="" Data="Tue Oct 02 22:19:29 WEST 2012" Text="COLHEITA DE SANGUE | 5 OUTUBRO | 9 ÀS 13H30 | MASSAMÁ na Rua Professor Dr Egas Moniz, Loja 10 A em Massamá para qualquer informação contactar: 91 253 21 12 / 92 940 42 04&#10;&#10;O Gonçalo Franco e a sua família agradecem a sua generosa contribuição! Todos Juntos Somos Muito Melhores!&#10;Copie para o seu mural, sff.&#10;Ajudar não custa"/>
+<Mensagem109 Author="" Data="Wed Sep 12 11:17:18 WEST 2012" Text="Boa Sorte para todos!&#10;Este ano, outubro tem 5 segundas, 5 terças, 5 quartas.&#10;Isto ocorre a cada 823 anos. Chama-se “Bolsa de Dinheiro”. Então, copia esta mensagem no teu mural e ( dizem) o dinheiro chegará em 4 dias. Coisas do Feng Shui. Copiá-lo antes dos 11 minutos depois de o ter lido...que engraçado :b"/>
+<Mensagem110 Author="" Data="Tue Sep 11 23:40:19 WEST 2012" Text="CR7 *-*"/>
+<Mensagem111 Author="" Data="Mon Sep 10 11:04:27 WEST 2012" Text="Raquel Estevao obrigado por tudo: por seres a mlhr colega do lado a melhor amiga epa amo-te bff &lt;3"/>
+<Mensagem112 Author="" Data="Thu Aug 23 15:39:10 WEST 2012" Text="Olá a todos,&#10;&#10;O Gonçalo Franco é atleta do Clube Basket de Queluz, estudante da Escola Secundária Stuart de Carvalhais e precisa urgentemente da nossa ajuda. Vamos todos ajudar o Gonçalo a superar esta etapa. TODOS JUNTOS SOMOS MUITO MELHORES.&#10;&#10;Segue o apelo da mãe Ana Claudia Magalhaes&#10;&#10;Necessito da vossa ajuda, o meu filhote Gonçalo Luis Franco necessita de sangue plaquetas e dadores de medula, IPO de Lisboa . Rh 0 negativo. Obrigado aos que já foram dar, e por favor repassem."/>
+<Mensagem113 Author="" Data="Mon Aug 20 20:14:06 WEST 2012" Text="HAHAH "/>
+<Mensagem114 Author="" Data="Fri Jul 13 12:21:30 WEST 2012" Text="Black Ops II *-*"/>
+<Mensagem115 Author="" Data="Wed Jun 27 23:10:20 WEST 2012" Text="e q e mm!!&#10;"/>
+<Mensagem116 Author="" Data="Wed Jun 27 22:34:17 WEST 2012" Text="E PORTUGAL E O NOSSO GRANDE AMOR &lt;3"/>
+<Mensagem117 Author="" Data="Mon Jun 25 21:25:19 WEST 2012" Text="HAHAHHAHA"/>
+<Mensagem118 Author="" Data="Mon Jun 25 18:07:02 WEST 2012" Text="Ai esta! Ricardo Martins Henrique Pacheco"/>
+<Mensagem119 Author="" Data="Fri Jun 15 15:45:45 WEST 2012" Text="HAHAH destes gajos n falta na PSN!!"/>
+<Mensagem120 Author="" Data="Thu Jun 14 19:27:47 WEST 2012" Text="HAHAHAHAHAHAHHAH"/>
+<Mensagem121 Author="" Data="Wed Jun 13 22:16:18 WEST 2012" Text="HAHAHA next xD&#10;"/>
+<Mensagem122 Author="" Data="Tue Jun 12 17:04:37 WEST 2012" Text="HAHAHA "/>
+<Mensagem123 Author="" Data="Fri Jun 08 10:35:03 WEST 2012" Text="9º C 4 ever &lt;3"/>
+<Mensagem124 Author="" Data="Thu May 24 22:43:58 WEST 2012" Text="Raquel Estevao, Patrícia Raquel amo &lt;3&#10;"/>
+<Mensagem125 Author="" Data="Fri May 11 10:42:16 WEST 2012" Text="HAHAHA João Caparica e Ricardo Martins xD "/>
+<Mensagem126 Author="" Data="Sat May 05 22:47:42 WEST 2012" Text="A ganhar ou a perder SPORTING ate morrer &lt;3"/>
+<Mensagem127 Author="" Data="Mon Apr 30 22:23:19 WEST 2012" Text="golooooooooooooooooooooooooooooooooooooooooo"/>
+<Mensagem128 Author="" Data="Mon Apr 30 21:17:28 WEST 2012" Text="goooooooooooooooloooooooooooooooooooooo"/>
+<Mensagem129 Author="" Data="Thu Apr 26 19:18:47 WEST 2012" Text="E o sporting é o nosso grande amor... &lt;3"/>
+<Mensagem130 Author="" Data="Tue Apr 24 22:26:45 WEST 2012" Text="E prontos just love this music &lt;3 Raquel Estevao, Patrícia Raquel, Tatiiana Esteves, Catarina Silva, Catarina Alexandra"/>
+<Mensagem131 Author="" Data="Fri Apr 20 19:57:15 WEST 2012" Text="Heroes *-*"/>
+<Mensagem132 Author="" Data="Fri Apr 20 19:18:54 WEST 2012" Text="Tatiiana Esteves hahahahah"/>
+<Mensagem133 Author="" Data="Sun Apr 15 22:18:32 WEST 2012" Text="HAHAHA I'm lagging and I know it xDD"/>
+<Mensagem134 Author="" Data="Mon Apr 09 18:02:44 WEST 2012" Text="let's do this ;)"/>
+<Mensagem135 Author="" Data="Thu Apr 05 20:58:35 WEST 2012" Text="Sporting vamos la!!!"/>
+<Mensagem136 Author="" Data="Thu Mar 29 21:27:56 WEST 2012" Text="golo&#10;"/>
+<Mensagem137 Author="" Data="Thu Mar 15 21:59:44 WET 2012" Text="Ficaste city HAHAHAHAH :D"/>
+<Mensagem138 Author="" Data="Thu Mar 15 20:47:10 WET 2012" Text="golooooooooooooooooo 2 - 0"/>
+<Mensagem139 Author="" Data="Thu Mar 15 20:40:03 WET 2012" Text="gooooooooooooooooloooooooooooooooo"/>
+<Mensagem140 Author="" Data="Thu Mar 15 18:57:31 WET 2012" Text="e hj &lt;3"/>
+<Mensagem141 Author="" Data="Thu Mar 08 20:43:06 WET 2012" Text="spoooooooooooooooooooorting ate morrer &lt;3"/>
+<Mensagem142 Author="" Data="Sun Mar 04 21:18:27 WET 2012" Text="awesome *-*"/>
+<Mensagem143 Author="" Data="Sun Mar 04 21:18:01 WET 2012" Text="Smoove Move xD"/>
+<Mensagem144 Author="" Data="Wed Feb 29 19:49:39 WET 2012" Text="SPORTING!!!"/>
+<Mensagem145 Author="" Data="Sun Jan 29 21:08:20 WET 2012" Text="hahaha ficaste mm bem nesta foto Patrícia Raquel psyco o.o"/>
+<Mensagem146 Author="" Data="Thu Jan 05 11:30:40 WET 2012" Text="Fg ainda faltam paí 5 meses pas ferias :("/>
+<Mensagem147 Author="" Data="Sun Jan 01 00:06:25 WET 2012" Text="Bom ano novo gente :)"/>
+<Mensagem148 Author="" Data="Sat Dec 24 18:13:26 WET 2011" Text="Feliz Natal a todos x)"/>
+<Mensagem149 Author="" Data="Mon Dec 19 21:55:19 WET 2011" Text="QuandotuleresistoSabadooteuamorvaitepediremnamoromassetunaocopiaresparaoteumuralvaisterazardurante7anos."/>
+<Mensagem150 Author="" Data="Sat Dec 03 20:44:54 WET 2011" Text="Sabias que quando se sonha com uma pessoa , essa pessoa pensou em ti quando foi dormir ?&#10;Sabias que quando a pessoa de quem gostas olha para ti e depois olha para baixo está louca por ti ?&#10;Sabias que quando alguém te olha diretamente nos olhos ela ama - te mais do que possas pensar ?&#10;Sabias que a pessoa que olha para ti muitas vezes não consegue viver sem ti ?&#10;Sabias que se alguém sai e te diz vários adeus é porque não te quer deixar ? AGORA FECHA OS OLHOS .&#10;Pede 2 desejos .&#10;Publica e terás a melhor notícia da tua vida . Se não publicares vais ter azar com o teu amor e para o resto da tua vida . Se já leste não adianta chorar nem voltar"/>
+<Mensagem151 Author="" Data="Thu Dec 01 21:10:14 WET 2011" Text="Spooooooortiiiiiiiiing &lt;3"/>
+<Mensagem152 Author="" Data="Mon Oct 24 19:43:39 WEST 2011" Text="Vício ;)"/>
+<Mensagem153 Author="" Data="Wed Apr 20 11:48:05 WEST 2011" Text="A melhor Final Kill cam de todas !!!!!!!!!!!!!!!!!!!!"/>
+<Mensagem154 Author="" Data="Wed Mar 30 19:07:52 WEST 2011" Text="LOL&#10;"/>
+<Mensagem155 Author="" Data="Wed Mar 30 11:22:19 WEST 2011" Text="AHAHAH&#10;"/>
+<Mensagem156 Author="" Data="Wed Mar 30 11:20:21 WEST 2011" Text="assim já gosto&#10;"/>
+<Mensagem157 Author="" Data="Wed Mar 23 19:22:36 WET 2011" Text="Pra ti martins"/>
+<Mensagem158 Author="" Data="Wed Mar 16 11:09:12 WET 2011" Text="xD"/>
+<Mensagem159 Author="" Data="Wed Mar 16 11:07:21 WET 2011" Text="loooool"/>
+</Mensagens>
+</XML>

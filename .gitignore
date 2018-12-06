@@ -1,6 +1,6 @@
 /ProjectBDA/bin
 /ProjectBDA/tokens.txt
-/ProjectBDA/src/facebook/tokens.txt
+/ProjectBDA/src/BDA/facebook/tokens.txt
 /ProjectBDA/src/mail/MainTesteEmail.java
 /target
 *.DS_Store
