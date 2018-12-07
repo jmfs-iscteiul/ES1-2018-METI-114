@@ -3,11 +3,8 @@ package jUnitTests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 
-import BDA.common.standardInfoStruct;
 import BDA.facebook.Timeline;
 
 public class TimelineTest {

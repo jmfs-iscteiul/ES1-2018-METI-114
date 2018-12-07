@@ -14,12 +14,10 @@ import com.restfb.FacebookClient.AccessToken;
  * @author rmcmc-iscteiul
  */
 public class Extend {
-	private String accessToken = "";
 	FacebookClient fbClient4;
 
 	@SuppressWarnings("deprecation")
 	public Extend (String accessToken) {
-		this.accessToken = accessToken;
 		fbClient4 = new DefaultFacebookClient(accessToken);
 	}
 

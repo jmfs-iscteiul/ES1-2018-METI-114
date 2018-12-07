@@ -18,6 +18,19 @@ public class PostGroupsTest {
 		assertNotNull(pc);
 	}
 
+	
+	/*@Test
+	public void testPostartexto() {
+		pc.postarTexto("ES1 testes Iscte", "JUNIT TEST");
+		
+	}*/
+	
+	@Test 
+	public void testPostarimagem() {
+		pc.postarimagem("/Users/ricardo/Desktop/fb9e98de414cf7be3651d2ce4fed4d263a312e5b.jpg","fb9e98de414cf7be3651d2ce4fed4d263a312e5b.jpg", "JUNIT TEST", "ES1 testes Iscte");
+		
+	}
+	
 	@Test
 	public void testGetResult() {
 		assertNotNull(pc.getResult());
