@@ -4,9 +4,10 @@ Este projeto consiste numa aplicação que agrupa notificações de facebook, tw
 Contudo alguns dos e-mails apresentados estão com alguma desformatação.
 
 Instruções de instalação:
-O ficheiro "config.xml" tem de estar na mesma diretoria do executável "jar".
+Fazer download do ficheiro "Bom dia Academia - ES1-2018-METI-114.jar" e "config.xml" que estão dentro da pasta "ProjectBDA" e colocá-los na mesma pasta.
 
 Link para vídeo de demonstração da aplicação:
+https://youtu.be/-xbvSg5MC-s
 
 Elementos do grupo que realizou o trabalho:
 João Oliveira, nº69969
