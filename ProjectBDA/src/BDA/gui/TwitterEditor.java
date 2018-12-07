@@ -1,4 +1,4 @@
-package gui;
+package BDA.gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
-import twitter.TwitterApp;
+import BDA.twitter.TwitterApp;
 
 /**
  * Classe que permite a criação de uma janela para envio de tweets para a plataforma twitter online
@@ -43,10 +43,9 @@ public class TwitterEditor {
 		panel2.add(tweetar);
 		
 		/**
-		 * O ActionListener do botão tweetar tem como objetivo saber o que está escrito na JTextArea
+		 * O ActionListener do JButton tweetar tem como objetivo saber o que está escrito na JTextArea
 		 * tweet e enviar essa informação para a plataforma twitter online
 		 */
-		
 		tweetar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -67,16 +66,12 @@ public class TwitterEditor {
 
 	}
 	
+	/**
+	 * Função para a JFrame ser aberta no centro do ecrã.
+	 */
 	public void open() {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}	
 	
-//	public static void main(String[] args) {
-//		TwitterApp twitter = new TwitterApp();
-//		twitter.authenticateMyAccount();
-//	}
-
-
-
 }

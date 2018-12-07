@@ -1,17 +1,22 @@
 package jUnitTests;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.fail;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import facebook.Extend;
+import BDA.common.Xml;
+import BDA.facebook.Extend;
 
 public class ExtendTest {
 	
-	Extend e = new Extend ();
+	Extend e;
+	
+	@Before
+	public void start() {
+		Xml xml = new Xml();
+		e = new Extend(xml.leituraXML("Facebook", "Token"));
+	}
 
 	@Test
 	public void testExtend() {
@@ -20,7 +25,7 @@ public class ExtendTest {
 
 	@Test
 	public void testGetExtension() {
-		
+		assertNotNull(e.getExtension());
 	}
 
 }

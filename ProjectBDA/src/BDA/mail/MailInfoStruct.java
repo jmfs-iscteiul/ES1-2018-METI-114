@@ -1,10 +1,10 @@
-package mail;
+package BDA.mail;
 
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import common.standardInfoStruct;
+import BDA.common.standardInfoStruct;
 
 
 /**

@@ -1,8 +1,7 @@
-package common;
+package BDA.common;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -31,14 +30,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import mail.MailInfoStruct;
+import BDA.mail.MailInfoStruct;
 
 /**
- * Esta classe permite ler e escrever em ficheiros XML, sendo que usaremoes esse ficheiro como uma espécie de base de dados para armazenar tokens dos serviços e permitir também o funcionamento offline.
- * 	
+ * Esta classe permite ler e escrever em ficheiros XML, sendo que usaremos esse ficheiro como uma espécie de base de dados para armazenar tokens dos serviços e permitir também o funcionamento offline.
  * 
  * @author darsa-iscteiul e rmcmc-iscteiul
- *
  */
 public class Xml {
 
@@ -46,12 +43,11 @@ public class Xml {
 	private File configFile = new File("config.xml");
 
 	/**
-	 * Esta função permite acrescentar serviços, caso estes não existam já ou acrescentar valore e atributos aos já existentes.
+	 * Esta função permite acrescentar serviços, caso estes não existam já ou acrescentar valores e atributos aos já existentes.
 	 * @param servico	Serviço a que queremos associar o atributo e valor que vamos introduzir.
 	 * @param atributo	Atributo a acrescentar/alterar.
 	 * @param valor		Valor a introduzir.
 	 */
-	
 	public void escreverXML(String servico, String atributo, String valor) {
 
 		try {
@@ -94,11 +90,11 @@ public class Xml {
 
 	/**
 	 * 
-	 * Fornecendo os paâmetros abaixo indicado devolve o valor desejado.
+	 * Fornecendo os parâmetros abaixo indicados devolve o valor desejado.
 	 * 
 	 * @param servico Serviço que queremos consultar.
 	 * @param atributo	Atributo cujo valor que queremos está associado.
-	 * @return	Valor desejado.
+	 * @return	Valor Valor desejado.
 	 */
 	public String leituraXML(String servico, String atributo) {
 
@@ -118,7 +114,6 @@ public class Xml {
 			for(int i = 0; i < nl.getLength(); i++) {
 				if(nl.item(i).getNodeName().equals(servico)) {
 					String teste = ((Element)nl.item(i)).getAttribute(atributo);
-					System.out.println(teste);
 					return teste;
 				}
 			}
@@ -130,12 +125,11 @@ public class Xml {
 
 	}
 
-/**
- * Guarda a lista de notificações no ficheiro XML, o que permite o funcionamneto offline.
- * 
- * @param lista	Lista de notificações a guardar.
- */
-
+	/**
+	 * Guarda a lista de notificações no ficheiro XML, o que permite o funcionamento offline.
+	 * 
+	 * @param lista	Lista de notificações a guardar.
+	 */
 	public void escreverDeVarias(ArrayList <standardInfoStruct> lista) {
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -175,14 +169,14 @@ public class Xml {
 			StreamResult result = new StreamResult(configFile);
 			DOMSource source = new DOMSource(doc);
 			transformer.transform(source, result);
-		}catch (Exception e){
+		} catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 
-	
+
 	/**
-	 * Permite recuperar a lista de notificações descarregada mais recentemente.
+	 * Permite recuperar a lista de notificações descarregadas mais recentemente.
 	 * 
 	 * @return Lista de notificações mais recentemente armazenada.
 	 */
@@ -207,7 +201,7 @@ public class Xml {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
 				LocalDateTime ddd = LocalDateTime.parse(teste, formatter);
 				Date d = Date.from(ddd.atZone(ZoneId.systemDefault()).toInstant());
-				if (e.getAttribute("CC").equals("")) {
+				if (e.getAttribute("To").equals("")) {
 					standardInfoStruct s = new standardInfoStruct(d, e.getAttribute("Author"), 
 							e.getAttribute("Text"));
 					lista.add(s);
