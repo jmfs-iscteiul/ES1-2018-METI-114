@@ -8,7 +8,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import common.standardInfoStruct;
+import BDA.common.standardInfoStruct;
 
 public class StandardInfoStructTest {
 
@@ -22,23 +22,6 @@ public class StandardInfoStructTest {
 		standardInfoStruct s1 = new standardInfoStruct(new Date (), "Autor", "texto");
 		assertNotNull(s1);
 		
-	}
-	
-
-
-	@Test
-	public void testSetSender() {
-		s.setSender("Enviador");
-		assertNotNull(s.getAuthor());
-		assertEquals("Enviador", s.getAuthor());
-		
-	}
-
-	@Test
-	public void testSetContent() {
-		s.setContent("content");
-		assertNotNull(s.getTitle());
-		assertEquals("content", s.getTitle());
 	}
 
 	@Test

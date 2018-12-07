@@ -8,8 +8,8 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import common.Xml;
-import common.standardInfoStruct;
+import BDA.common.Xml;
+import BDA.common.standardInfoStruct;
 
 public class XmlTest {
 
