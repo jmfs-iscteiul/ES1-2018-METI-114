@@ -33,7 +33,7 @@ public class EmailEditor {
 	private JTextField ccArea;
 	private JTextField bccArea;
 	private JTextField subArea;
-	private JButton enviar;
+	private JButton send;
 	private JButton archive;
 	private JFileChooser chooser;
 	private boolean pressed = false;
@@ -77,12 +77,12 @@ public class EmailEditor {
 		content.setLineWrap(true);
 		content.setWrapStyleWord(true);
 
-		enviar = new JButton(new ImageIcon(getClass().getResource("/send.png")));
+		send = new JButton(new ImageIcon(getClass().getResource("/send.png")));
 		archive = new JButton(new ImageIcon(getClass().getResource("/file.png")));
 
 		panel1.add(content);
 
-		panel2.add(enviar);
+		panel2.add(send);
 		panel2.add(archive);
 
 		panel3.add(panelL, BorderLayout.WEST);
@@ -106,7 +106,7 @@ public class EmailEditor {
 	 * ficheiros do nosso pc para ser anexado ao email.
 	 */
 	private void enviarEmail() {
-		enviar.addActionListener(new ActionListener() {
+		send.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

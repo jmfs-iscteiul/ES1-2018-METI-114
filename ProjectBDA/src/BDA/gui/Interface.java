@@ -58,20 +58,15 @@ public class Interface {
 	private JScrollPane scrollPane2;
 	private JFXPanel webPanel;
 	private WebView webView;
-	private JButton faceButton;
-	private JButton tweetButton;
-	private JButton sendEmail;
-	private JButton search;
-	private JButton reset;
+	private JButton faceButton, tweetButton, sendEmail, search, reset;
 	private JTextField word;
 	private Timeline facebook;
 	private TwitterApp twitter;
 	private EmailHandler email;
 	private Xml xml;
 	private JCheckBox f, t, e;
-	private ArrayList<standardInfoStruct> faceList, tweetList;
+	private ArrayList<standardInfoStruct> all, faceList, tweetList;
 	private List<MailInfoStruct> emailList;
-	private ArrayList<standardInfoStruct> all;
 	private DefaultListModel<standardInfoStruct> model;
 
 	public Interface(Timeline facebook, TwitterApp twitter, EmailHandler email, Xml xml) {
@@ -150,7 +145,7 @@ public class Interface {
 		panel3.add(t);
 		panel3.add(e);
 
-		sendNot();
+		openEditors();
 		searchWord();
 
 		viewPost.setEditable(false);
@@ -174,8 +169,7 @@ public class Interface {
 
 		if(verifyInternetConnection()) {
 
-			Timeline timelineList = new Timeline("EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD");
-			faceList = timelineList.getTimeline();
+			faceList = facebook.getTimeline();
 
 			tweetList = twitter.fetchTimeline();
 			emailList = email.receberEmail();
@@ -248,7 +242,7 @@ public class Interface {
 	 * Função que permite fazer a acção de cada JButton para abrir a janela de edição de posts, tweets e 
 	 * emails.
 	 */
-	private void sendNot() {
+	private void openEditors() {
 
 		faceButton.addActionListener((e) -> {
 

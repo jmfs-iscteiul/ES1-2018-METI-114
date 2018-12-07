@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import BDA.common.Xml;
 import BDA.facebook.PostGroups;
@@ -31,10 +30,8 @@ public class FaceEditor {
 	private PostGroups postGroups;
 	private boolean pressed = false;
 	private JFileChooser chooser;
-	private Xml xml;
 
 	public FaceEditor(Xml xml) {
-		this.xml = xml;
 
 		frame = new JFrame("Editor");
 		frame.setLayout(new BorderLayout());
@@ -100,8 +97,6 @@ public class FaceEditor {
 				pressed = true;
 
 				chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG, GIF & PNG Images", "jpg", "gif","png");
-				chooser.setFileFilter(filter);
 				int returnVal = chooser.showOpenDialog(null);
 				if(returnVal == JFileChooser.APPROVE_OPTION) {
 					System.out.println("You chose to open this file: " +
