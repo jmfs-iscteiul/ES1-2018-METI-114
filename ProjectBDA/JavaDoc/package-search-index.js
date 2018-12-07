@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"common"},{"l":"facebook"},{"l":"gui"},{"l":"jUnitTests"},{"l":"mail"},{"l":"twitter"}]
+packageSearchIndex = [{"l":"BDA.common"},{"l":"BDA.facebook"},{"l":"BDA.gui"},{"l":"BDA.mail"},{"l":"BDA.twitter"},{"l":"jUnitTests"}]

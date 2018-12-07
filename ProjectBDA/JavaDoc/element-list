@@ -1,6 +1,6 @@
-common
-facebook
-gui
+BDA.common
+BDA.facebook
+BDA.gui
+BDA.mail
+BDA.twitter
 jUnitTests
-mail
-twitter

@@ -22,6 +22,11 @@ public class TwitterApp {
 	
 	/**
 	 * Esta função serve para autenticar o utilizador na conta do twitter com as credenciais de Developer.
+	 * 
+	 * @param ck Consumer Key
+	 * @param cs Consumer Secret
+	 * @param at Access Token
+	 * @param ats Access Token Secret
 	 */
 	public void authenticateMyAccount(String ck, String cs, String at, String ats){
 		try {
@@ -63,14 +68,16 @@ public class TwitterApp {
 	/**
 	 * Esta função publica um Tweet na aplicação
 	 * @param tweet Este parâmetro é o conteúdo da mensagem que será publicada.
+	 * @return true se o tweet foi postado com êxito
 	 */
 	public boolean postTweet(String tweet){
 		try{
 			twitter.updateStatus(tweet);	//Variável que define o novo tweet	
+			return true;
 		}catch(TwitterException e){
 			System.out.println(e.getMessage());
 		}
-		return true;
+		return false;
 	}
 	
 
