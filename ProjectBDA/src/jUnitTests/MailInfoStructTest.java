@@ -11,7 +11,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import mail.MailInfoStruct;
+import BDA.mail.MailInfoStruct;
 
 public class MailInfoStructTest {
 	
@@ -59,8 +59,6 @@ public class MailInfoStructTest {
 	
 	@Test
 	public void testToString() {
-		Calendar cal = Calendar.getInstance();
-		
 		String s = date.toString() + " - " + "Assunto";
 		
 		assertEquals(s, email.toString());
