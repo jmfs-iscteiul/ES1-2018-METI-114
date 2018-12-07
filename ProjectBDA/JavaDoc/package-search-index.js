@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"BDA.common"},{"l":"BDA.facebook"},{"l":"BDA.gui"},{"l":"BDA.mail"},{"l":"BDA.twitter"},{"l":"jUnitTests"}]
