@@ -59,8 +59,6 @@ public class MailInfoStructTest {
 	
 	@Test
 	public void testToString() {
-		Calendar cal = Calendar.getInstance();
-		
 		String s = date.toString() + " - " + "Assunto";
 		
 		assertEquals(s, email.toString());
