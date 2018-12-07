@@ -8,4 +8,10 @@
 	</Paths>	
 <Mail Account="darsa@iscte-iul.pt"/>
 <Facebook Token="EAAEdPLJA8d0BAKBpufqqEP96zJusMI6EhV9ErThejmx0ZBgEhFnyhZCTCZADRdWV3WIsPgzeUwyBbd17ucBcITE3sCZBdXbP1n0pUUZBDHPXE1BqqZCHz6sFvpTOZBhb3Wiy6M4RoAYHP1Acul3SaM3NK0SvLkAqBmIcYcEZBYOMFwZDZD" User="ricas1997@gmail.com"/>
+<Teste Junit="Sucesso"/>
+
+<Mensagens>
+<Mensagem0 Author="Autor 1" Data="Fri Dec 07 14:39:18 WET 2018" Text="texto 1"/>
+<Mensagem1 Author="Autor 2" Data="Fri Dec 07 14:39:18 WET 2018" Text="texto 2"/>
+</Mensagens>
 </XML>
