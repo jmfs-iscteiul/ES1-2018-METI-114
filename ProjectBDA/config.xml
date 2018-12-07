@@ -13,8 +13,9 @@
 
 
 <Teste Junit="Sucesso"/>
+
 <Mensagens>
-<Mensagem0 Author="Autor 1" Data="Fri Dec 07 14:46:33 WET 2018" Text="texto 1"/>
-<Mensagem1 Author="Autor 2" Data="Fri Dec 07 14:46:33 WET 2018" Text="texto 2"/>
+<Mensagem0 Author="Autor 1" Data="Fri Dec 07 14:53:03 GMT 2018" Text="texto 1"/>
+<Mensagem1 Author="Autor 2" Data="Fri Dec 07 14:53:03 GMT 2018" Text="texto 2"/>
 </Mensagens>
 </XML>
