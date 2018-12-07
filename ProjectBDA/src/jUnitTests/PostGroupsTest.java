@@ -19,11 +19,11 @@ public class PostGroupsTest {
 	}
 
 	
-	@Test
+	/*@Test
 	public void testPostartexto() {
 		pc.postarTexto("ES1 testes Iscte", "JUNIT TEST");
 		
-	}
+	}*/
 	
 	@Test 
 	public void testPostarimagem() {
